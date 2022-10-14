@@ -1,0 +1,562 @@
+<app-headerproc [deviceXs]="deviceXs"></app-headerproc>
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+       <!--Menu Selection-->
+       <app-selec-menu></app-selec-menu>
+       <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+         <!------------------------Title bar------------------------------------------>
+         <mat-toolbar>
+          <mat-toolbar-row style="position:fixed;top:18%;background-color:#9f9f9f;color:#fff">
+            <span>Offre</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar-row>
+          <mat-toolbar-row>
+          </mat-toolbar-row>
+        </mat-toolbar>
+          <!--------------------------------Search--------------------------------->
+          <mat-toolbar>
+            <mat-toolbar-row style="position:fixed;top:27%;background-color:#fff;">
+            <button class="btn btn-sm btn-info" (click)="open(content)"><mat-icon>add</mat-icon></button>
+            <div class="form-group search-div">
+              <div class="row">
+              <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+              <mat-icon matSuffix>search</mat-icon>
+            </div>
+            </div>
+
+
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <!--------------------------------->
+
+        <!--<div class="border">
+          <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+            Ajouter</button>
+        </div>-->
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Lot</th>
+            <th>Soumissionnaire</th>
+            <th>Date dépot</th>
+            <th>Heure dépot</th>
+            <th>Déposant</th>
+            <th>Téléphone</th>
+            <th>Montant offre</th>
+            <th>Montant corrigé</th>
+            <th>Document caution</th>
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let offre of offres | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+            <td><span>{{offre.id}}</span></td>
+            <td><span>{{offre.intitule_lot}}</span></td>
+            <td><span>{{offre.nom_four}}</span></td>
+            <td><span>{{offre.date_depot | date:'dd/MM/y'}}</span></td>
+            <td><span>{{offre.heure_depot}}</span></td>
+            <td><span>{{offre.nom_prenom_dep}}</span></td>
+            <td><span>{{offre.telephone_dep}}</span></td>
+            <td><span>{{offre.montant_offre | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+            <td><span>{{offre.montant_corrige | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+            <td><span *ngIf="offre.fichier_caution"><a title="Document caution de soumission" target="_blank" href="{{url}}{{offre.fichier_caution}}"><mat-icon>file_copy</mat-icon></a></span></td>
+
+            <td>
+              <button (click)="openEdit(contentEdit, offre)" class="btn btn-sm btn-warning">
+                Modifier</button>
+              <button (click)="openDelete(contentDelete, offre)"class="btn btn-sm btn-danger">
+                Supprimer</button>
+                <button (click)="openDetails(contentDetails, offre)"  class="btn btn-sm btn-info">
+                  <mat-icon>visibility</mat-icon></button>
+                <button class="btn btn-sm btn-success"
+                        (click)="imprimerLettre(offre.id)"
+                        type="button"
+                        printTitle="Lettre de publication"
+                        printSectionId="lettre"
+                        styleSheetFile="assets/pdf.css"
+                        ngxPrint>
+                    <mat-icon>print</mat-icon></button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <select (change)="onTableSizeChange($event)">
+                <option *ngFor="let size of tableSizes">
+                  {{size}}
+                </option>
+              </select>
+              </td>
+              <td colspan="8">
+              <pagination-controls
+              previousLabel = "Précédent"
+              nextLabel = "Suivant"
+              (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+
+
+         <!------------------------------Lettre Publication------------------------------------------------>
+
+        <div style="display:none" id="lettre">
+          <div *ngFor="let lettre of offres ">
+              <table  *ngIf="lettre.id == offre_id">
+                <tr>
+                  <td align="left" colspan="2">
+                    SOCIETE NATIONALE D’ELECTRICITE<br>
+                    DU BURKINA (S O N A B E L)<br>
+                    <span style="text-align:center">------------</span><br>
+                    DIRECTION DES MARCHES ET DU PATRIMOINE<br>
+                    <span style="text-align:center">------------</span><br>
+                    DEPARTEMENT DES MARCHES<br>
+                    <span style="text-align:center">------------</span><br>
+                  </td>
+
+                  <td>
+                      <br>
+                      BURKINA FASO<br>
+                      <span style="text-align:center">------------</span><br>
+                      Unité-Progrès-Justice<br>
+                      <span style="text-align:center">------------</span><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td><br><br></td>
+                  <td><br><br></td>
+                  <td>Ouagadougou, le {{today | date:'dd/MM/y'}}</td>
+                </tr>
+                <tr>
+
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <td><br><br></td>
+                  <td align="center" colspan="2">
+                    Le Président de la Commission<br>
+                    D’Attribution des Marchés<br>
+                                 A<br>
+                    Monsieur le Directeur Général de {{lettre.nom_four}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <!------------------Demande de prix---------------------------------------------------------------->
+                 <td colspan="3" *ngIf="lettre.mode === 'DPX || DPA || DP'">
+                     <b><u>Objet :</u></b> Complément de pièces administratives de la demande de prix
+                     N° {{dossiers['numero_doss']}} lancée pour {{dossiers['intitule_doss']}}
+
+                  </td>
+                  <!------------------AOO & Autres---------------------------------------------------------------->
+                  <td colspan="3">
+                    <b><u>Objet :</u></b> Complément de pièces administratives de l'appel d’offres
+                    N° {{dossiers['numero_doss']}} lancée pour {{dossiers['intitule_doss']}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    Monsieur le Directeur Général,
+                  </td>
+                </tr>
+                <tr>
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                      <!------------------Demande de prix---------------------------------------------------------------->
+                      <p *ngIf="lettre.mode === 'DPX || DPA || DP'">
+                        Suite à l’ouverture des plis reçus le {{lettre.date_depot | date:'dd/MM/y'}}
+                         dans le cadre de la demande de prix N° {{dossiers['numero_doss']}}
+                         rappelée en objet, la commission a constaté que votre offre ne comportait
+                         pas les pièces cochées devant votre nom.
+                      </p>
+                       <!------------------AOO & Autres---------------------------------------------------------------->
+                       <p>
+                        Suite à l’ouverture des plis reçus le {{lettre.date_depot | date:'dd/MM/y'}}
+                         dans le cadre de l'appel d’offres N° {{dossiers['numero_doss']}}
+                         rappelée en objet, la commission a constaté que votre offre ne comportait
+                         pas les pièces cochées devant votre nom.
+                      </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <br><br>
+                    <table border="1" cellspacing="0" class="table table-bordered table-striped">
+                      <tr>
+                          <th>Soumissionnaires</th>
+                          <th>asf</th>
+                          <th>asc</th>
+                          <th>ajt</th>
+                          <th>drtss</th>
+                          <th>rccm</th>
+                          <th>cnf</th>
+                      </tr>
+                     <tr>
+                        <td >{{lettre.nom_four}}</td>
+                        <td *ngIf="lettre.asf == 1">OK</td>
+                        <td  *ngIf="lettre.asc == 1">OK</td>
+                        <td  *ngIf="lettre.ajt == 1">OK</td>
+                        <td  *ngIf="lettre.drtss == 1">OK</td>
+                        <td  *ngIf="lettre.rccm == 1">OK/td>
+                        <td  *ngIf="lettre.cnf == 1">OK</td>
+                      </tr>
+                    </table>
+                    <br><br>
+                  </td>
+                </tr>
+                 <tr>
+                  <td colspan="3">
+                      <p>
+                        Vous voudrez bien nous faire parvenir ces pièces dans un délai de soixante-douze (72) heures
+                        à compter de la date de signature de la présente.
+                      </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                      <p>
+                        Veuillez agréer, Monsieur le Directeur Général, l’expression de nos salutations distinguées.
+                      </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><br></td>
+                  <td><br></td>
+                  <td><br></td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <p><b><u>NB :</u></b></p>
+                    <p><b>DRTSS	:</b> attestation de la direction régionale du travail et de la sécurité sociale,</p>
+                    <p><b>ASC 		:</b> attestation de situation cotisante,</p>
+                    <p><b>ASF		:</b> attestation de situation fiscale,</p>
+                    <p><b>AJT		:</b> attestation de non engagement du Trésor,</p>
+                    <p><b>RCCM	:</b> registre du commerce et du crédit mobilier,</p>
+                    <p><b>CNF		:</b> certificat de non faillite.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td><br><br><br><br></td>
+                  <td><br><br><br><br></td>
+                  <td><br><br><br><br></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td style="font-size:11px;">Salif LAMIZANA </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><br><br></td>
+                  <td><br><br></td>
+                  <td><br><br></td>
+                </tr>
+              </table>
+          </div>
+
+        </div>
+        <!--------------------------MODAL NG TEMPLATE ADD NEW CAMINV------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                <div class="row">
+                  <input type="hidden" id="off_doss_id" name="off_doss_id" class="form-control" [(ngModel)]="dossierid">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="lot_id">Lot</label>
+                      <div class="input-group">
+
+                          <select (change)="onChangeLot($event)" class="form-control form-select" id="lot_id"  name="lot_id" placeholder="Lot" [(ngModel)]="lot_id">
+                            <option>Selectionner</option>
+                            <option *ngFor="let lot of lots" value={{lot.id}}>{{lot.num_lot}} - {{lot.intitule_lot}}</option>
+
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="entreprise_cons">Entreprise/Consultant</label>
+                        <div class="input-group">
+                          <select id="entreprise_cons" name="entreprise_cons" class="form-control"  placeholder="Selectionner" [(ngModel)]="fournisseur_id">
+                            <option>Selectionner</option>
+                            <option *ngFor="let frs of fournisseurs" value={{frs.fourID}}>{{frs.nom_four}}</option>
+                         </select>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date_depot">Date dépot</label>
+                        <div class="input-group">
+                          <input type="date" id="date_depot" name="date_depot" class="form-control" ngModel>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="heure_depot">Heure dépot</label>
+                      <div class="input-group">
+                        <input type="time" id="heure_depot" name="heure_depot" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="nom_prenom_dep">Nom & Prénom(s) déposant</label>
+                      <div class="input-group">
+                        <input type="text" id="nom_prenom_dep" name="nom_prenom_dep" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="telephone_dep">Téléphone déposant</label>
+                      <div class="input-group">
+                        <input type="text" id="telephone_dep" name="telephone_dep" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="montant_offre">Montant offre</label>
+                      <div class="input-group">
+                        <input type="number" min="0" id="montant_offre" name="montant_offre" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="montant_corrige">Montant corrigé</label>
+                      <div class="input-group">
+                        <input type="number"  min="0" id="montant_corrige" name="montant_corrige" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="border text-center">
+                  <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+                  <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+                </div>
+            </form>
+           </div>
+            <div class="modal-footer">
+            </div>
+          </ng-template>
+          <!--------------------------MODAL NG TEMPLATE OFFRE DETAILS------------------------------------>
+          <ng-template #contentDetails let-modal>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-basic-title">Verification des pieces</h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form autocomplete="off" [formGroup]="brandForm">
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Nom fournisseur</th>
+                  <th>ASF</th>
+                  <th>ASC</th>
+                  <th>AJT</th>
+                  <th>DRTSS</th>
+                  <th>RCCM</th>
+                  <th>CNF</th>
+                  <th>CAUT</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let vente of ventefrs">
+
+                  <td><span>{{vente.nom_four}}</span></td>
+                  <td><input type="checkbox" formControlName="asf"   [value]="1"  /> </td>
+                  <td><input type="checkbox" formControlName="asc"   [value]="1" /> </td>
+                  <td><input type="checkbox" formControlName="ajt"   [value]="1"  /> </td>
+                  <td><input type="checkbox" formControlName="drtss" [value]="1"  /> </td>
+                  <td><input type="checkbox" formControlName="rccm"  [value]="1"  /> </td>
+                  <td><input type="checkbox" formControlName="cnf"   [value]="1"  /> </td>
+                  <td><input type="checkbox" formControlName="caut"  [value]="1"  /> </td>
+
+                </tr>
+
+                </tbody>
+              </table>
+              <div class="border text-center">
+                <button type="button" class="btn btn-success" (click)="save()">Enregistrer</button>
+                <button type="button" class="btn btn-danger" (click)="annuler()">Annuler</button>
+                <!--<button data-dismiss="modal" class="btn btn-success">Enregistrer</button>-->
+              </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE caminv EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modification offre</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editForm" novalidate>
+
+              <div class="row">
+                <input type="hidden" formControlName="id" class="form-control">
+                <input type="hidden"formControlName="off_doss_id" class="form-control">
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="lot_id">Lot</label>
+                    <div class="input-group">
+                        <select (change)="onChangeLot($event)" class="form-control" formControlName="lot_id" placeholder="Lot" [(ngModel)]="lot_id">
+                          <option>Selectionner</option>
+                          <option *ngFor="let lot of lots" value={{lot.id}}>{{lot.num_lot}} - {{lot.intitule_lot}}</option>
+
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="entreprise_cons">Entreprise/Consultant</label>
+                      <div class="input-group">
+                        <select formControlName="entreprise_cons" class="form-control">
+                          <option>Selectionner</option>
+                          <option *ngFor="let soumissionaire of soumissionaires" value={{soumissionaire.fourID}}>{{soumissionaire.nom_four}} | {{soumissionaire.num_lot}}: {{soumissionaire.intitule_lot}}</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="date_depot">Date dépot</label>
+                      <div class="input-group">
+                        <input type="date" formControlName="date_depot" class="form-control">
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="heure_depot">Heure dépot</label>
+                    <div class="input-group">
+                      <input type="time" formControlName="heure_depot" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nom_prenom_dep">Nom & Prénom(s) déposant</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="nom_prenom_dep" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="telephone_dep">Téléphone déposant</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="telephone_dep" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="montant_offre">Montant offre</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="montant_offre" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="montant_corrige">Montant corrigé</label>
+                  <div class="input-group">
+                    <input type="text" formControlName="montant_corrige" class="form-control">
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Confirm Delete</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+           </div>
+        </ng-template>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>

@@ -1,0 +1,13 @@
+.copyright {
+  /*position:fixed;
+  width: 100%;
+  bottom: 0;*/
+
+  position:fixed;
+  background:darkgray;
+  color:black;
+  height:35px;
+  bottom:0;
+  left:0;
+  right:0;
+}

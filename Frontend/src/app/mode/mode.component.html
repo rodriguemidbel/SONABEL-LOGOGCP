@@ -1,0 +1,128 @@
+<app-header></app-header>
+<div class="container">
+  <div class="border">
+    <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+      <i class="fa fa-user" ></i>Ajouter</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>LIBELLE</th>
+      <th>Action(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mode of modes">
+      <td><span>{{mode.id}}</span></td>
+      <td><span>{{mode.libelle}}</span></td>
+      <td>
+        <button (click)="openDetails(contentDetails, mode)"  class="btn btn-sm btn-info">
+          <i class="fa fa-search"></i>Details</button>
+        <button (click)="openEdit(contentEdit, mode)" class="btn btn-sm btn-warning">
+          <i class="fa fa-edit"></i>Modifier</button>
+        <button (click)="openDelete(contentDelete, mode)"class="btn btn-sm btn-danger">
+          <i class="fa fa-remove"></i>Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!--------------------------MODAL NG TEMPLATE ADD NEW mode------------------------------------>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="form-group">
+          <label for="libelle">Libelle</label>
+          <div class="input-group">
+            <input id="libelle" name="libelle" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE mode DETAILS------------------------------------>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">mode de passation details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="lib_detail">Libelle</label>
+          <div class="input-group">
+            <input id="lib_detail" class="form-control">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE mode EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un mode de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editForm" novalidate>
+        <div class="form-group">
+         <label for="id">Id</label>
+         <div class="input-group">
+            <input formControlName="id" class="form-control">
+         </div>
+       </div>
+        <div class="form-group">
+          <label for="libelle">Libelle</label>
+          <div class="input-group">
+            <input formControlName="libelle" class="form-control">
+          </div>
+        </div>
+        <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button> </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+  <ng-template #contentDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Confirm Delete</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+      <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Oui, Supprimer!</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+</div>
+<app-footer></app-footer>

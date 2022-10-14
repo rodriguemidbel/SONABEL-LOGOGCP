@@ -1,0 +1,190 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Remise de site</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>N° dossier</th>
+        <th>Intitule dossier</th>
+        <th>Date remise de site</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let site of sites | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{site.id}}</span></td>
+        <td><span>{{site.numero}}</span></td>
+        <td><span>{{site.intitule}}</span></td>
+        <td><span>{{site.date_rem_site}}</span></td>
+        <td class="action">
+          <button (click)="openEdit(contentEdit, site)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button (click)="openDelete(contentDelete, site)" class="btn btn-sm btn-danger">
+            Supprimer</button>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="3">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <!--------------------------MODAL NG TEMPLATE Nouveau dossier technique------------------------------>
+  <ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="marche_id">N° marché</label>
+                  <div class="input-group">
+                    <select id="marche_id" name="marche_id" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let marche of marches" value={{marche.id}}>{{marche.num_ref}}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+           <div class="col-md-6">
+                <div class="form-group">
+                    <label for="date_rem_site">Date de remise de site</label>
+                    <div class="input-group">
+                      <input type="date" id="date_rem_site" name="date_rem_site" class="form-control" ngModel>
+                    </div>
+                </div>
+           </div>
+          <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+        </form>
+      </div>
+    <div class="modal-footer">
+
+    </div>
+
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE dossier technique EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un dossier</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+          <div class="row">
+             <!---------------------ligne 1------------------------->
+             <div class="col-md-6">
+              <div class="form-group">
+                  <label for="marche_id">N° marché</label>
+                  <div class="input-group">
+                    <select formControlName="marche_id" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let marche of marches" value={{marche.id}}>{{marche.num_ref}}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+         <div class="col-md-6">
+              <div class="form-group">
+                  <label for="date_rem_site">Date de remise de site</label>
+                  <div class="input-group">
+                    <input formControlName="date_rem_site" class="form-control">
+                  </div>
+              </div>
+         </div>
+        <!---------------------------------------------->
+
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE dossier technique DELETE CONFIRM--------------------------------->
+
+  <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Message de confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+      </div>
+    </ng-template>
+
+        <!--*************************************************************-->
+    </div>
+
+<app-footer></app-footer>

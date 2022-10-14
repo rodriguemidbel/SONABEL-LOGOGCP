@@ -1,0 +1,207 @@
+<app-headerproc [deviceXs]="deviceXs"></app-headerproc>
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+       <!--Menu Selection-->
+       <app-selec-menu></app-selec-menu>
+       <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+        <div class="border">
+          <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+            Ajouter</button>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date de convocation</th>
+            <th>Date transmission  PV en signature</th>
+            <th>Date retour de signature du PV</th>
+            <th>Date de transmission DGCMEF (éventuel)</th>
+            <th>PV</th>
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ouvert of ouvertures">
+            <td><span>{{ouvert.id}}</span></td>
+            <td><span>{{ouvert.date_convocation}}</span></td>
+            <td><span>{{ouvert.date_transpv_sign}}</span></td>
+            <td><span>{{ouvert.date_retourpv_sign}}</span></td>
+            <td><span>{{ouvert.date_transpv_dgcmef}}</span></td>
+            <td><span>{{ouvert.pv}}</span></td>
+            <td>
+              <button (click)="openEdit(contentEdit, ouvert)" class="btn btn-sm btn-warning">
+               Modifier</button>
+              <button (click)="openDelete(contentDelete, ouvert)"class="btn btn-sm btn-danger">
+                Supprimer</button>
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+
+        <!--------------------------MODAL NG TEMPLATE ADD NEW ouvert------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajout PV d' Ouverture</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+              <div class="row">
+                    <input type="hidden" id="dossier_id" name="dossier_id" class="form-control">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date_convocation">Date de convocation</label>
+                        <div class="input-group">
+                          <input type="date" id="date_convocation" name="date_convocation" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date">Date transmission  PV en signature</label>
+                        <div class="input-group">
+                          <input type="date" id="date_transpv_sign" name="date_transpv_sign" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date_retourpv_sign">Date retour de signature du PV</label>
+                        <div class="input-group">
+                          <input type="date" id="date_retourpv_sign" name="date_retourpv_sign" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date_transpv_dgcmef">Date de transmission DGCMEF (éventuel)</label>
+                        <div class="input-group">
+                          <input type="date" id="date_transpv_dgcmef" name="date_transpv_dgcmef" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="pv">PV</label>
+                          <div class="input-group">
+                              <input type="file" id="pv" name="pv" (change)="selectImage($event)" class="form-control" ngModel/>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+              </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE ouvert EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modification PV d'ouverture</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form  [formGroup]="editForm" novalidate>
+              <div class="row">
+                <input type="hidden" formControlName="dossier_id" class="form-control">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="date_convocation">Date de convocation</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_convocation" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="date_transpv_sign">Date transmission  PV en signature</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="date_transpv_sign" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="date_retourpv_sign">Date retour de signature du PV</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_retourpv_sign" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="date_transpv_dgcmef">Date de transmission DGCMEF (éventuel)</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_transpv_dgcmef" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="pv">PV</label>
+                      <div class="input-group">
+                          <input type="file" id="pv" name="pv" (change)="selectImage($event)" class="form-control" ngModel/>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="border text-center">
+                    <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+                    <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+              </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Confirm Delete</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Oui, Supprimer!</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+          </div>
+        </ng-template>
+      </div>
+
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>

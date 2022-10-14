@@ -1,0 +1,39 @@
+<app-header></app-header>
+
+    <form (ngSubmit)="onsubmit()">
+      <div class="container">
+          <div class="row" style="font-size: 20px;">
+         <label>Student</label>
+         <input type="text" name="studentname" [(ngModel)]="_student.name">
+          </div>
+          <div class="row" style="font-size:20px"><label>Courses: </label></div>
+          <div *ngFor = "let item of _courselist" class="row">
+                <div class="col-8 col-chk"><input type="checkbox" name="{{item.name}}"  (change)="onchange()" [(ngModel)]="item.isSelected"></div>
+                <div class="col-35"><label>{{item.name}}</label></div>
+
+          </div>
+          <div class="row">
+              <input type="submit" value="Enregistrer">
+          </div>
+      </div>
+   </form>
+   <table class="table table-bordered table-striped">
+      <tr *ngFor = "let item of _studentlist; let i = index">
+        <thead *ngIf="i==0">
+              <td style="width:100px;">id</td>
+              <td style="width:100px;">name</td>
+              <td style="width:350px;">courses</td>
+              <td style="width:100px;">action(s)</td>
+        </thead>
+        <tbody>
+
+          <td style="width:100px;">{{item.id}}</td>
+          <td style="width:100px;">{{item.name}}</td>
+          <td style="width:350px;">{{item.coursename}}</td>
+          <td style="width:100px;"><input type="button" value="Modifier" (click)="edit(item)"/></td>
+
+        </tbody>
+      </tr>
+   </table>
+<app-footer></app-footer>
+

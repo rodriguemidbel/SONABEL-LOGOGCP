@@ -1,0 +1,174 @@
+<mat-toolbar color="primary" class="sticky">
+  <mat-toolbar-row fxLayoutAlign="space-between center">
+    <div fxLayout="row">
+      <button mat-button routerLink="/home">
+        <mat-icon>home</mat-icon>
+        <span class="logo">LOGO GCP</span>
+      </button>
+      <div *ngIf="!deviceXs" fxLayout="row">
+        <button mat-button [matMenuTriggerFor]="paramsMenu">Paramètres</button>
+        <mat-menu #paramsMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/usergroup">Groupe des utilisateurs</button>
+          <button mat-menu-item routerLink="/user">Utilisateurs</button>
+          <button mat-menu-item routerLink="/mode">Mode de passation</button>
+          <button mat-menu-item routerLink="/budget">Budget</button>
+          <button mat-menu-item routerLink="/type">Type</button>
+          <button mat-menu-item routerLink="/localisation">Localisation</button>
+          <button mat-menu-item routerLink="/modepaie">Mode de paiement</button>
+          <button mat-menu-item routerLink="/typecredit">Type de credit</button>
+          <button mat-menu-item routerLink="/credit">Crédit</button>
+          <button mat-menu-item routerLink="/immobilisation">Immobilisation</button>
+          <button mat-menu-item routerLink="/agent">Agent</button>
+
+          <button mat-menu-item routerLink="/devise">Devise</button>
+          <button mat-menu-item routerLink="/fonctionnalite">Fonctionnalité </button>
+          <button mat-menu-item routerLink="/privilege">Privilège </button>
+
+        </mat-menu>
+        <button mat-button routerLink="/fournisseur">Fournisseur</button>
+        <button mat-button [matMenuTriggerFor]="ppmMenu">Planification du PPM</button>
+          <mat-menu #ppmMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/plan">Année d'exercice</button>
+            <button mat-menu-item routerLink="/planitem">Plan de passation des marchés </button>
+            <button mat-menu-item routerLink="/importationppm">Importation PPM</button>
+          </mat-menu>
+          <button mat-button [matMenuTriggerFor]="dossierMenu">Dossier</button>
+          <mat-menu #dossierMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/dossiertech">Dossier technique</button>
+            <button mat-menu-item routerLink="/dossier">Dossier d'appel d'offre</button>
+          </mat-menu>
+          <button mat-button [matMenuTriggerFor]="venteMenu">Vente dossier</button>
+          <mat-menu #venteMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/vente">Vente</button>
+            <button mat-button routerLink="/caisse">Caisse</button>
+          </mat-menu>
+        <button mat-button [matMenuTriggerFor]="executionMenu">Execution</button>
+        <mat-menu #executionMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/site">Remise de site</button>
+          <button mat-menu-item routerLink="/ordreserv">Ordre de service</button>
+          <button mat-menu-item routerLink="/reception">Reception</button>
+          <button mat-button routerLink="/paiement">Paiement</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="suiviMenu">Suivi</button>
+        <mat-menu #suiviMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/planitemexe">Ligne PPM</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="incidantMenu">Incidant</button>
+        <mat-menu #incidantMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/suspension">Ordre de suspension</button>
+          <button mat-menu-item routerLink="/reprise">Ordre de reprise</button>
+          <button mat-menu-item routerLink="/avenant">Avenant</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="etatMenu">Etats</button>
+        <mat-menu #etatMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/traitementdossier">Taux de traitement dossier</button>
+          <button mat-menu-item routerLink="/suivitdossier">Tableau de bord</button>
+          <button mat-menu-item routerLink="/tauxglobal">Taux globale - PPM</button>
+          <button mat-menu-item routerLink="/tauxdetail">Taux par Direction</button>
+          <button mat-menu-item routerLink="/tauxagent">Taux par Agent</button>
+          <button mat-menu-item routerLink="/dossierinfructueux">Liste des dossiers</button>
+          <button mat-menu-item routerLink="/lotinfructueux">Liste des lots</button>
+          <!--<button mat-menu-item routerLink="/etatvente">Etat des ventes</button>-->
+
+          <button style="width: 400px;" mat-menu-item routerLink="/vente-dossier">Etat des ventes des dossiers </button>
+          <button mat-menu-item routerLink="/paiement-dossier">Etat des Paiements des dossiers</button>
+
+          <button mat-menu-item routerLink="/dossier-agent">Liste des dossiers par agent  </button>
+          <button mat-menu-item routerLink="/suivi-facture">Suivi de traitement des factures </button>
+          <button mat-menu-item routerLink="/suivi-marche">Tableau de bord des marchés </button>
+          <button mat-menu-item routerLink="/marche-exe">Suivi de l'éxécution des marchés </button>
+        </mat-menu>
+      </div>
+    </div>
+    <div>
+      <button *ngIf="deviceXs" mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <button
+        *ngIf="!deviceXs"
+        mat-button
+        [matMenuTriggerFor]="menu"
+        fxLayoutAlign="end"
+      >
+        Menu
+      </button>
+    </div>
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="deviceXs" fxLayoutAlign="space-between end">
+    <button mat-button [matMenuTriggerFor]="paramsMenu">Paramètres</button>
+        <mat-menu #paramsMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/usergroup">Groupe des utilisateurs</button>
+          <button mat-menu-item routerLink="/user">Utilisateurs</button>
+          <button mat-menu-item routerLink="/mode">Mode de passation</button>
+          <button mat-menu-item routerLink="/budget">Budget</button>
+          <button mat-menu-item routerLink="/modepaie">Mode de paiement</button>
+          <button mat-menu-item routerLink="/typecredit">Type de credit</button>
+          <button mat-menu-item routerLink="/credit">Crédit</button>
+          <button mat-menu-item routerLink="/immobilisation">Immobilisation</button>
+          <button mat-menu-item routerLink="/agent">Agent</button>
+          <button mat-menu-item routerLink="/devise">Devise</button>
+          <button mat-menu-item routerLink="/fonctionnalite">Fonctionnalité </button>
+          <button mat-menu-item routerLink="/privilege">Privilège </button>
+        </mat-menu>
+        <button mat-button routerLink="/fournisseur">Fournisseur</button>
+        <button mat-button [matMenuTriggerFor]="ppmMenu">Planification du PPM</button>
+          <mat-menu #ppmMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/plan">Année d'exercice</button>
+            <button mat-menu-item routerLink="/planitem">Plan de passation des marchés </button>
+            <button mat-menu-item routerLink="/importationppm">Importation PPM</button>
+          </mat-menu>
+          <button mat-button [matMenuTriggerFor]="dossierMenu">Dossier</button>
+          <mat-menu #dossierMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/dossiertech">Dossier technique</button>
+            <button mat-menu-item routerLink="/dossier">Dossier d'appel d'offre</button>
+          </mat-menu>
+          <button mat-button [matMenuTriggerFor]="venteMenu">Vente dossier</button>
+          <mat-menu #venteMenu="matMenu" yPosition="below">
+            <button mat-menu-item routerLink="/vente">Vente</button>
+            <button mat-button routerLink="/caisse">Caisse</button>
+          </mat-menu>
+        <button mat-button [matMenuTriggerFor]="executionMenu">Execution</button>
+        <mat-menu #executionMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/site">Remise de site</button>
+          <button mat-menu-item routerLink="/ordreserv">Ordre de service</button>
+          <button mat-menu-item routerLink="/reception">Reception</button>
+          <button mat-button routerLink="/paiement">Paiement</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="suiviMenu">Suivi</button>
+        <mat-menu #suiviMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/planitemexe">Ligne PPM</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="incidantMenu">Incidant</button>
+        <mat-menu #incidantMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/suspension">Ordre de suspension</button>
+          <button mat-menu-item routerLink="/reprise">Ordre de reprise</button>
+          <button mat-menu-item routerLink="/avenant">Avenant</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="etatMenu">Etats</button>
+        <mat-menu #etatMenu="matMenu" yPosition="below">
+          <button mat-menu-item routerLink="/traitementdossier">Taux de traitement dossier</button>
+          <button mat-menu-item routerLink="/suivitdossier">Tableau de bord</button>
+          <button mat-menu-item routerLink="/tauxglobal">Taux globale - PPM</button>
+          <button mat-menu-item routerLink="/tauxdetail">Taux par Direction</button>
+          <button mat-menu-item routerLink="/tauxagent">Taux par Agent</button>
+          <button mat-menu-item routerLink="/dossierinfructueux">Liste des dossiers</button>
+          <button mat-menu-item routerLink="/lotinfructueux">Liste des lots</button>
+          <!--<button mat-menu-item routerLink="/etatvente">Etat des ventes</button>-->
+
+          <button style="width: 400px;" mat-menu-item routerLink="/vente-dossier">Etat des ventes des dossiers </button>
+          <button mat-menu-item routerLink="/paiement-dossier">Etat des Paiements des dossiers</button>
+
+          <button mat-menu-item routerLink="/dossier-agent">Liste des dossiers par agent  </button>
+          <button mat-menu-item routerLink="/suivi-facture">Suivi de traitement des factures </button>
+          <button mat-menu-item routerLink="/suivi-marche">Tableau de bord des marchés </button>
+          <button mat-menu-item routerLink="/marche-exe">Suivi de l'éxécution des marchés </button>
+
+          </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- Menu Items -->
+<mat-menu #menu="matMenu" fxLayoutAlign="end">
+  <button mat-menu-item><mat-icon color="primary">admin_panel_settings</mat-icon>Changer mon mot de passe</button>
+  <button mat-menu-item routerLink="/login"><mat-icon color="primary">https</mat-icon>Se deconnecter</button>
+</mat-menu>

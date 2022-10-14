@@ -1,0 +1,371 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Vente</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+      <mat-toolbar>
+        <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+        <button *ngIf="add == 1" class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+        <div class="form-group search-div">
+          <div class="row">
+          <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+          <mat-icon matSuffix>search</mat-icon>
+        </div>
+        </div>
+
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>N° vente</th>
+            <th>Date</th>
+            <th>Cout du Dossier</th>
+            <th>Lot</th>
+            <th>Fournisseur/prestataire</th>
+            <th>Statut</th>
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let vente of ventes | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+            <td><span>{{vente.id}}</span></td>
+            <td><span>{{vente.num_vente}}</span></td>
+            <td><span>{{vente.date_vente | date:'dd/MM/y'}}</span></td>
+            <td><span>{{vente.montant | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+            <td><span>{{vente.intitule_lot}}</span></td>
+            <td><span>{{vente.nom_four}}</span></td>
+            <td><span>{{vente.statut}}</span></td>
+            <td>
+              <!--<button (click)="openDetails(contentDetails, vente)"  class="btn btn-sm btn-info">
+                Details</button>-->
+              <button *ngIf="edit == 1 && vente.statut === 'Non payé'" (click)="openEdit(contentEdit, vente)" class="btn btn-sm btn-warning">
+               Modifier</button>
+              <button *ngIf="remove == 1 && vente.statut === 'Non payé'" (click)="openDelete(contentDelete, vente)"class="btn btn-sm btn-danger">
+                Supprimer</button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <select (change)="onTableSizeChange($event)">
+                <option *ngFor="let size of tableSizes">
+                  {{size}}
+                </option>
+              </select>
+              </td>
+              <td colspan="6">
+              <pagination-controls
+              previousLabel = "Précédent"
+              nextLabel = "Suivant"
+              (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!--------------------------MODAL NG TEMPLATE ADD NEW vente------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form  autocomplete="off" [formGroup]="editForm">
+              <div class="row">
+                    <input type="hidden" id="id" formControlName="id" class="form-control">
+
+                  <!---------------------Ligne 1------------------------------->
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_vente">N° vente</label>
+                        <div class="input-group">
+                          <input type="text" id="num_vente" formControlName="num_vente" class="form-control" readonly [(ngModel)]="num_vente">
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="date_vente">Date vente</label>
+                        <div class="input-group">
+                            <input type="text" id="date_vente" formControlName="date_vente" class="form-control" [(ngModel)]="date_vente" readonly >
+                        </div>
+                  </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dossier_id">N° dossier </label>
+                        <div class="input-group">
+                          <select id="dossier_id" formControlName="dossier_id" (change)="onChangeDossier($event)"  class="form-control" ngModel placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option *ngFor="let dossier of dossiers" value={{dossier.id}}>{{dossier.numero_doss}} - {{dossier.intitule_doss}}</option>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
+                  <!---------------------ligne 1------------------------->
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label for="lot_id">Lot</label>
+                          <div class="input-group">
+                            <select id="lot_id" formControlName="lot_id" (change)="onChangeLot($event)"class="form-control" ngModel placeholder="Selectionner">
+                              <option>Selectionner</option>
+                              <option *ngFor="let lot of lots" value={{lot.id}}>{{lot.num_lot}} - {{lot.intitule_lot}} : {{lot.montant_lot  | currency :'XOF' : 'symbol' : '1.0' : 'fr' }}</option>
+                            </select>
+                          </div>
+                      </div>
+                 </div>
+                 <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="montant">Cout du Dossier</label>
+                      <div class="input-group">
+                         <input type="number" min="0" id="montant" formControlName="montant" class="form-control" [(ngModel)]="montant_vente"  readonly />
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="grpent">Type acheteur</label>
+                      <div class="input-group">
+                        <select id="grpent" formControlName="grpent" class="form-control"  placeholder="Selectionner" [(ngModel)]="grpent">
+                          <option>Selectionner</option>
+                          <option value="1">Entreprise</option>
+                          <option value="2">Groupement</option>
+                        </select>
+                      </div>
+                  </div>
+                </div>
+                 <div *ngIf="grpent == 1"  class="col-md-4">
+                    <div class="form-group">
+                        <label for="fournisseur_id">Fournisseur/Prestataire</label>
+                        <div class="input-group">
+                          <select id="fournisseur_id" formControlName="fournisseur_id" class="form-control" placeholder="Selectionner" ngModel>
+                            <option>Selectionner</option>
+                            <option *ngFor="let frs of fournisseurs" value={{frs.id}}>{{frs.nom_four}}</option>
+                          </select>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="acheteur">Nom & Prénom(s)</label>
+                      <div class="input-group">
+                        <input type="text" id="acheteur" formControlName="acheteur" class="form-control"  ngModel >
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="contact_acheteur">Contact acheteur </label>
+                      <div class="input-group">
+                        <input type="text" id="contact_acheteur" formControlName="contact_acheteur" class="form-control" ngModel >
+                      </div>
+                  </div>
+                </div>
+                 <input type="hidden" id="statut" formControlName="statut" class="form-control" [(ngModel)]="statut">
+
+
+                 <!--<div class="col-md-4">
+                      <div class="form-group">
+                          <label for="statut">Statut</label>
+                          <div class="input-group">
+                            <select id="statut" name="statut" class="form-control" ngModel placeholder="Selectionner">
+                              <option>Selectionner</option>
+                              <option value="Paiement non effectuer">Paiement non effectuer</option>
+                              <option value="Paiement effectuer">Paiement effectuer</option>
+                            </select>
+                          </div>
+                      </div>
+                 </div>-->
+                <!---------------------------------------------->
+              </div>
+              <!--============================Tableau des fournisseur----------------------------->
+              <div  *ngIf="grpent == 2"  style="max-height:285px !important;overflow-y:scroll !important;" >
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        <input
+
+                          type="checkbox"
+                          [(ngModel)]="parentSelector"
+                          [value]="-1"
+                          (change)="onChangeFood($event)"
+                        />
+                      </th>
+                      <th scope="col">Fournisseur/prestataire</th>
+                      <th>Chef de file</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let n of fournisseurs">
+                      <th scope="row">
+                        <input
+                          type="checkbox"
+                          [value]="n.id"
+                          [checked]="n.select"
+                          (change)="onChangeFood($event)"
+                        />
+                      </th>
+                      <td>{{ n.nom_four }}</td>
+                      <th scope="row">
+                        <input
+                          type="radio"
+                          [value]="1"
+                          [name]="n.chef"
+                        />
+                      </th>
+
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <!--============================FIN Tableau des fournisseur----------------------------->
+              <div class="border text-center">
+                <button type="button" class="btn btn-success" (click)="save()">Enregistrer</button>
+              </div>
+
+          </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </ng-template>
+        <!--------------------------MODAL NG TEMPLATE vente DETAILS------------------------------------>
+        <ng-template #contentDetails let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Vente details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE vente EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modifier une vente</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editForm" novalidate>
+              <div class="row">
+                <!---------------------Ligne 1------------------------------->
+                <input type="hidden" formControlName="id" class="form-control">
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="num_vente">N° vente</label>
+                      <div class="input-group">
+                        <input type="text" formControlName="num_vente" class="form-control">
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="date_vente">Date vente</label>
+                      <div class="input-group">
+                          <input type="date" formControlName="date_vente" class="form-control">
+                      </div>
+                </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="montant">Cout du Dossier</label>
+                      <div class="input-group">
+                         <input type="number" formControlName="montant" class="form-control"/>
+                      </div>
+                  </div>
+                </div>
+                <!---------------------ligne 1------------------------->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="lot_id">Lot</label>
+                        <div class="input-group">
+                          <select formControlName="lot_id" class="form-control">
+                            <option *ngFor="let lot of lots" value={{lot.lotID}}>{{lot.intitule_lot}}</option>
+                          </select>
+                        </div>
+                    </div>
+               </div>
+               <div class="col-md-4">
+                <div class="form-group">
+                    <label for="fournisseur_id">Fournisseur/Prestataire</label>
+                    <div class="input-group">
+                      <select formControlName="fournisseur_id" class="form-control">
+                        <option *ngFor="let frs of fournisseurs" value={{frs.id}}>{{frs.nom_four}}</option>
+                      </select>
+                    </div>
+                </div>
+               </div>
+               <div class="col-md-4">
+                <div class="form-group">
+                    <label for="acheteur">Acheteur</label>
+                    <div class="input-group">
+                       <input type="number" formControlName="acheteur" class="form-control"/>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label for="contact_acheteur">Contact acheteur</label>
+                    <div class="input-group">
+                       <input type="number" formControlName="contact_acheteur" class="form-control"/>
+                    </div>
+                </div>
+              </div>
+               <input type="hidden" formControlName="statut" class="form-control">
+               <!---------------------------------------------->
+              </div>
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button> </div>
+          </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Confirm Delete</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Oui, Supprimer!</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+          </div>
+        </ng-template>
+
+    </div>
+
+    <app-footer></app-footer>

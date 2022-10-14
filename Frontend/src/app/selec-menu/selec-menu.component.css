@@ -1,0 +1,11 @@
+.list-item:hover{
+  cursor: pointer;
+  color:white !important;
+
+}
+
+.mat-list-item.active,
+.list-item.active{
+  color: red;
+
+}

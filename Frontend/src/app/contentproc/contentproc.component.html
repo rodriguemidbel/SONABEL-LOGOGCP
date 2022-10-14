@@ -1,0 +1,43 @@
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+       <!--Menu Selection-->
+       <app-selec-menu></app-selec-menu>
+       <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+        <!--<mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image" fxLayoutAlign.xs="center center"></div>
+            <mat-card-title>Shiba Inu</mat-card-title>
+            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+            alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p>
+              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+              A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+              bred for hunting.
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>-->
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>

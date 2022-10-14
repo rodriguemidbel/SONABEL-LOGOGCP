@@ -1,0 +1,387 @@
+<app-headerproc [deviceXs]="deviceXs"></app-headerproc>
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+      <!--Menu Selection-->
+      <app-selec-menu></app-selec-menu>
+      <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+        <!------------------------Title bar------------------------------------------>
+        <mat-toolbar>
+          <mat-toolbar-row style="position:fixed;top:18%;background-color:#9f9f9f;color:#fff">
+            <span>Lettre de transmission</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar-row>
+          <mat-toolbar-row>
+
+          </mat-toolbar-row>
+        </mat-toolbar>
+          <!--------------------------------Search--------------------------------->
+          <mat-toolbar>
+            <mat-toolbar-row style="position:fixed;top:27%;background-color:#fff;">
+            <button class="btn btn-sm btn-info" (click)="open(content)"><mat-icon>add</mat-icon></button>
+            <div class="form-group search-div">
+              <div class="row">
+              <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+              <mat-icon matSuffix>search</mat-icon>
+            </div>
+            </div>
+
+
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <!--------------------------------->
+        <!--<div class="border">
+          <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+            Ajouter</button>
+        </div>-->
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+
+            <th>Date</th>
+            <th>Fichier</th>
+            <th>Observation</th>
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let avi of avis | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+            <td><span>{{avi.date_bordereau | date:'dd/MM/y'}}</span></td>
+            <td><span>{{avi.num_bordereau}}</span></td>
+            <td><span>{{avi.observation}}</span></td>
+            <td>
+              <button (click)="openEdit(contentEdit, avi)" class="btn btn-sm btn-warning">
+                <mat-icon>edit</mat-icon></button>
+              <button (click)="openDelete(contentDelete, avi)"class="btn btn-sm btn-danger">
+                <mat-icon>delete</mat-icon></button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <select (change)="onTableSizeChange($event)">
+                <option *ngFor="let size of tableSizes">
+                  {{size}}
+                </option>
+              </select>
+              </td>
+              <td colspan="2">
+              <pagination-controls
+              previousLabel = "Précédent"
+              nextLabel = "Suivant"
+              (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+          <!------------------------------Lettre Publication------------------------------------------------>
+
+          <div style="display:none" id="lettre">
+            <div *ngFor="let avi of avis ">
+                <table>
+                  <tr>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                  </tr>
+                  <tr>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                  </tr>
+                  <tr>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td align="center"><b>
+                      Monsieur le Directeur Général<br>
+                      du Contrôle des Marchés<br>
+                      Publics et des Engagements<br>
+                      Financiers
+                    </b></td>
+                  </tr>
+                  <tr>
+                    <td><br></td>
+                    <td><br></td>
+                    <td><br></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td><b>
+                      Ouagadougou, {{avi.date_envoi | date:'dd/MM/y'}}
+                    </b></td>
+                  </tr>
+                  <tr>
+                    <td><br></td>
+                    <td><br></td>
+                    <td><br></td>
+                  </tr>
+                  <tr>
+                      <td>
+                        <b><u>N/Réf : </u></b>IT/FT/N°___________/DM
+                      </td>
+                      <td></td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                    <!------------------Appel d'offre---------------------------------------------------------------->
+                    <td *ngIf="avi.mode !== 'DPX || DPA || DP'">
+                        <b><u>Objet :</u></b>Demande de publication de l'avis <br>
+                                            de l'appel d’offres N° {{dossiers['numero_doss']}}
+                    </td>
+                    <!------------------Demande de prix---------------------------------------------------------------->
+                    <td *ngIf="avi.mode === 'DPX || DPA || DP'">
+                      <b><u>Objet :</u></b>Demande de publication de l'avis <br>
+                                           de demande de prix N° {{dossiers['numero_doss']}}
+                  </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><br></td>
+                    <td><br></td>
+                    <td><br></td>
+                  </tr>
+                  <tr>
+                    <td>
+                        <b>Monsieur le Directeur Général</b>
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><br></td>
+                    <td><br></td>
+                    <td><br></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                        <!------------------Appel d'offre---------------------------------------------------------------->
+                        <p *ngIf="avi.mode !== 'DPX || DPA || DP'">
+                        Nous vous transmettons par la présente, pour avis et publication, le dossier
+                        d’appel d’offres N° {{dossiers['numero_doss']}} relatif à {{dossiers['intitule_doss']}}.
+                        </p>
+                         <!------------------Demande de prix---------------------------------------------------------------->
+                         <p *ngIf="avi.mode === 'DPX || DPA || DP'">
+                          Nous vous transmettons par la présente, pour avis et publication, le dossier
+                          de demande de prix N° {{dossiers['numero_doss']}} relatif à {{dossiers['intitule_doss']}}.
+                        </p>
+
+                        <p>
+                          Veuillez agréer, Monsieur le Directeur Général, l’expression de nos salutations distinguées.
+                        </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>Le Directeur Général</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><br><br><br><br></td>
+                    <td><br><br><br><br></td>
+                    <td><br><br><br><br></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td style="font-size:11px;">Baba Ahmed COULIBALY</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td style="font-size:11px;">Chevalier de l’Ordre de l’Etalon</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                    <td><br><br></td>
+                  </tr>
+
+                </table>
+            </div>
+
+          </div>
+
+       <!--<div style="display:none" id="print-me">
+          <div *ngFor="let avi of avis">
+              <table>
+                  <tr>
+                      <td><img src="../../assets/images/logoCNSS.jpg" height="100px"></td>
+                      <td></td>
+                      <td>Ouagadougou, le {{avi.date_envoi}}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><br><br><h3><b><u>BORDEREAU D' ENVOI N° {{avi.num_publi}}/DG/SG/SM</u></b></h3><br><br></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Publication N° : </td>
+                    <td>{{avi.num_publi}}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Date publication : </td>
+                    <td>{{avi.date_publi}}</td>
+                    <td></td>
+                  </tr>
+
+              </table>
+          </div>
+
+        </div>-->
+
+        <!--------------------------MODAL NG TEMPLATE ADD NEW avi------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajout lettre de transmission</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+              <div class="row">
+                    <input type="hidden" id="dossier_id" name="dossier_id" class="form-control" [(ngModel)]="dossierid">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="date_bordereau">Date </label>
+                        <div class="input-group">
+                          <input type="date" id="date_bordereau" name="date_bordereau" class="form-control"  [(ngModel)]="date_imp_inv">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="fichier">Fichier</label>
+                          <div class="input-group">
+
+                              <input type="file"  id="fichier" name="fichier" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="observation">Observation</label>
+                        <div class="input-group">
+                          <select id="observation" name="observation" class="form-control" ngModel placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option>pour avis</option>
+                            <option>pour avis et publication </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+              </div>
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE avi EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modification lettre de transmission</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form  [formGroup]="editForm" novalidate>
+              <div class="row">
+                <input type="hidden" formControlName="id"  class="form-control">
+                <input type="hidden" formControlName="dossier_id"  class="form-control">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="date_bordereau">Date </label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_bordereau" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="fichier">Fichier</label>
+                      <div class="input-group">
+
+                          <input type="file"  formControlName="fichier" (change)="selectImage($event)" class="form-control"/>
+
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="observation">Observation</label>
+                    <div class="input-group">
+                      <select formControlName="observation" class="form-control" placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option>pour avis</option>
+                        <option>pour avis et publication </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+          </div>
+              <div class="border text-center">
+                    <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+              </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Suppression bordereau publication avis</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">valider</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </ng-template>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>

@@ -1,0 +1,284 @@
+<app-header></app-header>
+<div class="container">
+  <div class="border">
+    <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+      <i class="fa fa-user" ></i>Ajouter</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nom & Prénom(s)</th>
+      <th>Login</th>
+      <th>Password</th>
+      <th>Téléphone</th>
+      <th>Email</th>
+      <th>Groupe</th>
+      <th>Statut</th>
+      <th>Action(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td><span>{{user.id}}</span></td>
+      <td><span>{{user.name}}</span></td>
+      <td><span>{{user.username}}</span></td>
+      <td><span>{{user.password}}</span></td>
+      <td><span>{{user.telephone}}</span></td>
+      <td><span>{{user.email}}</span></td>
+      <td><span>{{user.usergroup_id}}</span></td>
+      <td><span>{{user.statut}}</span></td>
+      <td>
+        <button *ngIf="view == 1" (click)="openDetails(contentDetails, user)"  class="btn btn-sm btn-info">
+          <i class="fa fa-search"></i>Details</button>
+        <button *ngIf="edit == 1" (click)="openEdit(contentEdit, user)" class="btn btn-sm btn-warning">
+          <i class="fa fa-edit"></i>Modifier</button>
+        <button *ngIf="remove == 1" (click)="openDelete(contentDelete, user)"class="btn btn-sm btn-danger">
+          <i class="fa fa-remove"></i>Supprimer</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!--------------------------MODAL NG TEMPLATE ADD NEW user------------------------------------>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button *ngIf="add == 1"  type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="form-group">
+          <label for="name">Nom & Prénom(s)</label>
+          <div class="input-group">
+            <input type="text" id="name" name="name" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Login</label>
+          <div class="input-group">
+            <input type="text" id="username" name="username" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="text" id="password" name="password" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="telphone">Téléphone</label>
+          <div class="input-group">
+            <input type="text" id="telphone" name="telphone" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <div class="input-group">
+            <input type="text" id="email" name="email" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse</label>
+          <div class="input-group">
+            <input type="textarea" id="adresse" name="adresse" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="usergroup_id">Groupe utilisateur</label>
+          <div class="input-group">
+            <select id="usergroup_id" name="usergroup_id" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option *ngFor="let group of groups" value={{group.id}}>{{group.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="statut">Statut</label>
+          <div class="input-group">
+            <select id="statut" name="statut" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option value="1">Activer</option>
+              <option value="2">Desactiver</option>
+            </select>
+          </div>
+        </div>
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE user DETAILS------------------------------------>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">user de passation details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="name">Nom & Prénom(s)</label>
+          <div class="input-group">
+            <input type="text" id="name_detail" name="name" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Login</label>
+          <div class="input-group">
+            <input type="text" id="username_detail" name="username" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="text" id="password_detail" name="password" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="telphone">Téléphone</label>
+          <div class="input-group">
+            <input id="telephone_detail" name="telphone" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <div class="input-group">
+            <input id="email_detail" name="email" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse</label>
+          <div class="input-group">
+            <input  id="adresse_detail" name="adresse" class="form-control" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="usergroup_id">Groupe utilisateur</label>
+          <div class="input-group">
+            <select id="usergroupid_detail" name="usergroup_id" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option *ngFor="let group of groups" value={{group.id}}>{{group.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="statut">Statut</label>
+          <div class="input-group">
+            <select id="statut_detail" name="statut" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option value="1">Activer</option>
+              <option value="2">Desactiver</option>
+            </select>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE user EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un utilisateur</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editForm" novalidate>
+        <div class="form-group">
+         <label for="id">Id</label>
+         <div class="input-group">
+            <input formControlName="id" class="form-control">
+         </div>
+       </div>
+        <div class="form-group">
+          <label for="name">Nom & Prénom(s)</label>
+          <div class="input-group">
+            <input type="text"  formControlName="name" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Login</label>
+          <div class="input-group">
+            <input type="text"  formControlName="username" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="text"  formControlName="password" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="telephone">Téléphone</label>
+          <div class="input-group">
+            <input type="text" formControlName="telephone" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-group">
+            <input type="text"  formControlName="email" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="usergroup_id">Groupe utilisateur</label>
+          <div class="input-group">
+            <select type="select" formControlName="usergroupid" name="usergroup_id" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option *ngFor="let group of groups" value={{group.id}}>{{group.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="statut">Statut</label>
+          <div class="input-group">
+            <select type="select" formControlName="statut" name="statut" class="form-control" ngModel placeholder="Selectionner">
+              <option>Selectionner</option>
+              <option value="1">Activer</option>
+              <option value="2">Desactiver</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button> </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+  <ng-template #contentDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Confirm Delete</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+      <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Oui, Supprimer!</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+</div>
+<app-footer></app-footer>

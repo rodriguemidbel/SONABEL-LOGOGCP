@@ -1,0 +1,269 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Ordre de service</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Réf</th>
+        <th>N° marché</th>
+        <th>Date notification</th>
+        <th>Date début</th>
+        <th>Montant</th>
+        <th>Fichier</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let ordre of ordres | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{ordre.ref}}</span></td>
+        <td><span>{{ordre.num_ref}}</span></td>
+        <td><span>{{ordre.date_notif | date:'dd/MM/y'}}</span></td>
+        <td><span>{{ordre.date_debut | date:'dd/MM/y'}}</span></td>
+        <td><span>{{ordre.montant | currency :'XOF' : 'symbol' : '1.0' : 'fr' }}</span></td>
+        <td><span *ngIf="ordre.ordre"><a title="Dossier" target="_blank" href="{{url}}{{ordre.ordre}}"><mat-icon>file_copy</mat-icon></a></span></td>
+        <td class="action">
+        <!-- <button (click)="openDetails(contentDetails, ordre)"  class="btn btn-sm btn-info">
+            Details</button>-->
+          <button (click)="openEdit(contentEdit, ordre)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button (click)="openDelete(contentDelete, ordre)" class="btn btn-sm btn-danger">
+            Supprimer</button>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="5">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <!--------------------------MODAL NG TEMPLATE Nouveau ordre------------------------------------>
+  <ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="marche_id">N° marché</label>
+                  <div class="input-group">
+                    <select id="marche_id" name="marche_id" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let marche of marches" value={{marche.id}}>{{marche.num_ref}}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+           <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ref">Réf</label>
+                    <div class="input-group">
+                      <input type="text" id="ref" name="ref" class="form-control" ngModel>
+                    </div>
+                </div>
+           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_notif">Date de notification</label>
+                <div class="input-group">
+                  <input type="date" id="date_notif" name="date_notif" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_debut">Date de debut</label>
+                <div class="input-group">
+                  <input type="date" id="date_debut" name="date_debut" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="ordre">Ordre de service</label>
+                <div class="input-group">
+
+                    <input type="file" id="ordre" name="ordre" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                </div>
+            </div>
+          </div>
+
+        <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+        </form>
+      </div>
+    <div class="modal-footer">
+
+    </div>
+
+  </ng-template>
+   <!--------------------------MODAL NG TEMPLATE ordre DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details d'un ordre</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div id="print-me" class="modal-body">
+      <form novalidate>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE ordre EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un ordre</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+        <div class="row">
+          <input type="hidden" formControlName="id" class="form-control" >
+          <input type="hidden" formControlName="marche_id" class="form-control" >
+
+          <!---------------------ligne 1-----------------------
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="marche_id">N° marché</label>
+                <div class="input-group">
+                  <select formControlName="marche_id" class="form-control" placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let marche of marches" value={{marche.id}}>{{marche.num_ref}}</option>
+                  </select>
+                </div>
+            </div>
+          </div>-->
+
+         <div class="col-md-6">
+              <div class="form-group">
+                  <label for="ref">Réf</label>
+                  <div class="input-group">
+                    <input type="text" formControlName="ref" class="form-control" >
+                  </div>
+              </div>
+         </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="date_notif">Date de notification</label>
+              <div class="input-group">
+                <input type="date" formControlName="date_notif" class="form-control"/>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="date_debut">Date de debut</label>
+              <div class="input-group">
+                <input type="date" formControlName="date_debut" class="form-control" />
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="ordre">Ordre de service</label>
+              <div class="input-group">
+
+                  <input type="file" formControlName="ordre" (change)="selectImage($event)" class="form-control" ngModel/>
+
+              </div>
+          </div>
+        </div>
+     </div>
+  <!---------------------------------------------->
+
+      <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+
+    <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Message de confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+      </div>
+    </ng-template>
+
+</div>
+
+<app-footer></app-footer>
+

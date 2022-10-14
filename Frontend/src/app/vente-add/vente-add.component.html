@@ -1,0 +1,149 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Ajout des ventes</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+<!--------------------------LOT CRUD------------------------------------>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"><b>Dossier N° : </b> {{numero_doss}} | {{intitule_doss}}</h4>
+  </div>
+  <div class="modal-body">
+
+
+     <!--*************************************************************-->
+      <div class="row">
+        <div class="col-md-offset-1 col-md-4">
+
+          <div class="panel panel-primary">
+
+            <div class="panel-body">
+
+              <form autocomplete="off" [formGroup]="brandForm">
+
+                  <input type="hidden" class="form-control" id="id"  formControlName="id">
+                  <input type="hidden" class="form-control" id="dossier_id" formControlName="dossier_id"  [(ngModel)]="dossierId">
+
+                  <div class="form-group">
+                    <label for="num_lot">N° lot</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="num_lot" formControlName="num_lot" [(ngModel)]="num_lot">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="intitule_lot">Intitulé du lot</label>
+                    <div class="input-group">
+                      <input type="text"  class="form-control" id="intitule_lot" formControlName="intitule_lot" [(ngModel)]="intitule_lot">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="montant_lot">Budget prévisionnel </label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="montant_lot" formControlName="montant_lot" [(ngModel)]="montant_lot">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="montant_vente">Cout du dossier</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="montant_vente" formControlName="montant_vente" [(ngModel)]="montant_vente">
+                    </div>
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="dossier">Statut</label>
+                    <div class="input-group">
+                      <select class="form-control form-select" id="statut" formControlName="statut" placeholder="Statut"  [(ngModel)]="statut">
+                        <option selected>Selectionner</option>
+                        <option >Validé</option>
+                        <option >Infructueux</option>
+                        <option >Annulé</option>
+                      </select>
+                      </div>
+                  </div>
+
+
+
+                 <!-- <div class="form-group">
+                    <label for="statut">Statut</label>
+                    <div class="input-group">
+                      <select class="form-control" id="statut" formControlName="statut">
+                        <option>Selectionner</option>
+                        <option  value="Révision">Sélectionner</option>
+                        <option  value="Valider">Valider</option>
+                        <option  value="Infructueux">Infructueux</option>
+                      </select>
+                    </div>
+                  </div>-->
+                  <div class="border text-center">
+                    <button type="button" class="btn btn-success" (click)="save()"> {{ !brandForm.get('id').value ? 'Enregistrer' : 'Modifier' }}</button>
+                    <button type="button" class="btn btn-danger" (click)="annuler()">Annuler</button>
+                    <!--<button data-dismiss="modal" class="btn btn-success">Enregistrer</button>-->
+                  </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-8">
+          <div class="panel panel-primary">
+                <div class="panel-heading">Liste des lots</div>
+                <div class="panel-body">
+                  <!--==============================-->
+                  <div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            <input
+                             
+                              type="checkbox"
+                              [(ngModel)]="parentSelector"
+                              [value]="-1"
+                              (change)="onChangeFood($event)"
+                            />
+                          </th>
+                          <th>Fournisseur</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let n of fournisseurs">
+                          <td>
+                            <input
+
+                              type="checkbox"
+                              [value]="n.id"
+                              [checked]="n.grp"
+                              (change)="onChangeFood($event)"
+                            />
+                          </td>
+                          <td>{{ n.nom_four }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                   <!--==============================-->
+
+                </div>
+          </div>
+        </div>
+
+      </div>
+      <!--*************************************************************-->
+</div>
+<app-footer></app-footer>
+
+

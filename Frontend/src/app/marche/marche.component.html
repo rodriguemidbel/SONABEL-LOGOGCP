@@ -1,0 +1,646 @@
+<app-headerproc [deviceXs]="deviceXs"></app-headerproc>
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+       <!--Menu Selection-->
+       <app-selec-menu></app-selec-menu>
+       <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+
+         <!------------------------Title bar------------------------------------------>
+         <mat-toolbar>
+          <mat-toolbar-row style="position:fixed;top:18%;background-color:#9f9f9f;color:#fff">
+            <span>Marché</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar-row>
+          <mat-toolbar-row>
+          </mat-toolbar-row>
+        </mat-toolbar>
+          <!--------------------------------Search--------------------------------->
+          <mat-toolbar>
+            <mat-toolbar-row style="position:fixed;top:27%;background-color:#fff;">
+            <button class="btn btn-sm btn-info" (click)="open(content)"><mat-icon>add</mat-icon></button>
+            <div class="form-group search-div">
+              <div class="row">
+              <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+              <mat-icon matSuffix>search</mat-icon>
+            </div>
+            </div>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <!--------------------------------->
+
+        <!--<ng-template [ngTemplateOutlet]="outlet" [ngOutletContext]="context"></ng-template><div class="border">
+          <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+            Ajouter</button>
+        </div>-->
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>N°/RéF </th>
+            <th>Objet</th>
+            <th>Date de signature du contrat</th>
+            <th>Date de notification du projet de contrat</th>
+            <th>Montant total</th>
+            <th>Delai</th>
+            <th>Attributaire</th>
+            <th>Date remise pour signature</th>
+            <th>Date retour de signature</th>
+             <!-- <th>Date de transmission du contrat pour enregistrement</th>
+            <th>Date de retour d'enregistrement du contrat</th>-->
+
+
+            <th>Fichier</th>
+           <!-- <th>Temps passation</th>-->
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let marche of marches  | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+            <td><span>{{marche.num_ref}}</span></td>
+            <td><span>{{marche.objet}}</span></td>
+            <td><span>{{marche.date_appro | date:'dd/MM/y' }}</span></td>
+            <td><span>{{marche.date_notif | date:'dd/MM/y' }}</span></td>
+            <td><span>{{marche.montant_total | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+            <td><span>{{marche.delai}}</span></td>
+            <td><span>{{marche.nom_four}}</span></td>
+           <td><span>{{marche.date_rem_sign | date:'dd/MM/y'}}</span></td>
+            <td><span>{{marche.date_retour_sign | date:'dd/MM/y'}}</span></td>
+             <!--<td><span>{{marche.date_rem_enr | date:'dd/MM/y'}}</span></td>
+            <td><span>{{marche.date_retour_enr | date:'dd/MM/y'}}</span></td>-->
+            <td><span *ngIf="marche.marche"><a title="Marché" target="_blank" href="{{url}}{{marche.marche}}"><mat-icon>file_copy</mat-icon></a></span></td>
+            <!--<td><span>{{days}} Jours</span></td>-->
+            <td>
+
+              <button (click)="openEdit(contentEdit, marche)" class="btn btn-sm btn-warning">
+                Modifier</button>
+              <button (click)="openDelete(contentDelete, marche)"class="btn btn-sm btn-danger">
+                Supprimer</button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <select (change)="onTableSizeChange($event)">
+                <option *ngFor="let size of tableSizes">
+                  {{size}}
+                </option>
+              </select>
+              </td>
+              <td colspan="10">
+              <pagination-controls
+              previousLabel = "Précédent"
+              nextLabel = "Suivant"
+              (pageChange)="onTableDataChange($event)"></pagination-controls>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!--------------------------MODAL NG TEMPLATE ADD NEW MARCHE------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+              <div class="row">
+                <input type="hidden" id="mar_doss_id" name="mar_doss_id" class="form-control" [(ngModel)]="dossierid">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="num_ref">N° marché</label>
+                    <div class="input-group">
+                      <input type="text" id="num_ref" name="num_ref" class="form-control" ngModel>
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">/2022/DMP</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <label for="objet">Odjet</label>
+                    <div class="input-group">
+                      <input type="text" id="objet" name="objet" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                 <!--------------->
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="lot_id">Lot</label>
+                    <div class="input-group">
+
+                        <select (change)="onChangeLot($event)" class="form-control form-select" id="lot_id"  name="lot_id" placeholder="Lot" [(ngModel)]="lot_id">
+                          <option>Selectionner</option>
+                          <option *ngFor="let lot of lots" value={{lot.id}}>{{lot.num_lot}} - {{lot.intitule_lot}}</option>
+
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="attributaire">Attributaire</label>
+                      <div class="input-group">
+                        <select id="attributaire" name="attributaire" class="form-control"  placeholder="Selectionner" [(ngModel)]="fournisseur_id">
+                          <option>Selectionner</option>
+                          <option *ngFor="let frs of fournisseurs" value={{frs.fourID}}>{{frs.nom_four}}</option>
+                       </select>
+                      </div>
+                    </div>
+                </div>
+                <!--------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_appro">Date d'approbation du marché</label>
+                    <div class="input-group">
+                      <input type="date" id="date_appro" name="date_appro" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_notif">Date de notification provisoire</label>
+                    <div class="input-group">
+                      <input type="date" id="date_notif" name="date_notif" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div> <div class="col-md-3"></div>
+                <!------------------------------------------->
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="montant">Montant</label>
+                        <div class="input-group">
+                          <input type="number" id="montant" name="montant" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="devise">Dévise</label>
+                        <div class="input-group">
+
+                          <select id="devise" name="devise" class="form-control" ngModel placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="montant2">Montant</label>
+                        <div class="input-group">
+                          <input type="number" id="montant2" name="montant2" class="form-control" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="devise2">Dévise</label>
+                        <div class="input-group">
+
+                          <select id="devise2" name="devise2" class="form-control" ngModel placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  <!------------------------------------------->
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="montant3">Montant</label>
+                      <div class="input-group">
+                        <input type="number" id="montant3" name="montant3" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="devise3">Dévise</label>
+                      <div class="input-group">
+
+                        <select id="devise3" name="devise3" class="form-control" ngModel placeholder="Selectionner">
+                          <option>Selectionner</option>
+                          <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="montant4">Montant</label>
+                      <div class="input-group">
+                        <input type="number" id="montant4" name="montant4" class="form-control" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="devise4">Dévise</label>
+                      <div class="input-group">
+
+                        <select id="devise4" name="devise4" class="form-control" ngModel placeholder="Selectionner">
+                          <option>Selectionner</option>
+                          <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                <!------------------------------------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="montant_total">Montant Total</label>
+                    <div class="input-group">
+                      <input type="number" id="montant_total" name="montant_total" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="devise_total">Dévise</label>
+                    <div class="input-group">
+
+                      <select id="devise_total" name="devise_total" class="form-control" ngModel placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div> <div class="col-md-3"></div>
+                <!------------------>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="delai">Delai</label>
+                    <div class="input-group">
+                      <input type="text" id="delai" name="delai" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_rem_sign">Date de remise du contrat pour signature</label>
+                    <div class="input-group">
+                      <input type="date" id="date_rem_sign" name="date_rem_sign" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_retour_sign">Date de retour pour signature</label>
+                    <div class="input-group">
+                      <input type="date" id="date_retour_sign" name="date_retour_sign" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <!---------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_rem_enr">Date de remise pour enregistrement</label>
+                    <div class="input-group">
+                      <input type="date" id="date_rem_enr" name="date_rem_enr" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_retour_enr">Date de retour d' enregistrement</label>
+                    <div class="input-group">
+                      <input type="date" id="date_retour_enr" name="date_retour_enr" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+                <!--------------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="marche">Fichier</label>
+                    <div class="input-group">
+                      <input type="file" id="marche" name="marche" (change)="selectImage($event)" class="form-control" ngModel>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--------->
+
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE OFFRE DETAILS------------------------------------>
+        <ng-template #contentDetails let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Marché details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE caminv EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modifier une invitation CAM</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editForm" novalidate>
+              <div class="row">
+                <input type="hidden" formControlName="id" class="form-control">
+                <input type="hidden" formControlName="mar_doss_id" class="form-control">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="num_ref">N° marché</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="num_ref" class="form-control">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">/2022/DMP</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <label for="objet">Odjet</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="objet" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                 <!--------------->
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="lot_id">Lot</label>
+                    <div class="input-group">
+
+                        <select  class="form-control " formControlName="lot_id" placeholder="Lot">
+                          <option>Selectionner</option>
+                          <option *ngFor="let lot of lots" value={{lot.id}}>{{lot.num_lot}} - {{lot.intitule_lot}}</option>
+
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="attributaire">Attributaire</label>
+                      <div class="input-group">
+                        <select formControlName="attributaire" class="form-control"  placeholder="Selectionner" >
+                          <option>Selectionner</option>
+                          <option *ngFor="let frs of fournisseurs" value={{frs.fourID}}>{{frs.nom_four}}</option>
+                       </select>
+                      </div>
+                    </div>
+                </div>
+                <!--------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_appro">Date d'approbation du marché</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_appro" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_notif">Date de notification provisoire</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_notif" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div> <div class="col-md-3"></div>
+                <!------------------------------------------->
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="montant">Montant</label>
+                        <div class="input-group">
+                          <input type="number" formControlName="montant" class="form-control" >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="devise">Dévise</label>
+                        <div class="input-group">
+
+                          <select formControlName="devise" class="form-control"  placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="montant2">Montant</label>
+                        <div class="input-group">
+                          <input type="number" formControlName="montant2" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="devise2">Dévise</label>
+                        <div class="input-group">
+
+                          <select formControlName="devise2" class="form-control" placeholder="Selectionner">
+                            <option>Selectionner</option>
+                            <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  <!------------------------------------------->
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="montant3">Montant</label>
+                      <div class="input-group">
+                        <input type="number" formControlName="montant3" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="devise3">Dévise</label>
+                      <div class="input-group">
+
+                        <select formControlName="devise3" class="form-control"  placeholder="Selectionner">
+                          <option>Selectionner</option>
+                          <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="montant4">Montant</label>
+                      <div class="input-group">
+                        <input type="number" formControlName="montant4" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="devise4">Dévise</label>
+                      <div class="input-group">
+
+                        <select formControlName="devise4" class="form-control"  placeholder="Selectionner">
+                          <option>Selectionner</option>
+                          <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                <!------------------------------------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="montant_total">Montant Total</label>
+                    <div class="input-group">
+                      <input type="number" formControlName="montant_total" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="devise_total">Dévise</label>
+                    <div class="input-group">
+
+                      <select formControlName="devise_total" class="form-control" placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div> <div class="col-md-3"></div>
+                <!------------------>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="delai">Delai</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="delai" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_rem_sign">Date de remise du contrat pour signature</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_rem_sign" class="form-control" >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_retour_sign">Date de retour pour signature</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_retour_sign" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <!---------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_rem_enr">Date de remise pour enregistrement</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_rem_enr" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="date_retour_enr">Date de retour d' enregistrement</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_retour_enr" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <!--------------------->
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="marche">Fichier</label>
+                    <div class="input-group">
+                      <input type="file" formControlName="marche" (change)="selectImage($event)" class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--------->
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Suppression marché</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </ng-template>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>

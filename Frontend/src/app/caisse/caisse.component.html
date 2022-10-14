@@ -1,0 +1,304 @@
+<app-header></app-header>
+<!------------------------Title bar------------------------------------------>
+<mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Caisse</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+      <mat-toolbar>
+        <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+
+        <div class="form-group search-div">
+          <div class="row">
+          <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+          <mat-icon matSuffix>search</mat-icon>
+        </div>
+        </div>
+
+
+        </mat-toolbar-row>
+      </mat-toolbar>
+    <table class="table table-bordered table-striped">
+
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>N° vente</th>
+        <th>Date vente</th>
+        <th>Lot</th>
+        <th>Montant</th>
+        <th>Fournisseur</th>
+        <th>Statut</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let vente of ventes  | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{vente.id}}</span></td>
+        <td><span>{{vente.num_vente}}</span></td>
+        <td><span>{{vente.date_vente}}</span></td>
+        <td><span>{{vente.intitule_lot}}</span></td>
+        <td><span>{{vente.montant}}</span></td>
+        <td><span>{{vente.nom_four}}</span></td>
+        <td><span>{{vente.statut}}</span></td>
+
+        <td class="action">
+          <button *ngIf="vente.statut === 'Payé'"
+                 (click)="imprimerRecu(vente.id)"
+                  class="btn btn-sm btn-success"
+                  printTitle="Impression recu"
+                  printSectionId="print-me"
+                  styleSheetFile="assets/pdf.css"
+                  ngxPrint>Imprimer</button>
+           <button *ngIf="view == 1 && vente.statut === 'Payé'" (click)="openDetails(contentDetails, vente)" class="btn btn-sm btn-info">
+                    Details</button>
+          <button *ngIf="view == 1 && vente.statut === 'Non payé'" (click)="openEdit(contentEdit, vente)" class="btn btn-sm btn-danger">
+            Payer</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="6">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div style="display:none" id="print-me">
+      <div *ngFor="let caisse of caisses ">
+          <table>
+              <tr>
+                  <td><img src="../../assets/images/logo.png" height="100px"></td>
+                  <td colspan="2">Ouagadougou, le {{caisse.date_recu}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><br><br><h3><b><u>RECU N° {{caisse.num_recu}}</u></b></h3><br><br></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Fournisseur/Prestataire : </td>
+                <td colspan="2">{{caisse.nom_four}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="2">RCCM N° : {{caisse.rccm}}  | IFU N° : {{caisse.ifu}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="2">{{caisse.adresse}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td colspan="2">{{caisse.telephone1}} / {{caisse.telephone2}}</td>
+              </tr>
+              <tr>
+                <td>Mode de paiement : </td>
+                <td>{{caisse.modepaie}}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  <table border="1" class="table table-bordered table-striped">
+                    <tr>
+                         <th>N° lot</th>
+                         <th style="width:40%">Intitule du lot</th>
+                         <th>Cout du dossier</th>
+                         <th>Quantité</th>
+                         <th>Prix total</th>
+                    </tr>
+                    <tr>
+                      <td>{{caisse.num_lot}}</td>
+                      <td style="width:40%">{{caisse.intitule_lot}}</td>
+                      <td>{{caisse.montant_vente}}</td>
+                      <td>1</td>
+                      <td>{{caisse.montant_vente}}</td>
+                    </tr>
+                    <tr style="border: 1px solid #000">
+                      <td colspan="4" style="text-align:right"><b>Montant total</b></td>
+                      <td><b>{{caisse.montant_vente}}</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><br><br><br><br></td>
+                      <td><br><br><br><br></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"></td>
+                      <td colspan="2"><b><u>Le Caissier</u></b></td>
+                    </tr>
+                  </table>
+
+                </td>
+
+              </tr>
+          </table>
+      </div>
+
+    </div>
+   <!--------------------------MODAL NG TEMPLATE caisse DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details caisse</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>N° vente</th>
+          <th>Date vente</th>
+          <th>N° recu</th>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Mode paiement</th>
+          <th>Fournisseur</th>
+          <th>Action(s)</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let caisse of caisses | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+          <td><span>{{caisse.id}}</span></td>
+          <td><span>{{caisse.num_vente}}</span></td>
+          <td><span>{{caisse.date_vente}}</span></td>
+          <td><span>{{caisse.num_recu}}</span></td>
+          <td><span>{{caisse.date_recu}}</span></td>
+          <td><span>{{caisse.montant}}</span></td>
+          <td><span>{{caisse.modepaie}}</span></td>
+          <td><span>{{caisse.nom_four}}</span></td>
+          <button (click)="openDelete(contentDelete, caisse)"class="btn btn-sm btn-danger">
+            Supprimer</button>
+        </tr>
+        <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="6">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE ADD NEW CAISSE---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+            <input type="hidden" id="vente_id" name="vente_id" class="form-control" [(ngModel)]="venteId">
+           <div class="col-md-4">
+                <div class="form-group">
+                    <label for="num_recu">N° recu</label>
+                    <div class="input-group">
+                      <input type="text" id="num_recu" name="num_recu" class="form-control" readonly [(ngModel)]="numRecu">
+                    </div>
+                </div>
+           </div>
+           <div class="col-md-4">
+            <div class="form-group">
+                <label for="date_recu">Date recu</label>
+                <div class="input-group">
+
+                  <input type="text" id="date_recu" name="date_recu" class="form-control" [(ngModel)]="date_caisse" readonly />
+
+                </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+                <label for="modepaiement_id">Mode paiement</label>
+                <div class="input-group">
+                  <select id="modepaiement_id" name="modepaiement_id" class="form-control" ngModel placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let modepaie of modepaies" value={{modepaie.id}}>{{modepaie.libelle}}</option>
+                  </select>
+                </div>
+            </div>
+       </div>
+       <div class="col-md-4">
+          <div class="form-group">
+              <label for="ref_virement">Réf virement </label>
+              <div class="input-group">
+                <input type="text" id="ref_virement" name="ref_virement" class="form-control" ngModel>
+              </div>
+          </div>
+       </div>
+
+        <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+        </form>
+      </div>
+    <div class="modal-footer">
+
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+
+    <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Message de confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+      </div>
+    </ng-template>
+
+
+<app-footer></app-footer>
+
+

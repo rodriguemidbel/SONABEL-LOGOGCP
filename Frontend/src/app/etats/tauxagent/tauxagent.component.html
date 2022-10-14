@@ -1,0 +1,105 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Taux par Agent </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+
+      <button
+      class="btn btn-sm btn-success"
+      printTitle="Impression recu"
+      printSectionId="print-me"
+      styleSheetFile="assets/pdf.css"
+      ngxPrint>Exporter</button>
+
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+    <!--<button class="btn btn-md btn-outline-primary" (click)="open(content)" >
+        Ajouter</button>-->
+
+    <table id="print-me" class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Agent(s)</th>
+        <th>Nombre de ligne</th>
+        <th>Nbr. de ligne receptionnée(s)</th>
+        <th>Taux de reception</th>
+        <th>Nbr. de ligne lancée(s)</th>
+        <th>Taux de lancement</th>
+      </tr>
+      </thead>
+      <tbody>
+     <tr *ngFor="let planitem of planitems | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{planitem.agent}}</span></td>
+        <td><span>{{planitem.nbr}}</span></td>
+        <td>
+          <span *ngFor="let beta of betas" >
+            <span *ngIf="beta.agent == planitem.agent">{{beta.nbr}}</span>
+          </span>
+        </td>
+        <td>
+            <span *ngFor="let beta of betas" >
+              <span *ngIf="beta.agent == planitem.agent">
+                {{beta.nbr / planitem.nbr * 100}} %</span>
+            </span>
+        </td>
+        <td>
+          <span *ngFor="let alpha of alphas" >
+            <span *ngIf="alpha.agent == planitem.agent">{{alpha.nbr}}</span>
+          </span>
+        </td>
+        <td>
+          <span *ngFor="let alpha of alphas" >
+            <span *ngIf="alpha.agent == planitem.agent">
+              {{alpha.nbr / planitem.nbr * 100}} %</span>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="7">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!--
+         <td>
+          <div  *ngFor="let beta of betas">
+                <span  *ngIf="beta.agent == planitem.agent">{{ (beta.nbr/planitem.nbr) * 100 }} %</span>
+          </div>
+        </td>
+    -->
+  <!--------------------------MODAL NG TEMPLATE ADD NEW PLANITEM------------------------------------>
+
+</div>
+
+<app-footer></app-footer>

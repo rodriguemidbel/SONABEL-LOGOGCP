@@ -1,0 +1,71 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Etat des ventes des dossiers globaux au DM par procédure</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+      <mat-toolbar>
+        <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+
+        <div class="form-group search-div">
+          <div class="row">
+          <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+          <mat-icon matSuffix>search</mat-icon>
+        </div>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>N° ordre de vente</th>
+        <th>Nom du fournisseur</th>
+        <th>Nom & Prénom Agent acheteur du dossier</th>
+        <th>Contact Agent acheteur du dossier</th>
+        <th>Procédure de passation</th>
+        <th>N° lot</th>
+        <th>Montant du Lot </th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let caisse of caisses | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+        <td><span>{{caisse.num_vente}}</span></td>
+        <td><span>{{caisse.nom_four}}</span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span>{{caisse.num_lot}}</span></td>
+        <td><span>{{caisse.montant_vente | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="5">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <app-footer></app-footer>
+
+
+
