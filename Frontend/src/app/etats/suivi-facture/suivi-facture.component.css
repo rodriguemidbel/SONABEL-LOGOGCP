@@ -52,6 +52,7 @@ table {
 .search-form-field div.mat-form-field-wrapper{padding-bottom:0;}
 .search-form-field div.mat-form-field-suffix button{width: 32px; height: 32px;}
 
+
 .table{
   max-width: 100%;
   width: 100% !important;
@@ -116,5 +117,8 @@ th{
 		text-align: left;
 	}
 }
+
+
+
 
 
