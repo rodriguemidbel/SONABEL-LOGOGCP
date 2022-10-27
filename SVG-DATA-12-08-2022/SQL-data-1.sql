@@ -1,8 +1,12 @@
 REM INSERTING into "usergroups"
 SET DEFINE OFF;
 Insert into "usergroups" ("id","name","created_at","updated_at") values ('1','Super Administrateur',to_timestamp('08/04/22 14:22:46,566000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,566000000','DD/MM/RR HH24:MI:SSXFF'));
-Insert into "usergroups" ("id","name","created_at","updated_at") values ('2','Administrateur',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
-Insert into "usergroups" ("id","name","created_at","updated_at") values ('3','Informaticien',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "usergroups" ("id","name","created_at","updated_at") values ('2','Directeur',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "usergroups" ("id","name","created_at","updated_at") values ('3','Chef DM',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "usergroups" ("id","name","created_at","updated_at") values ('4','Chef de service SMTPI',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "usergroups" ("id","name","created_at","updated_at") values ('5','Agent',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "usergroups" ("id","name","created_at","updated_at") values ('6','Caissier',to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,567000000','DD/MM/RR HH24:MI:SSXFF'));
+
 commit;
 
 REM INSERTING into "localisations"
@@ -143,6 +147,9 @@ Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service"
 Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('13','KOUGWINDEGA DRAMANE',null,null,null,'SMTPI','6',null,'0',to_timestamp('08/04/22 14:22:46,666000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,666000000','DD/MM/RR HH24:MI:SSXFF'));
 Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('14','ZIGANI THEODORE','70 44 60 45','theodore.zigani@sonabel.bf','Chef DM',null,'6',null,'0',to_timestamp('08/04/22 14:22:46,666000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,666000000','DD/MM/RR HH24:MI:SSXFF'));
 Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('15','BABA AHMED COULIBALY',null,null,'DG',null,'17','Chevalier de l’Ordre de l’Etalon','1',to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('16','TINTO ISSOUFOU',null,null,null,null,'6',null,'1',to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('17','YAMEOGO GEORGE',null,null,null,null,'6',null,'1',to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'));
+Insert into "agents" ("id","nom_prenom","telephone","email","fonction","service","localisation_id","distinction","signat","created_at","updated_at") values ('18','DPMP',null,null,null,null,'6',null,'1',to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/04/22 14:22:46,667000000','DD/MM/RR HH24:MI:SSXFF'));
 commit;
 
 REM INSERTING into "typreceptions"

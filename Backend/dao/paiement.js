@@ -1,8 +1,7 @@
 const db = require('../db/db');
 
 class PaiementDAO {
-  async createPaiement(marche_id,num_facture,date_facture, montant_cfa,montant_devise,
-    devise,taux_exe_phy,taux_exe_fin,observation,fichier) {
+  async createPaiement(marche_id,num_facture,date_facture, montant_cfa,montant_devise,devise,taux_exe_phy,taux_exe_fin,observation,fichier) {
     const [id] = await db('paiements')
       .insert({
         marche_id,

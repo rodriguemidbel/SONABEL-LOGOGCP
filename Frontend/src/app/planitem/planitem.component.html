@@ -62,7 +62,7 @@
             Modifier</button>
           <button *ngIf="remove == 1 &&  planitem.statut !== 'Valider'" (click)="openDelete(contentDelete, planitem)" class="btn btn-sm btn-danger">
             Supprimer</button>
-            <button *ngIf="view == 1" (click)="openDossier(contentDossier, planitem)"  title="Dossier" class="btn btn-sm btn-success">
+            <button *ngIf="add == 1" (click)="openDossier(contentDossier, planitem)"  title="Dossier" class="btn btn-sm btn-success">
               Dossier</button>
         </td>
       </tr>

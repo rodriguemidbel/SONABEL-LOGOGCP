@@ -44,7 +44,7 @@
                 <p>Date de demarrage : {{dossier.date_prob_demarrage}} </p>
               </mat-card-content>
               <mat-card-actions>
-                <button *ngIf="view == 1" (click)="gotoExecution(dossier.id)" class="btn btn-sm btn-info" mat-button>Sélection</button>
+                <button *ngIf="add == 1" (click)="gotoExecution(dossier.id)" class="btn btn-sm btn-info" mat-button>Sélection</button>
               </mat-card-actions>
             </mat-card>
           </div>

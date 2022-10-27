@@ -68,7 +68,10 @@ export class DossierComponent implements OnInit {
   add:number=0;
   edit:number=0;
   remove:number=0;
-   /*------------------------------------------------*/
+ 
+  /*------------------------------------------------*/
+  agent_id:number;
+  cpt:number=0;
 
   constructor(private httpclient : HttpClient,
     private modalService: NgbModal,
@@ -107,6 +110,7 @@ export class DossierComponent implements OnInit {
       response => {
         //console.log(response);
         this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
         let fonct = 7;
 
         //console.log('usergroup_id : '+this.usergroup_id+' Fonc : '+fonct);
@@ -125,9 +129,41 @@ export class DossierComponent implements OnInit {
             }
           );
         }
+        /*================================*/
+        var ladate = new Date();
+        this.annee= ladate.getFullYear();
+        if(this.usergroup_id == 5)
+        {
+            if(this.agent_id)
+            {
+                this.httpclient.get<any>(this.base_url+'/findDossierByAgent/'+this.agent_id+'/'+this.annee).subscribe(
+                  response => {
+                    //console.log(response);
+                    this.dossiers = response;
+                    this.cpt = response.length;
 
-        //this.count = response.length;
+                  }
+                );
+            }
+            else
+            {
 
+            }
+        }
+        else
+        {
+          this.httpclient.get<any>(this.base_url+'/getAllDossier').subscribe(
+            response => {
+              //console.log(response);
+              this.dossiers = response;
+              this.cpt = response.length;
+
+            }
+          );
+
+
+        }
+        /*================================*/
       }
     );
   }

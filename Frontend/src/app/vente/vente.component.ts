@@ -362,7 +362,7 @@ save(){
                 type: 'Groupement',
                 });
 
-                //console.log(this.groupForm.value);
+                console.log(this.groupForm.value);
 
                 this.httpclient.post(this.base_url+'/createFournisseur', this.groupForm.value).subscribe(beta => {
                     this.groupementID = beta['groupementID'];
@@ -371,7 +371,7 @@ save(){
                     /*=========Vente==========================*/
                     this.editForm.controls['fournisseur_id'].setValue(this.groupementID);
                     this.editForm['grpent'] = 2;
-                    //console.log(this.editForm.value);
+                    console.log(this.editForm.value);
 
 
                     this.httpclient.post(this.base_url+'/createVente', this.editForm.value).subscribe(alpha=> {

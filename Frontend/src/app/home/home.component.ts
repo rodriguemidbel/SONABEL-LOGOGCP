@@ -85,19 +85,26 @@ export class HomeComponent implements OnInit {
             }
           );
         }
-
         /*================================*/
-        let year = 2022;
-        if(this.agent_id){
-          this.httpclient.get<any>(this.base_url+'/findDossierByAgent/'+this.agent_id+'/'+year).subscribe(
-            response => {
-              //console.log(response);
-              this.dossiers = response;
-              this.cpt = response.length;
+        var ladate = new Date();
+        this.annee= ladate.getFullYear();
+        if(this.usergroup_id == 5)
+        {
+            if(this.agent_id)
+            {
+                this.httpclient.get<any>(this.base_url+'/findDossierByAgent/'+this.agent_id+'/'+this.annee).subscribe(
+                  response => {
+                    //console.log(response);
+                    this.dossiers = response;
+                    this.cpt = response.length;
+
+                  }
+                );
+            }
+            else
+            {
 
             }
-          );
-
         }
         else
         {
@@ -110,10 +117,9 @@ export class HomeComponent implements OnInit {
             }
           );
 
+
         }
-
-        //this.count = response.length;
-
+        /*================================*/
       }
     );
   }

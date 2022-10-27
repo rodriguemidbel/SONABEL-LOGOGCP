@@ -98,7 +98,7 @@
               <div class="form-group">
                   <label for="marche_id">N° marché</label>
                   <div class="input-group">
-                    <select id="marche_id" name="marche_id" (change)="onChangeMarche($event)"class="form-control" ngModel placeholder="Selectionner">
+                    <select id="marche_id" name="marche_id" (change)="onChangeMarche($event)"class="form-control"  placeholder="Selectionner" ngModel>
                       <option>Selectionner</option>
                       <option *ngFor="let marche of marches" value={{marche.id}}>{{marche.num_ref}}</option>
                     </select>
@@ -145,7 +145,7 @@
               <label for="devise">Dévise</label>
               <div class="input-group">
 
-                <select id="devise" name="devise" class="form-control" ngModel placeholder="Selectionner">
+                <select id="devise" name="devise" class="form-control"  placeholder="Selectionner" ngModel>
                   <option>Selectionner</option>
                   <option *ngFor="let devise of devises" value={{devise.id}}>{{devise.symbole}}</option>
                 </select>
@@ -157,7 +157,7 @@
             <div class="form-group">
                 <label for="taux_exe_fin">Taux éxécution financier</label>
                 <div class="input-group">
-                  <input type="text" id="taux_exe_fin" name="taux_exe_fin" class="form-control" [(ngModel)]="taux" />
+                  <input type="text" id="taux_exe_fin" name="taux_exe_fin" class="form-control" [(ngModel)]="taux"  readonly  />
                 </div>
             </div>
           </div>

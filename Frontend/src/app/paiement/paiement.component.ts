@@ -187,11 +187,12 @@ export class PaiementComponent implements OnInit {
 
     f.value['fichier'] = this.filename;
 
-    let marcheid = f.value['marche_id'];
+    /*let marcheid = f.value['marche_id'];
     let mnt_paie = f.value['montant'];
     let tx_finan = (mnt_paie / 46600000) * 100;
 
-    f.value['taux_exe_fin'] = tx_finan;
+    f.value['taux_exe_fin'] = tx_finan;*/
+    console.log(f.value);
 
     const url = this.base_url+'/createPaiement';
     this.httpclient.post(url, f.value)

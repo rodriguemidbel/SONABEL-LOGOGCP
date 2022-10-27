@@ -176,30 +176,40 @@ export class PlanitemComponent implements OnInit {
         }
         /*====================*/
         var ladate = new Date();
-          this.annee= ladate.getFullYear();
-          if(this.agent_id){
-            this.httpclient.get<any>(this.base_url+'/findPlanitemByAgent/'+this.agent_id+'/'+this.annee).subscribe(
-              response => {
-                //console.log(response);
-                this.planitems = response;
-                this.cpt = response.length;
+        this.annee= ladate.getFullYear();
+        if(this.usergroup_id == 5)
+        {
+            if(this.agent_id)
+            {
+              this.httpclient.get<any>(this.base_url+'/findPlanitemByAgent/'+this.agent_id+'/'+this.annee).subscribe(
+                response => {
+                  //console.log(response);
+                  this.planitems = response;
+                  this.cpt = response.length;
 
-              }
-            );
+                }
+              );
 
-          }
-          else
-          {
-            this.httpclient.get<any>(this.base_url+'/getAllPlanitem').subscribe(
-              response => {
-                //console.log(response);
-                this.planitems = response;
-                this.cpt = response.length;
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+          this.httpclient.get<any>(this.base_url+'/getAllPlanitem').subscribe(
+            response => {
+              //console.log(response);
+              this.planitems = response;
+              this.cpt = response.length;
 
 
-              }
-            );
-          }
+            }
+          );
+
+        }
+
 
       }
     );

@@ -57,7 +57,7 @@
           Modifier</button>
           <button *ngIf="remove == 1" (click)="openDelete(contentDelete, dossier)" class="btn btn-sm btn-danger">
             Supprimer</button>
-            <button *ngIf="view == 1" [routerLink]="['/lot/' + dossier.id ]"  class="btn btn-sm btn-success">
+            <button *ngIf="add == 1" [routerLink]="['/lot/' + dossier.id ]"  class="btn btn-sm btn-success">
               Lot</button>
         </td>
       </tr>
