@@ -285,8 +285,8 @@ exports.up = function(knex) {
       .createTable('offres', (table) => {
         table.increments('id');
         table.integer('off_doss_id').references('id').inTable('dossiers');
-        table.integer('lot_id').references('id').inTable('lots').notNullable();
-        table.integer('entreprise_cons').references('id').inTable('fournisseurs').notNullable();
+        table.integer('lot_id').references('id').inTable('lots');
+        table.integer('entreprise_cons').references('id').inTable('fournisseurs');
         table.string('date_depot');
         table.string('heure_depot');
         table.string('nom_prenom_dep');

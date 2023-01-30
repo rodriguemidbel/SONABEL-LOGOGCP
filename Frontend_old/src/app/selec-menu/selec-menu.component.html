@@ -1,0 +1,39 @@
+
+<mat-list role="list" class="list-width">
+
+  <!------------------------------->
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Publication Avis
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list-item id="pubavis" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Lettre de transmission</mat-list-item>
+      <mat-list-item id="avis" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Plublication avis</mat-list-item>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <!------------------------------->
+
+ <!-- <mat-list-item id="avis" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Plublication avis</mat-list-item>
+-->
+  <mat-list-item id="caminv"  (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>invitation CAM</mat-list-item>
+  <mat-list-item id="scaminv" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>invitation SCT</mat-list-item>
+  <mat-list-item id="offre" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Offre</mat-list-item>
+
+  <mat-list-item id="proceverb" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>PV ouverture</mat-list-item>
+  <mat-list-item id="analyse" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Rapport d’analyse</mat-list-item>
+  <mat-list-item id="deliberation" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Déliberation</mat-list-item>
+
+
+
+  <mat-list-item id="resultat" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Plublication résultat</mat-list-item>
+
+    <mat-list-item id="caution" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Caution d'éxécution</mat-list-item>
+
+  <mat-list-item id="marche" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Marché</mat-list-item>
+  <mat-list-item id="courrier" (click)="handleSideMenuClick($event)" role="listitem" class="list-item" matRipple>Courrier</mat-list-item>
+
+</mat-list>

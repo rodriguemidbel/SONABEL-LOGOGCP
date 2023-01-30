@@ -1,0 +1,1038 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Ligne du plan de passation </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <button *ngIf="add == 1" class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+    <!--<button class="btn btn-md btn-outline-primary" (click)="open(content)" >
+        Ajouter</button>-->
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>N° ordre</th>
+        <th>Plan de passation</th>
+        <th>Budget</th>
+        <th>Montant estimé</th>
+        <th>Nature des prestations</th>
+        <th>Mode de passation</th>
+        <th>Délai prévisionnel d'éxécution <br> (jour)</th>
+        <th>Localisation</th>
+
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+     <tr *ngFor="let planitem of planitems | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{planitem.num_ordre}}</span></td>
+        <td><span>{{planitem.annee}}</span></td>
+        <td><span>{{planitem.budget}}</span></td>
+        <td align="right"><span>{{planitem.montant_estime | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+        <td><span>{{planitem.designation}}</span></td>
+        <td><span>{{planitem.mode}}</span></td>
+        <td><span>{{planitem.delai_exe}}</span></td>
+        <td><span>{{planitem.localisation}}</span></td>
+
+        <td class="action">
+          <button *ngIf="view == 1" (click)="openDetails(contentDetails, planitem)"  class="btn btn-sm btn-info">
+            Details</button>
+          <button  *ngIf="edit == 1 && planitem.statut !== 'Valider'" (click)="openEdit(contentEdit, planitem)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button *ngIf="remove == 1 &&  planitem.statut !== 'Valider'" (click)="openDelete(contentDelete, planitem)" class="btn btn-sm btn-danger">
+            Supprimer</button>
+            <button *ngIf="add == 1" (click)="openDossier(contentDossier, planitem)"  title="Dossier" class="btn btn-sm btn-success">
+              Dossier</button>
+        </td>
+      </tr>
+      <tr><td colspan="9">Nombre de ligne : {{cpt}}</td></tr>
+      <tr>
+
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="7">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <!--------------------------MODAL NG TEMPLATE ADD NEW PLANITEM------------------------------------>
+  <ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+
+            <div class="col-md-3">
+              <div class="form-group">
+                  <label for="num_ordre">N°</label>
+                  <div class="input-group">
+                    <input type="number" id="num_ordre" name="num_ordre" class="form-control" ngModel>
+                  </div>
+              </div>
+         </div>
+          <div class="col-md-3">
+                <div class="form-group">
+                    <label for="plan_id">Plan</label>
+                    <div class="input-group">
+                      <select id="plan_id" name="plan_id" class="form-control" ngModel placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option *ngFor="let plan of plans" value={{plan.id}}>{{plan.annee}}</option>
+                      </select>
+                    </div>
+                </div>
+           </div>
+           <div class="col-md-3">
+                <div class="form-group">
+                  <label for="budget">Budget</label>
+                  <div class="input-group">
+                    <select id="budget" name="budget" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let budget of budgets" value={{budget.libelle}}>{{budget.libelle}}</option>
+                    </select>
+                  </div>
+                </div>
+           </div>
+           <div class="col-md-3">
+            <div class="form-group">
+              <label for="typcredit">Type crédit</label>
+              <div class="input-group">
+                <select id="typcredit" name="typcredit" class="form-control" ngModel placeholder="Selectionner">
+                  <option>Selectionner</option>
+                  <option *ngFor="let typcredit of typcredits" value={{typcredit.libelle}}>{{typcredit.libelle}}</option>
+                </select>
+              </div>
+            </div>
+           </div>
+           <div class="col-md-3">
+            <div class="form-group">
+              <label for="immobilisation">Compte d'immob</label>
+              <div class="input-group">
+                <select id="immobilisation" name="immobilisation" class="form-control" ngModel placeholder="Selectionner">
+                  <option>Selectionner</option>
+                  <option *ngFor="let immobilisation of immobilisations" value={{immobilisation.libelle}}>{{immobilisation.libelle}}</option>
+                </select>
+              </div>
+            </div>
+           </div>
+           <!-------------------------------------Ligne 2---------------------------------------------------------->
+           <div class="col-md-3">
+            <div class="form-group">
+              <label for="credit">Numéro de crédit</label>
+              <div class="input-group">
+                <select id="credit" name="credit" class="form-control" ngModel placeholder="Selectionner">
+                  <option>Selectionner</option>
+                  <option *ngFor="let credit of credits" value={{credit.libelle}}>{{credit.libelle}}</option>
+                </select>
+              </div>
+            </div>
+           </div>
+           <div class="col-md-3">
+                <div class="form-group">
+                    <label for="centre_cout">Centre de coût</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">F CFA</div>
+                      </div>
+                      <input type="number" id="centre_cout" name="centre_cout" class="form-control" ngModel>
+                    </div>
+                </div>
+           </div>
+           <div class="col-md-3">
+            <div class="form-group">
+                <label for="projet">Projet</label>
+                <div class="input-group">
+                  <input type="text" id="projet" name="projet" class="form-control" ngModel>
+                </div>
+            </div>
+           </div>
+           <div class="col-md-3">
+            <div class="form-group">
+              <label for="localisation">Direction / Département </label>
+              <div class="input-group">
+                <select id="localisation" name="localisation" class="form-control" ngModel placeholder="Selectionner">
+                  <option>Selectionner</option>
+                  <option *ngFor="let localisation of localisations" value={{localisation.sigle}}>{{localisation.sigle}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="montant_estime">Montant de l'inscription</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">F CFA</div>
+                  </div>
+                  <input type="number" id="montant_estime" name="montant_estime" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <!--------------------------Ligne3------------------------------------------------------>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="composante">Composante</label>
+                <div class="input-group">
+                  <input type="text" id="composante" name="composante" class="form-control" ngModel>
+                </div>
+            </div>
+           </div>
+          <div class="col-md-3">
+                <div class="form-group">
+                    <label for="montant_dispo">Montant disponible</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">F CFA</div>
+                      </div>
+                      <input type="number" id="montant_dispo" name="montant_dispo" class="form-control" ngModel>
+                    </div>
+                </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="designation">Désignation</label>
+                <div class="input-group">
+                  <textarea id="designation" name="designation" class="form-control" ngModel></textarea>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="type_id">Type de marché</label>
+                <div class="input-group">
+                  <select id="type_id" name="type_id" class="form-control" ngModel placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let type of types" value={{type.libelle}}>{{type.libelle}}</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+          <!-------------------------------Ligne 4------------------------------------------------------->
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="mode">Mode de passation</label>
+                <div class="input-group">
+                  <select id="mode" name="mode" class="form-control" ngModel placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let mode of modes" value={{mode.libelle}}>{{mode.libelle}}</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="nbr_lot">Nombre de lot</label>
+                <div class="input-group">
+                  <input type="number" id="nbr_lot" name="nbr_lot" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="responsable"> Service chargé  du dossier à la DMP</label>
+                <div class="input-group">
+
+                  <input type="text" id="responsable" name="responsable" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="agent">Agent chargé du dossier</label>
+                <div class="input-group">
+                  <select id="agent" name="agent" class="form-control" ngModel placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let agent of agents" value={{agent.nom_prenom}}>{{agent.nom_prenom}}</option>
+                  </select>
+                </div>
+            </div>
+          </div>
+          <!-------------------------------Ligne 5----------------------------------------------------->
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="date_tech">Date prévue de réception du  dossier technique</label>
+                <div class="input-group">
+                  <input type="date" id="date_tech" name="date_tech" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_dgcmef">Date prévue de lancement par la DGCMEF</label>
+                    <div class="input-group">
+                      <input type="date" id="date_dgcmef" name="date_dgcmef" class="form-control" ngModel>
+                    </div>
+                </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="date_off">Date prévue de remise des offres</label>
+                <div class="input-group">
+                  <input type="date" id="date_off" name="date_off" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="temp">Temps nécéessaire à l'évaluation des offres/ Propositions (jours)</label>
+                <div class="input-group">
+                  <input type="text" id="temp" name="temp" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+           <!-------------------------------Ligne 6----------------------------------------------------->
+          <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_visite_site">Date de visite de site(s)</label>
+                    <div class="input-group">
+                      <input type="date" id="date_visite_site" name="date_visite_site" class="form-control" ngModel>
+                    </div>
+                </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="date_demarrage">Date probable de demarrage des travaux </label>
+                <div class="input-group">
+                  <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="delai_exe">Délai d'exécution prévu (jours)</label>
+                <div class="input-group">
+                  <input type="text" id="delai_exe" name="delai_exe" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="date_butoir">Date butoir</label>
+                <div class="input-group">
+                  <input type="date" id="date_butoir" name="date_butoir" class="form-control" ngModel>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="statut">Statut</label>
+              <div class="input-group">
+                <select id="statut" name="statut" class="form-control" ngModel>
+                  <option>Selectionner</option>
+                  <option  value="PPM">PPM</option>
+                  <option  value="Hors PPM">Hors PPM</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-------------------------Ligne 7---------------------------->
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="observation">Observation(s)</label>
+                <div class="input-group">
+                  <textarea id="observation" name="observation" class="form-control" ngModel></textarea>
+                </div>
+            </div>
+          </div>
+        <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+      </form>
+      </div>
+
+    <div class="modal-footer">
+
+    </div>
+
+  </ng-template>
+   <!--------------------------MODAL NG TEMPLATE PLANITEM DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details ligne du plan de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div id="print-me" class="modal-body">
+      <form novalidate>
+        <div class="row">
+
+             <!---------------------ligne 1------------------------->
+
+         <div class="col-md-3">
+              <div class="form-group">
+                <label for="budget">Budget</label>
+                <div class="input-group">
+                    <input id="budget" class="form-control" readonly>
+                </div>
+              </div>
+         </div>
+         <div class="col-md-3">
+          <div class="form-group">
+            <label for="typcredit">Type crédit</label>
+            <div class="input-group">
+                 <input id="typcredit" class="form-control" readonly>
+            </div>
+          </div>
+         </div>
+         <div class="col-md-3">
+          <div class="form-group">
+            <label for="immobilisation">Compte d'immob</label>
+            <div class="input-group">
+              <input id="immobilisation" class="form-control" readonly>
+            </div>
+          </div>
+         </div>
+         <!-------------------------------------Ligne 2---------------------------------------------------------->
+         <div class="col-md-3">
+          <div class="form-group">
+            <label for="credit">Numéro de crédit</label>
+            <div class="input-group">
+              <input id="credit" class="form-control" readonly>
+            </div>
+          </div>
+         </div>
+         <div class="col-md-3">
+              <div class="form-group">
+                  <label for="centre_cout">Centre de coût</label>
+                  <div class="input-group">
+
+                    <input id="centre_cout" class="form-control" readonly>
+                  </div>
+              </div>
+         </div>
+         <div class="col-md-3">
+          <div class="form-group">
+            <label for="localisation">Direction / Département </label>
+            <div class="input-group">
+              <input id="localisation" class="form-control" readonly>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-3">
+          <div class="form-group">
+              <label for="responsable">Responsable</label>
+              <div class="input-group">
+                <input id="responsable" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <!--------------------------Ligne3------------------------------------------------------>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="montant_estime">Montant de l'inscription</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <input id="montant_estime"  class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+              <div class="form-group">
+                  <label for="montant_dispo">Montant disponible</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input id="montant_dispo" class="form-control" readonly>
+                  </div>
+              </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="designation">Désignation</label>
+              <div class="input-group">
+                <input  id="designation" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <!-------------------------------Ligne 4------------------------------------------------------->
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="type">Type de marché</label>
+              <div class="input-group">
+                <input id="type" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="mode">Mode de passation</label>
+              <div class="input-group">
+                <input id="mode" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="nbr_lot">Nombre de lot</label>
+              <div class="input-group">
+                <input id="nbr_lot" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="agent">Agent chargé du dossier</label>
+              <div class="input-group">
+                <select id="agent" class="form-control" readonly>
+                  <option>Selectionner</option>
+                  <option *ngFor="let agent of agents" value={{agent.id}}>{{agent.libelle}}</option>
+                </select>
+              </div>
+          </div>
+        </div>
+        <!-------------------------------Ligne 5----------------------------------------------------->
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="date_tech">Date prévue de réception du  dossier technique</label>
+              <div class="input-group">
+                <input id="date_tech"  class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+              <div class="form-group">
+                  <label for="date_dgcmef">Date prévue de lancement par la DGCMEF</label>
+                  <div class="input-group">
+                    <input  id="date_dgcmef" class="form-control" readonly>
+                  </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="date_off">Date prévue de remise des offres</label>
+              <div class="input-group">
+                <input id="date_off" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="temp">Temps d'évaluation (jours)</label>
+              <div class="input-group">
+                <input  id="temp"  class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+         <!-------------------------------Ligne 6----------------------------------------------------->
+         <div class="col-md-3">
+          <div class="form-group">
+              <label for="date_resultat">Date de publication des résultats par la DGCMEF</label>
+              <div class="input-group">
+                <input id="date_resultat" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+              <div class="form-group">
+                  <label for="date_visite_site">Date de visite de site(s)</label>
+                  <div class="input-group">
+                    <input id="date_visite_site" class="form-control" readonly>
+                  </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="date_demarrage">Date probable de demarrage des travaux</label>
+              <div class="input-group">
+                <input id="date_demarrage" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="delai_exe">Délai d'exécution prévu (jours)</label>
+              <div class="input-group">
+                <input id="delai_exe" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <!-------------------------Ligne 7---------------------------->
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="date_butoir">Date butoir</label>
+              <div class="input-group">
+                <input id="date_butoir" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+              <label for="budget_travaux">Budget travaux</label>
+              <div class="input-group">
+                <input id="budget_travaux" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="observation">Observation(s)</label>
+              <div class="input-group">
+                <input id="observation" class="form-control" readonly>
+              </div>
+          </div>
+        </div>
+      <!---------------------------------------------->
+
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <!--<button class="btn btn-md btn-outline-primary"
+              printTitle="Ligne plan de passation"
+              printSectionId="print-me"
+              styleSheetFile="assets/pdf.css"
+              ngxPrint>
+              Imprimer</button>-->
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE PLANITEM EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier une ligne du plan de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+        <div class="row">
+              <!--<div class="col-md-12">
+                    <div class="form-group">
+                    <label for="id">Id</label>
+                    <div class="input-group">
+                        <input formControlName="id" class="form-control" readonly>
+                    </div>
+                  </div>
+              </div>-->
+              <!---------------------ligne 1------------------------->
+              <!--<div class="col-md-3">
+                <div class="form-group">
+                    <label for="plan_id">Plan</label>
+                    <div class="input-group">
+                      <select formControlName="plan_id" class="form-control" placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option *ngFor="let plan of plans" value={{plan.id}}>{{plan.annee}}</option>
+                      </select>
+                    </div>
+                </div>
+              </div>-->
+              <!---------------------ligne 1------------------------->
+            <input type="hidden" formControlName="id" class="form-control">
+            <input type="hidden" formControlName="plan_id" class="form-control">
+              <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="budget">Budget</label>
+                      <div class="input-group">
+                        <select formControlName="budget" class="form-control">
+                          <option>Selectionner</option>
+                          <option *ngFor="let budget of budgets" value={{budget.libelle}}>{{budget.libelle}}</option>
+                        </select>
+                      </div>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="typcredit">Type crédit</label>
+                  <div class="input-group">
+                    <select formControlName="typcredit" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let typcredit of typcredits" value={{typcredit.libelle}}>{{typcredit.libelle}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="immobilisation">Compte d'immob</label>
+                  <div class="input-group">
+                    <select formControlName="immobilisation" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let immobilisation of immobilisations" value={{immobilisation.libelle}}>{{immobilisation.libelle}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-------------------------------------Ligne 2---------------------------------------------------------->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="credit">Numéro de crédit</label>
+                  <div class="input-group">
+                    <select formControlName="credit" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let credit of credits" value={{credit.libelle}}>{{credit.libelle}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="centre_cout">Centre de coût</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                          </div>
+                          <input type="number" formControlName="centre_cout" class="form-control">
+                        </div>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="localisation">Direction / Département </label>
+                  <div class="input-group">
+                    <select formControlName="localisation" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let localisation of localisations" value={{localisation.libelle}}>{{localisation.sigle}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="montant_estime">Montant de l'inscription</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">$</div>
+                      </div>
+                      <input type="number" formControlName="montant_estime" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <!--------------------------Ligne3------------------------------------------------------>
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="montant_dispo">Montant des dépenses</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                          </div>
+                          <input type="number" formControlName="montant_dispo" class="form-control">
+                        </div>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="designation">Désignation</label>
+                    <div class="input-group">
+                      <input formControlName="designation" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="type_id">Type de marché</label>
+                    <div class="input-group">
+                      <select formControlName="type_id" class="form-control">
+                        <option>Selectionner</option>
+                        <option *ngFor="let type of types" value={{type.id}}>{{type.libelle}}</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <!-------------------------------Ligne 4------------------------------------------------------->
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="mode">Mode de passation</label>
+                    <div class="input-group">
+                      <select formControlName="mode" class="form-control">
+                        <option>Selectionner</option>
+                        <option *ngFor="let mode of modes" value={{mode.libelle}}>{{mode.libelle}}</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="nbr_lot">Nombre de lot</label>
+                    <div class="input-group">
+                      <input type="number" formControlName="nbr_lot" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="responsable"> Service chargé  du dossier à la DMP</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">$</div>
+                      </div>
+                      <input type="number" formControlName="responsable" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="agent">Agent chargé du dossier</label>
+                    <div class="input-group">
+                      <select formControlName="agent" class="form-control">
+                        <option>Selectionner</option>
+                        <option *ngFor="let agent of agents" value={{agent.nom_prenom}}>{{agent.nom_prenom}}</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <!-------------------------------Ligne 5----------------------------------------------------->
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_tech">Date prévue de réception du  dossier technique</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_tech" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date_dgcmef">Date prévue de lancement par la DGCMEF</label>
+                        <div class="input-group">
+                          <input type="date" formControlName="date_dgcmef" class="form-control">
+                        </div>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_off">Date prévue de remise des offres</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_off" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="temp">Temps nécéessaire à l'évaluation des offres/ Propositions (jours)</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="temp" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <!-------------------------------Ligne 6----------------------------------------------------->
+              <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date_visite_site">Date de visite de site(s)</label>
+                        <div class="input-group">
+                          <input type="date" formControlName="date_visite_site" class="form-control">
+                        </div>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_demarrage">Date probable de demarrage des travaux </label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_demarrage" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="delai_exe">Délai d'exécution prévu (jours)</label>
+                    <div class="input-group">
+                      <input type="text" formControlName="delai_exe" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="date_butoir">Date butoir</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_butoir" class="form-control">
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="statut">Statut</label>
+                  <div class="input-group">
+                    <select formControlName="statut" class="form-control">
+                      <option  value="PPM">PPM</option>
+                      <option  value="Hors PPM">Hors PPM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-------------------------Ligne 7---------------------------->
+              <div class="col-md-9">
+                <div class="form-group">
+                    <label for="observation">Observation(s)</label>
+                    <div class="input-group">
+                      <input formControlName="observation" class="form-control"/>
+                    </div>
+                </div>
+              </div>
+            <!---------------------------------------------->
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()">Modifer</button> </div>
+
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+
+    <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Message de confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+      </div>
+    </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DOSSIER CREATE---------------------------------->
+    <ng-template #contentDossier let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-basic-title">Ajout dossier PPM {{annee}}</h2>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #d="ngForm"  (ngSubmit)="dossierSubmit(d)" novalidate>
+        <div class="row">
+            <!---------------------------->
+            <input type="hidden" id="planitem_id" name="planitem_id" class="form-control" [(ngModel)]="planitemID">
+            <!---------------------------->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="numero_doss">N° dossier</label>
+                    <div class="input-group">
+                      <input type="text" id="numero_doss" name="numero_doss" class="form-control" ngModel>
+                    </div>
+                </div>
+            </div>
+            <!---------------------------->
+            <div class="col-md-6">
+            <div class="form-group">
+                <label for="intitule_doss">Intitulé dossier</label>
+                <div class="input-group">
+
+                  <textarea id="intitule_doss" name="intitule_doss" class="form-control" [(ngModel)]="intitule_dossier"></textarea>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_trans_sign">Date de transmission pour signature</label>
+                <div class="input-group">
+                  <input type="date" id="date_trans_sign" name="date_trans_sign" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_retour_sign">Date de retour de signature</label>
+                <div class="input-group">
+                  <input type="date" id="date_retour_sign" name="date_retour_sign" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_trans_dgcmef">Date de transmission à la DGCMEF</label>
+                <div class="input-group">
+                  <input type="date" id="date_trans_dgcmef" name="date_trans_dgcmef" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="dossier">Fichier</label>
+                <div class="input-group">
+
+                    <input type="file" id="dossier" name="dossier" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="dossier">Statut</label>
+              <div class="input-group">
+                <select class="form-control form-select" id="statut" name="statut" placeholder="Statut"  [(ngModel)]="statut">
+                  <option selected>Selectionner</option>
+                  <option >Validé</option>
+                  <option >Infructueux</option>
+                  <option >Annulé</option>
+                </select>
+                </div>
+              </div>
+          </div>
+
+          <input type="hidden" id="statut" name="statut" class="form-control" [(ngModel)]="statut">
+
+        <!---------------------------------------------->
+        </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+          </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+    </ng-template>
+</div>
+
+<app-footer></app-footer>

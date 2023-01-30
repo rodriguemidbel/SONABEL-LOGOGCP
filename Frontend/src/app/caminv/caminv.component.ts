@@ -8,6 +8,8 @@ import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Subscription } from 'rxjs';
 import { Caminv } from '../models/caminv.model';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
+import { Dossier } from '../models/dossier.model';
 
 
 
@@ -29,7 +31,8 @@ export class CaminvComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   title = 'Invitation CAM';
   mediaSub: Subscription;
@@ -55,6 +58,15 @@ export class CaminvComponent implements OnInit {
    blured = false
   focused = false
 
+  usergroup_id;
+  user_id:number;
+  agent_id:number;
+  agent_name:string;
+
+  brandForm: FormGroup;
+
+  current_date:string;
+
   constructor(public mediaObserver: MediaObserver,
     private router: Router,
     private route: ActivatedRoute,
@@ -71,7 +83,7 @@ export class CaminvComponent implements OnInit {
     this.getOneDossier();
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-      console.log(res.mqAlias);
+      //console.log(res.mqAlias);
       this.deviceXs = res.mqAlias === "xs" ? true : false;
     })
 
@@ -88,13 +100,37 @@ export class CaminvComponent implements OnInit {
         ampliation: ['']
       } );
 
+      /*---------------*/
+     this.brandForm = this.fb.group({
+      id: [0],
+      user_id: ['', Validators.required],
+      action: ['', Validators.required]
+    });
+     /*--------------------*/
+     let y = new Date();
+     this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
+
   }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
+  }
+
 
   /*---------------------------------*/
   getCaminv(){
     this.httpclient.get<any>(this.base_url+'/getAllCaminv/'+this.dossierid).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.caminvs = response;
 
       }
@@ -139,6 +175,17 @@ onSubmit(f: NgForm) {
       this.ngOnInit(); //reload the table
     });
   this.modalService.dismissAll(); //dismiss the modal
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Enregistrement d\' une CAM pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 /*getHobbies(): FormArray {
@@ -173,12 +220,23 @@ openEdit(targetModal, caminv: Caminv) {
 
 onSave() {
   const editURL = this.base_url+'/updateCaminv/' + this.editForm.value.id;
-  console.log(this.editForm.value);
+  //console.log(this.editForm.value);
   this.httpclient.patch(editURL, this.editForm.value)
     .subscribe((results) => {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification CAM ID : '+this.editForm.value.id+' pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 openDelete(targetModal, caminv: Caminv) {
@@ -197,6 +255,17 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression CAM ID : '+this.deleteId+' pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 /*----------------------------------*/
@@ -207,7 +276,7 @@ onDelete() {
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.dossiers = response;
       //$scope.displaydash.dossiers = response.data;
     }
@@ -244,24 +313,24 @@ onDelete() {
 
   created(event: any) {
     // tslint:disable-next-line:no-console
-    console.log('editor-created', event)
+    //console.log('editor-created', event)
   }
 
   changedEditor(event: EditorChangeContent | EditorChangeSelection) {
     // tslint:disable-next-line:no-console
-    console.log('editor-change', event)
+    //console.log('editor-change', event)
   }
 
   focus($event: any) {
     // tslint:disable-next-line:no-console
-    console.log('focus', $event)
+    //console.log('focus', $event)
     this.focused = true
     this.blured = false
   }
 
   blur($event: any) {
     // tslint:disable-next-line:no-console
-    console.log('blur', $event)
+    //console.log('blur', $event)
     this.focused = false
     this.blured = true
   }

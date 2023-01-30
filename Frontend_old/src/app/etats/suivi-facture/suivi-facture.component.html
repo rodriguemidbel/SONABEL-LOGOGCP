@@ -1,0 +1,82 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Liste des dossiers par agent </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+    <!--------------------------------Search--------------------------------->
+    <mat-toolbar>
+      <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+      <!--<button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>-->
+      <div class="form-group search-div">
+        <div class="row">
+        <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+        <mat-icon matSuffix>search</mat-icon>
+      </div>
+      </div>
+    </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>N° dossier</th>
+          <th>Intitulé dossier</th>
+          <th>N° marché</th>
+          <th>N° facture</th>
+          <th>Date facture</th>
+          <th>Montant (F CFA)</th>
+          <th>Montant (Devise)</th>
+          <th>Devise</th>
+          <th>Taux éxécution financier(%) </th>
+          <th>Taux éxécution physique(%) </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let paiement of paiements | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+          <td><span>{{paiement.numero_doss}}</span></td>
+          <td><span>{{paiement.intitule_doss}}</span></td>
+          <td><span>{{paiement.num_ref}}</span></td>
+          <td><span>{{paiement.num_facture}}</span></td>
+          <td><span>{{paiement.date_facture | date:'dd/MM/y' }}</span></td>
+          <td><span>{{paiement.montant_cfa | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+          <td><span>{{paiement.montant_devise | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+          <td><span>{{paiement.symbole}}</span></td>
+          <td><span>{{paiement.taux_exe_fin}}</span></td>
+          <td><span>{{paiement.taux_exe_phy}}</span></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <select (change)="onTableSizeChange($event)">
+              <option *ngFor="let size of tableSizes">
+                {{size}}
+              </option>
+            </select>
+            </td>
+            <td colspan="7">
+            <pagination-controls
+            previousLabel = "Précédent"
+            nextLabel = "Suivant"
+            (pageChange)="onTableDataChange($event)"></pagination-controls>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+<app-footer></app-footer>
+
+
+
+
+

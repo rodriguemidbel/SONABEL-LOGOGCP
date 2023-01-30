@@ -1,0 +1,70 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Liste des dossiers</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+    <!--------------------------------Search--------------------------------->
+    <mat-toolbar>
+      <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+      <!--<button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>-->
+      <div class="form-group search-div">
+        <div class="row">
+        <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+        <mat-icon matSuffix>search</mat-icon>
+      </div>
+      </div>
+
+
+    </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Numero</th>
+        <th>Intitulé</th>
+        <th>Statut</th>
+        <th>Fichier</th>
+
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let dossier of dossiers | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{dossier.numero_doss}}</span></td>
+        <td><span>{{dossier.intitule_doss}}</span></td>
+        <td><span>{{dossier.statut_doss}}</span></td>
+        <td><span *ngIf="dossier.dossier"><a title="Dossier" target="_blank" href="{{url}}{{dossier.dossier}}"><mat-icon>file_copy</mat-icon></a></span></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="2">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+</div>
+<app-footer></app-footer>
+
+
+

@@ -1,0 +1,156 @@
+<app-header></app-header>
+<div class="container">
+  <div class="border">
+    <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+      Ajouter</button>
+  </div>
+  <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Libelle</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let credit of credits">
+        <td><span>{{credit.id}}</span></td>
+        <td><span>{{credit.libelle}}</span></td>
+        <td>
+          <button (click)="openDetails(contentDetails, credit)"  class="btn btn-sm btn-info">
+            Details</button>
+          <button (click)="openEdit(contentEdit, credit)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button (click)="openDelete(contentDelete, credit)"class="btn btn-sm btn-danger">
+            Supprimer</button>
+        </td>
+      </tr>
+      </tbody>
+  </table>
+
+  <!--------------------------MODAL NG TEMPLATE ADD NEW credit------------------------------------>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="libelle">Libelle</label>
+                <div class="input-group">
+                  <input type="text" id="libelle" name="libelle" class="form-control" ngModel>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Submit</button>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE credit DETAILS------------------------------------>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details credit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                  <label for="id_detail">ID</label>
+                  <div class="input-group">
+                    <input id="id_detail" class="form-control" readonly>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="libelle_detail">Libelle</label>
+                <div class="input-group">
+                  <input id="libelle_detail" class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE credit EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un credit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editForm" novalidate>
+
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="id">Id</label>
+                  <div class="input-group">
+                      <input formControlName="id" class="form-control">
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="libelle">Libelle</label>
+                <div class="input-group">
+                  <input formControlName="libelle" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+  <ng-template #contentDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Message de confirmation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+    </div>
+    <div class="modal-footer">
+      <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+      </div>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+    </div>
+  </ng-template>
+
+</div>
+<app-footer></app-footer>

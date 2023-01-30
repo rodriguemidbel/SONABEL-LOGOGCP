@@ -1,0 +1,44 @@
+.sticky {
+  padding: 0px;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  z-index: 10;
+}
+
+.logo {
+  padding: 0px 5px;
+  font-size: 20px;
+}
+
+
+
+/*.menu-spacer {
+  flex: 1 1 auto;
+}
+.okMenu{
+  display: inline-block;
+  width: 100%;
+  background-color:#006019;
+}
+.responsiveMenu{
+  display:none;
+}
+
+.alpha{color:white;text-decoration: none;}
+.header-link{
+  text-decoration: none;
+  color:black;
+}
+
+@media (min-width: 250px) and (max-width: 500px)
+{
+  .okMenu{
+    display: none;
+  }
+  .responsiveMenu{
+    display:inline-block;
+    width: 100%;
+    background-color:#006019;
+  }
+}*/

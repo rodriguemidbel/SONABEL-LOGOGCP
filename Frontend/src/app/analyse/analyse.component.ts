@@ -7,6 +7,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Analyse } from '../models/analyse.model';
 import { LoginService } from '../services/login.service';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-analyse',
@@ -26,7 +27,8 @@ export class AnalyseComponent implements OnInit {
 
   dossierid : number;
   analyses : any[];
-  dossiers: any[];
+  //dossiers: any[];
+  dossiers : Dossier;
 
   images;
 

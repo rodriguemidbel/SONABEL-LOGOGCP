@@ -34,6 +34,10 @@ class marcheService {
 nbrPassMarche(annee){
   return marcheDAO.nbrPassMarche(annee)
 }
+
+marcheGroupByDoss(){
+  return marcheDAO.marcheGroupByDoss()
+}
   
 }
 

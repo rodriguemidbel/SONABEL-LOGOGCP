@@ -7,6 +7,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Deliberation } from '../models/deliberation.model';
 import { LoginService } from '../services/login.service';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-deliberation',
@@ -27,7 +28,8 @@ export class DeliberationComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   title = 'Déliberation';
   mediaSub: Subscription;
@@ -98,9 +100,9 @@ export class DeliberationComponent implements OnInit {
 
   /*---------------------------------*/
   getDeliberation(){
-    this.httpclient.get<any>(this.base_url+'/getAllDeliberation/'+this.dossierid).subscribe(
+    this.httpclient.get<any>(this.base_url+'/findDeliberation/'+this.dossierid).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.deliberations = response;
 
       }
@@ -128,11 +130,12 @@ private getDismissReason(reason: any): string {
 
 onSubmit(f: NgForm) {
   const url = this.base_url+'/createDeliberation';
-
+  console.log(f.value);
   f.value['pvdeliberation'] = this.filename;
 
   this.httpclient.post(url, f.value)
     .subscribe((result) => {
+
       this.ngOnInit(); //reload the table
     });
    /*-----------------*/

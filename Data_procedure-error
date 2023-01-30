@@ -1,0 +1,1247 @@
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 120 de la commande -
+Insert into "caminvs" ("id","dossier_id","date_cam","heure_cam","lieu_cam","membre_cam","ampliation","president_cam","distinc_presi_cam","created_at","updated_at") values ('25','108','2022-08-23',null,'Salle de réunions du 3ème étage au siège de la SONABEL à Ouagadougou',null,'DGC',null,null,to_timestamp('27/07/22 10:01:19,839000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('27/07/22 10:01:19,839000000','DD/MM/RR HH24:MI:SSXFF'))
+Rapport d'erreur -
+ORA-02291: integrity constraint (SONABEL.caminvs_dossier_id_foreign) violated - parent key not found
+
+
+Erreur commençant à la ligne: 121 de la commande -
+Insert into "caminvs" ("id","dossier_id","date_cam","heure_cam","lieu_cam","membre_cam","ampliation","president_cam","distinc_presi_cam","created_at","updated_at") values ('26','76','2022-08-24',null,'Salle de réunions du 3ème étage au siège de la SONABEL à Ouagadougou','DM;DC;DGC','DMP;DC;DGC',null,null,to_timestamp('27/07/22 11:51:22,357000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('27/07/22 11:51:22,357000000','DD/MM/RR HH24:MI:SSXFF'))
+Rapport d'erreur -
+ORA-02291: integrity constraint (SONABEL.caminvs_dossier_id_foreign) violated - parent key not found
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+Erreur commençant à la ligne: 127 de la commande -
+Insert into "cautions" ("id","dossier_id","soumissionaire","date_caution","banque","montant_caution","caution","created_at","updated_at") values ('21','21','Selectionner','2022-06-10','BSIC','500000',null,to_timestamp('21/07/22 15:01:22,307000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/07/22 15:01:22,307000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 127 Colonne: 30
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 128 de la commande -
+Insert into "cautions" ("id","dossier_id","soumissionaire","date_caution","banque","montant_caution","caution","created_at","updated_at") values ('1','29','14','2022-01-31','BSIC','2239543',null,to_timestamp('10/05/22 16:30:09,730000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 16:30:09,730000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 128 Colonne: 30
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+Erreur commençant à la ligne: 159 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('15','3','118/2022/DMP','Réhabilitation des échelles Résultats publiés le 29/06/2022 Quoditien n° 3389; attributaire Bénéré Presto Services/Afrique Marché n° 118/2022/DMP transmis pour enrégistrement le 01/09/2022 au barrage et de la passerelle à l''aval de la centrale de Bagré',null,'2022-07-22','14042000','90 jours',null,null,null,null,null,null,to_timestamp('22/09/22 13:31:26,741000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/09/22 13:31:26,741000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 159 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 160 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('10','31','80/2022/DMP','réalisation du réseau incendie du poste 90 kV à partir de la Centrale Électrique de Ouaga II.',null,'2022-06-20','47 837 200','60 jours','17','2022-06-30','2022-07-05','2022-07-05','2022-07-25','N°080.2022.DMP DPX 023.2022.pdf',to_timestamp('14/09/22 16:02:32,261000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('14/09/22 16:02:32,261000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 160 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 161 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('14','41','83/2022/DMP','Fourniture d’un rupteur de listings à la SONABEL','2022-07-20','2022-07-01','25370000','90','28','2022-07-04',null,'2022-07-22',null,'N°083.2022.DMP DPX 15.2022.pdf',to_timestamp('21/09/22 13:34:19,102000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 13:34:19,102000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 161 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 162 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('16','3','118/2022/DMP','Réhabilitation des échelles Résultats publiés le 29/06/2022 Quoditien n° 3389; attributaire Bénéré Presto Services/Afrique Marché n° 118/2022/DMP transmis pour enrégistrement le 01/09/2022 au barrage et de la passerelle à l''aval de la centrale de Bagré','222207-08-29','2022-07-22','14042000','90 jours','84','2022-07-22','2022-07-26','2022-09-01','2022-09-19','N°118.2022.DMP DPX 013.2022.pdf',to_timestamp('22/09/22 13:51:57,681000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/09/22 13:51:57,681000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 162 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 163 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('11','3','118/2022/DMP','Réhabilitation des échelles Résultats publiés le 29/06/2022 Quoditien n° 3389; attributaire Bénéré Presto Services/Afrique Marché n° 118/2022/DMP transmis pour enrégistrement le 01/09/2022 au barrage et de la passerelle à l''aval de la centrale de Bagré','2022-07-22','2022-07-22','14042000','90 jours',null,'2022-07-22',null,'2022-09-01','2022-09-12','N°118.2022.DMP DPX 013.2022.pdf',to_timestamp('15/09/22 16:36:49,483000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('15/09/22 16:36:49,483000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 163 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 164 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('13','120','101/2022/DMP','Fourniture de trois (3) paratonnerres type PDA pour la protection des équipements BLR sur pylône et formation sur Winmanage Radwin',null,'2022-08-03','13987619','180','11',null,null,'2022-08-29',null,'N°101.2020.DMP DPX 44.2022.pdf',to_timestamp('21/09/22 12:30:09,195000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 12:30:09,195000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 164 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 165 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('3','26','213/2022/DMP','Fourniture d''un sectionneur de terre 34,5 kV avec coffret de comande pour le poste de Pâ','2021-12-31','2021-11-10','18880000','180 jours','10','2021-11-10','2021-11-13','2022-01-05','2022-01-10','22MARCHE2132021ITEMSAAO0032021.pdf',to_timestamp('10/05/22 13:16:53,911000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 13:16:53,911000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 165 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 166 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('8','13','54/2022/DMP','Fourniture de pièces de rechange pour l’entretien 6000H du moteur MTU 18V2000V26F du groupe n°7 de la centrale de GAOUA',null,'2022-04-13','58292000','45','10',null,null,'2022-05-04',null,'Marché ITEEM Labs DPX 04 2022 Fourniture de pieces de rechange moteur MTU G7 Gaoua.docx',to_timestamp('02/06/22 13:17:53,950000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 13:17:53,950000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 166 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 167 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('1','11',null,'fourniture de pièces de rechange et le dépannage du moteur MTU 18V2000V26F du Groupe n°9 de la centrale de Dori',null,'30/03/22','68499994','45 jours','9','30/03/22',null,null,null,'Marché SOPAM DP 003 2022.docx',to_timestamp('22/04/22 12:44:06,863000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/04/22 12:44:06,863000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 167 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 168 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('5','29','189/2022/DMP','Fourniture et pose de Détecteurs de défauts aériens (DDA) dans les localités de Bobo, Houndé, Banfora et Dano et restructuration de réseaux BTA à Diébougou et Dan','2021-10-29','2021-09-24','175593848','240 JOURS','14','2021-11-08','2021-11-10','2021-11-20','2021-11-30','N1892021DMPAO0082021.pdf',to_timestamp('10/05/22 16:25:13,015000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 16:25:13,015000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 168 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 169 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('7','15','/2022/DMP','fourniture, installation et  mise en service d’un système de webconférence pour les  services de la SONABEL à l’immeuble de la CNSS à la Patte d’Oie à Ouagadougou',null,'2022-05-10','16284000','90 jours','39','2022-05-10',null,null,null,'Marché IP PROJET DP 010 2022.docx',to_timestamp('02/06/22 11:18:26,494000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 11:18:26,494000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 169 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 170 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('21','9','/2022/DMP',null,null,null,'935 579 070 F CFA TTC','90 jours',null,'2022-07-22',null,null,null,null,to_timestamp('28/07/22 10:24:53,220000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('28/07/22 10:24:53,220000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 170 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 171 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('2','26','201/2022/DMP','Fourniture de deux jeux de transformateurs de courant (TC) 34,5 kV pour les poste de Kodéni et Pâ','2021-12-13','2021-11-12','18972807','180 jours','11','2021-11-12','2021-11-15','2021-12-17','2021-12-25','21MARCHE2012021TIERIAAO0032021.pdf',to_timestamp('10/05/22 13:05:44,926000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 13:05:44,926000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 171 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 172 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('4','29','166/2022/DMP','Construction et restructuration de lignes HTA/BTA dans les localités de Bobo Dioulasso, Houndé, et Niangoloko','2021-09-30','2021-08-24','148379889','240 JOURS','12','2021-09-24','2021-09-24','2021-10-06','2021-10-12','20220509163522.pdf',to_timestamp('10/05/22 16:21:54,047000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 16:21:54,047000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 172 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 173 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('6','29','168/2022/DMP','Fourniture de matériels de Distribution HTA/BTA pour le Département Distribution de l''Ouest','2021-09-29','2021-09-24','364081389','240 JOURS','15','2021-09-24','2021-10-12','2021-10-12','2021-10-20','N1682021DMP AO 008.2021.pdf',to_timestamp('10/05/22 16:27:44,114000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 16:27:44,114000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 173 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 174 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('9','49','081/2022/DMP','fourniture ,installation et mise en service d''un serveur téléphonique à la centrale de Bagré','2022-06-17','2022-06-17','17924200','90 jours','25','2022-06-17',null,null,null,'Marché CETELCOM  DP 019 2022.docx',to_timestamp('09/08/22 14:29:13,517000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('09/08/22 14:29:13,517000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 174 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 175 de la commande -
+Insert into "marches" ("id","dossier_id","num_ref","objet","date_appro","date_notif","montant","delai","attributaire","date_rem_sign","date_retour_sign","date_rem_enr","date_retour_enr","marche","created_at","updated_at") values ('12','3','118/2022/DMP',null,'2022-08-29','2022-07-22','14042000','120 JOURS',null,null,'2022-08-29','2022-09-01',null,'N°118.2022.DMP DPX 013.2022.pdf',to_timestamp('16/09/22 15:00:13,369000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('16/09/22 15:00:13,369000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 175 Colonne: 29
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+Validation (commit) terminée.
+
+Erreur commençant à la ligne: 180 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('38','14','39','2022-07-29','08:53','Christian KABORE',null,'43247000','43247000',null,null,null,null,null,null,null,null,to_timestamp('21/09/22 08:41:15,258000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 08:41:15,258000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 180 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 181 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('40','14','76','2022-07-29','08:04','Salifou TOE',null,'76405000',null,'0','0','0','0','0','0','0',null,to_timestamp('21/09/22 08:59:21,861000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 08:59:21,861000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 181 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 182 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('50','14','76','2022-07-29','08:04','Salifou TOE',null,'6490000',null,'0','0','0','0','0','0','0',null,to_timestamp('21/09/22 09:03:18,588000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:03:18,588000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 182 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 183 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('51','14','39','2022-07-29','08:53','Christian KABORE',null,'7434000','7434000',null,null,null,null,null,null,null,null,to_timestamp('21/09/22 09:04:19,080000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:04:19,080000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 183 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 184 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('55','61','1','2022-08-03','07:49','Yves OUEDRAOGO',null,'209874800','209874800','0','0','0','0','0','0','0',null,to_timestamp('21/09/22 10:43:18,230000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 10:43:18,230000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 184 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 185 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('56','41','27','2022-05-04','08:10','Dieudonné ZOUNGRANA',null,'28196100','28196100','0','0','0','0','0','0','0',null,to_timestamp('21/09/22 13:03:45,975000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 13:03:45,975000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 185 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 186 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('58','41','28','2022-05-04','08:15','Ousseni KOEMA',null,'25370000','25370000',null,null,null,null,null,null,null,null,to_timestamp('21/09/22 13:06:48,816000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 13:06:48,816000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 186 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 187 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('61','3','82','2022-05-06','08:02',null,null,'17617400','17617400','0','0','0','0','0','0','0',null,to_timestamp('22/09/22 13:43:17,350000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/09/22 13:43:17,350000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 187 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 188 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('65','91','99','2022-09-14','08:10','Michel NOMBRE','70 23 65 46','23718000','23718000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:11:02,163000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:11:02,163000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 188 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 189 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('66','91','100','2022-09-14','08:14','Ephraim NANGA','70520148','23777000','23777000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:12:29,979000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:12:29,979000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 189 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 190 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('68','91','102','2022-09-14','08:28',null,null,'27711356','27711356','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:15:35,361000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:15:35,361000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 190 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 191 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('70','91','104','2022-09-14','08:39','Souleymane KABRE','70 24 75 26','26550000','26550000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:18:01,554000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:18:01,554000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 191 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 192 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('71','91','105','2022-09-14','08:50','Nassirou BELEM','65 05 36 74','23466660','23466660','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:19:07,466000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:19:07,466000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 192 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 193 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('73','91','103','2022-09-14','08:33','Laurent ZONGO','25 34 63 31','17748000','17748000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:21:32,816000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:21:32,816000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 193 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 194 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('75','91','99','2022-09-14','08:10','Michel NOMBRE','70 23 65 46','499140','499140','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:23:45,915000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:23:45,915000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 194 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 195 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('76','91','102','2022-09-14','08:28',null,null,'476882','476882','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:24:35,807000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:24:35,807000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 195 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 196 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('37','14','76','2022-07-29','08:04','Salifou TOE',null,'26786000',null,null,null,null,null,null,null,null,null,to_timestamp('21/09/22 08:39:59,383000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 08:39:59,383000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 196 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 197 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('39','14','11','2022-07-29','08:59','Marthe KABORE',null,'64356501',null,'0','0','0','0','0','0','0',null,to_timestamp('21/09/22 08:58:13,347000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 08:58:13,347000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 197 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 198 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('47','14','77',null,'08:51','Cesaire GOUBA',null,'187894016','187894017','0','0','0','0','0','0','0',null,to_timestamp('21/09/22 09:00:44,201000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:00:44,201000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 198 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 199 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('62','3','84','2022-05-06','08:47',null,null,'14042000','14042000','0','0','0','0','0','0','0',null,to_timestamp('22/09/22 13:44:39,764000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/09/22 13:44:39,764000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 199 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 200 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('69','91','103','2022-09-14','08:33','Laurent ZONGO','25 34 63 31','25320000','25320000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:16:53,894000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:16:53,894000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 200 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 201 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('67','91','101','2022-09-14','08:23','Etienne COMPAORE','78 23 62 75','20550000','20550000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:13:57,209000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:13:57,209000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 201 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 202 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('72','91','106','2022-09-14','08:06','Yves Joël OUEDRAOGO','25 46 27 85','19813238','19813238','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:20:27,660000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:20:27,660000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 202 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 203 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('74','91','104','2022-09-14','08:39','Souleymane KABRE','70 24 75 26','18880000','18880000','0','0','0','0','0','0','0',null,to_timestamp('29/09/22 15:22:44,213000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:22:44,213000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 203 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 204 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('57','41','26','2022-05-04','08:18','Ezeckiel SENY',null,'25842000','25842000','0','0','0','0','0','0','0',null,to_timestamp('21/09/22 13:04:56,267000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 13:04:56,267000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 204 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 205 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('63','91','97','2022-09-14','07:38','blanche OUEDRAOGO','70 43 25 64','22243000','22243000',null,null,null,null,null,null,null,null,to_timestamp('29/09/22 15:06:56,211000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:06:56,211000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 205 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 206 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('64','91','98','2022-09-14','07:39','alassane CISSE','25 43 00 66','18804117','18804117',null,null,null,null,null,null,null,null,to_timestamp('29/09/22 15:08:37,724000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('29/09/22 15:08:37,724000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 206 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 207 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('33','20','1','2022-04-22','08:00','Yves Joël      OUEDRAOGO ','70 20 23 89','951979632','952162532','0','0','0','0','0','0','0',null,to_timestamp('10/08/22 08:42:25,674000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/08/22 08:42:25,674000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 207 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 208 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('34','20','20','2022-04-22','08:01','Constantin. A. KI-ZERBO ','25363635','1277473462',null,'0','0','0','0','0','0','0',null,to_timestamp('10/08/22 08:47:42,374000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/08/22 08:47:42,374000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 208 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 209 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('36','20','1','2022-04-22','08:00','Yves Joël      OUEDRAOGO','70 20 23 89','1087209520','1087109220','0','0','0','0','0','0','0',null,to_timestamp('10/08/22 09:01:27,701000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/08/22 09:01:27,701000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 209 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 210 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('31','10','29','2022-05-06','08:57','YAOLIRE Issa','70 13 08 96','217385925',null,'0','0','0','0','0','0','0',null,to_timestamp('03/08/22 09:04:43,847000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('03/08/22 09:04:43,847000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 210 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 211 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('32','24','Selectionner','2022-04-11','08:02','Ablassé OUEDRAOGO','70 13 08 96',null,null,'0','0','0','0','0','0','0',null,to_timestamp('08/08/22 10:17:50,752000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('08/08/22 10:17:50,752000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 211 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 212 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('35','20','20','2022-04-22','08:01','Constantin. A. KI-ZERBO ','25363635','1835622486',null,'0','0','0','0','0','0','0',null,to_timestamp('10/08/22 08:56:36,703000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/08/22 08:56:36,703000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 212 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 213 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('19','16','42','2022-03-11','08:20','Djingalo BENIN',null,'32716680',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 13:47:55,000000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 13:47:55,000000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 213 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 214 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('25','50','1','2022-05-30','08:05',null,null,'329456000',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 16:10:20,885000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 16:10:20,885000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 214 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 215 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('6','11','9','2022-02-18','08:03','Aristide OUEDRAOGO','25 40 77 91','68499994','68499994','0','0','0','0','0','0','0',null,to_timestamp('22/04/22 12:24:32,835000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/04/22 12:24:32,835000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 215 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 216 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('7','11','21','2022-02-18','08:10','Blaise SAWADOGO','25 31 34 34','76372990','76372990','0','0','0','0','0','0','0',null,to_timestamp('22/04/22 12:26:14,694000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/04/22 12:26:14,694000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 216 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 217 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('2','13','21','2022-02-21','07:43','Blaise SAWADOGO',null,'70711472','65292683','1','1','1','1','1','1','1',null,to_timestamp('15/04/22 14:04:16,555000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('15/04/22 14:04:16,555000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 217 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 218 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('3','13','10','2022-02-21','08:47','Sié KANSIE',null,'58292000','58292000','0','0','0','0','0','0','1',null,to_timestamp('20/04/22 09:40:13,560000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/04/22 09:40:13,560000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 218 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 219 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('4','13','9','2022-02-21','08:54','Aristide OUEDRAOGO',null,'66500000','66500000','1','1','1','1','1','1','1',null,to_timestamp('20/04/22 09:41:28,679000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/04/22 09:41:28,679000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 219 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 220 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('5','11','24','2022-02-18','07:48','Ghislain SANTOS','25 41 28 66','64764000','64764000','0','0','0','0','0','0','0',null,to_timestamp('22/04/22 12:22:29,941000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('22/04/22 12:22:29,941000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 220 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 221 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('9','29','12','2021-05-18','08:07','Tinto Issoufou','72 02 02 02','134000000','134000000','1','1','1','1','1','1','0',null,to_timestamp('10/05/22 15:47:01,618000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 15:47:01,618000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 221 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 222 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('20','49','25','2022-04-20','08:46','Marie Jeanne OUEDRAOGO','25 40 24 40','17924200','17924200','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 14:01:19,193000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 14:01:19,193000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 222 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 223 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('23','50','47','2022-05-30','07:50','Sonia CONCOBO',null,'319874400',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 16:08:18,705000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 16:08:18,705000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 223 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 224 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('27','50','20','2022-05-30','08:30','Patrice TOE',null,'751999859',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 16:12:25,291000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 16:12:25,291000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 224 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 225 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('28','62','41','2022-05-04','08:43','Marie OUEDRAOGO',null,'2106300','2106300','0','0','0','0','0','0','0',null,to_timestamp('03/06/22 07:50:40,235000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('03/06/22 07:50:40,235000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 225 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 226 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('42','2','34','2022-07-06','08:27','Alain YARO','25 34 15 50','44318655','43374655','0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:49:31,700000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:49:31,700000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 226 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 227 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('44','2','1','2022-07-06','07:56','Yves Joël OUEDRAOGO','25 46 27 85','110330000','110330000','0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:52:41,816000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:52:41,816000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 227 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 228 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('11','29','15','2021-05-18','08:47','Laurent Nikiema','74 04 04 04','400000000','400000000','0','0','0','0','0','0','0',null,to_timestamp('10/05/22 15:50:09,773000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 15:50:09,773000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 228 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 229 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('12','31','17','2022-04-20','07:50','MarcelCOMPAORE','78859035','47837200','47837200','0','0','0','0','0','0','0',null,to_timestamp('01/06/22 11:53:30,211000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('01/06/22 11:53:30,211000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 229 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 230 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('13','31','19','2022-04-20','07:48','Hamadou                DIANOU','25480304','48140460','48140460','0','0','0','0','0','0','0',null,to_timestamp('01/06/22 11:55:03,895000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('01/06/22 11:55:03,895000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 230 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 231 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('14','31','18','2022-04-20','08:27','Ibrahima OUEDRAOGO    ',null,'47654300','47654300','0','0','0','0','0','0','0',null,to_timestamp('01/06/22 11:56:50,132000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('01/06/22 11:56:50,132000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 231 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 232 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('21','17','11','2022-04-15','08:49','Marthe			KABORE',null,'15757691','15757693','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 14:47:38,408000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 14:47:38,408000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 232 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 233 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('22','41','10','2022-05-04','08:50','Sié KANSIE',null,'26550000','26550000','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 15:06:43,481000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 15:06:43,481000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 233 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 234 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('24','50','48','2022-05-30','07:51','Michel KABORE',null,'307241329',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 16:09:45,606000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 16:09:45,606000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 234 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 235 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('26','50','50','2022-05-30','08:25','Alice SAWADOGO',null,'307552993',null,'0','0','0','0','0','0','0',null,to_timestamp('02/06/22 16:11:18,092000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 16:11:18,092000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 235 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 236 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('1','26','10','2022-05-10','09:00','Nikiema Laurent','77505873','500000','50000','1','0','0','0','0','1','0',null,to_timestamp('10/05/22 12:26:19,933000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 12:26:19,933000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 236 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 237 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('8','26','1','2021-05-22','09:00','YAMEOGO Georges','75000000','1500000','1300000','0','0','1','1','0','0','0',null,to_timestamp('10/05/22 12:35:56,631000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 12:35:56,631000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 237 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 238 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('10','29','14','2021-05-18','08:14','ZONGO SAYOUBA','72 03 03 03','144000000','144000000','1','0','1','1','0','0','0',null,to_timestamp('10/05/22 15:48:51,835000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('10/05/22 15:48:51,835000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 238 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 239 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('15','15','38','2022-03-31','08:10','Dieudonné ZOUNGRANA','25 33 34 18','17770800','17770800','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 09:25:27,104000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 09:25:27,104000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 239 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 240 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('16','15','39','2022-03-31','08:39','Christian KABORE ','25 40 77 91','16284000','16284000','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 10:50:15,843000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 10:50:15,843000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 240 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 241 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('17','15','40','2022-03-31','08:52','Abdoulaye TIEMTORE','25 37 58 34','17013619','17013619','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 10:52:12,114000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 10:52:12,114000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 241 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 242 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('18','16','43','2022-03-11','08:52','Sinouratou		KOUANDA',null,'24119200','21759200','0','0','0','0','0','0','0',null,to_timestamp('02/06/22 13:46:30,533000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('02/06/22 13:46:30,533000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 242 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 243 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('29','62','41','2022-05-04','08:43','Marie OUEDRAOGO',null,'29923000',null,'0','0','0','0','0','0','0',null,to_timestamp('03/06/22 07:51:27,210000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('03/06/22 07:51:27,210000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 243 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 244 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('30','63','10','2022-05-06','08:48','Sié KANSIE',null,'42480000',null,'0','0','0','0','0','0','0',null,to_timestamp('03/06/22 08:06:32,074000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('03/06/22 08:06:32,074000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 244 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 245 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('41','2','1','2022-07-06','07:56','Yves Joël OUEDRAOGO','25 46 27 85','68888400','68888400','0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:48:05,428000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:48:05,428000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 245 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 246 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('43','2','61','2022-07-06','08:39','Sinclair YAO','+225 22 40 92 25','77250012','77031467','0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:51:18,906000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:51:18,906000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 246 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 247 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('45','2','62','2022-07-06','08:11','Yacouba OUAGADOGO','25 43 00 40',null,null,'0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:54:28,939000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:54:28,939000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 247 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 248 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('46','2','61','2022-07-06','08:39','Sinclair YAO','+225 22 40 92 25','88452505','91256244','0','0','0','0','0','0','0',null,to_timestamp('20/07/22 14:55:41,212000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('20/07/22 14:55:41,212000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 248 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 249 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('48','14','39','2022-07-29','08:53','Christian KABORE',null,'111510000','111510000',null,null,null,null,null,null,null,null,to_timestamp('21/09/22 09:01:44,608000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:01:44,608000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 249 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 250 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('49','14','11','2022-07-29','08:58','Marthe KABORE',null,'80578341','80578341',null,null,null,null,null,null,null,null,to_timestamp('21/09/22 09:02:32,534000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:02:32,534000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 250 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 251 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('52','14','11',null,'08:58','Marthe KABORE',null,'6564911',null,'0','0','0','0','0','0','0',null,to_timestamp('21/09/22 09:05:35,762000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 09:05:35,762000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 251 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 252 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('53','61','79','2022-08-02','15:05','El Hadj Malick FALL',null,'147259067',null,null,null,null,null,null,null,null,null,to_timestamp('21/09/22 10:40:23,578000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 10:40:23,578000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 252 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Erreur commençant à la ligne: 253 de la commande -
+Insert into "offres" ("id","dossier_id","entreprise_cons","date_depot","heure_depot","nom_prenom_dep","telephone_dep","montant_offre","montant_corrige","asf","asc","ajt","drtss","rccm","cnf","caut","fichier_caution","created_at","updated_at") values ('54','61','79','2022-08-02','15:05','El Hadj Malick FALL',null,'211101000',null,'0','0','0','0','0','0','0',null,to_timestamp('21/09/22 10:41:00,347000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('21/09/22 10:41:00,347000000','DD/MM/RR HH24:MI:SSXFF'))
+Erreur à la ligne de commande: 253 Colonne: 28
+Rapport d'erreur -
+Erreur SQL : ORA-00904: "dossier_id": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+Validation (commit) terminée.
+
+Erreur commençant à la ligne: 258 de la commande -
+Insert into "ordreservs" ("id","marche_id","ref","date_notif","date_debut","ordre","created_at","updated_at") values ('1','9',null,'2022-07-20',null,'C:\fakepath\ordre de service.pdf',to_timestamp('09/08/22 14:32:57,774000000','DD/MM/RR HH24:MI:SSXFF'),to_timestamp('09/08/22 14:32:57,774000000','DD/MM/RR HH24:MI:SSXFF'))
+Rapport d'erreur -
+ORA-02291: integrity constraint (SONABEL.ordreservs_marche_id_foreign) violated - parent key not found
+
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+Validation (commit) terminée.

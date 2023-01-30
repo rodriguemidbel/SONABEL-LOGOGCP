@@ -1,0 +1,246 @@
+<app-header></app-header>
+<div class="container">
+    <div class="search-div" [class.content]="deviceXs" >
+      <mat-card-title>Dossier</mat-card-title>
+      <mat-form-field class="search-form-field">
+      <input matInput  [(ngModel)]='filteredString' placeholder="Recherche" autocomplete="off">
+      </mat-form-field>
+
+    </div>
+
+    <button class="btn btn-md btn-outline-primary" (click)="open(content)" >
+        Ajouter</button>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date réelle de réception du  dossier technique</th>
+        <th>Service chargé du dossier technique</th>
+        <th>Ligne du PPM</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <!--<ng-container ></ng-container><tr *ngFor="let dossiertech of dossiertechs | filter:filteredString | slice: lowValue : highValue |
+      sort:['id','asc']; let i = index">-->
+      <tr *ngFor="let dossiertech of dossiertechs | filter:filteredString; let i = index">
+        <td><span>{{dossiertech.dossiertechID}}</span></td>
+        <td><span>{{dossiertech.date_tech_reel}}</span></td>
+        <td><span>{{dossiertech.service}}</span></td>
+        <td><span>{{dossiertech.designation}}</span></td>
+        <td class="action">
+          <button (click)="openDetails(contentDetails, dossiertech)"  class="btn btn-sm btn-info">
+            Details</button>
+          <button (click)="openEdit(contentEdit, dossiertech)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button (click)="openDelete(contentDelete, dossiertech)" class="btn btn-sm btn-danger">
+            Supprimer</button>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="14">
+          <mat-paginator colspan="4" [length]="dossiertechs.length" [pageSize]="pageSize"
+          (page)="getPaginatorData($event)">
+          </mat-paginator>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <!--------------------------MODAL NG TEMPLATE Nouveau dossier technique------------------------------>
+  <ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="planitem_id">Ligne plan de passation</label>
+                    <div class="input-group">
+                      <select id="planitem_id" name="planitem_id" class="form-control" ngModel placeholder="Selectionner">
+                        <option>Selectionner</option>
+                        <option *ngFor="let planitem of planitems" value={{planitem.id}}>{{planitem.designation}}</option>
+                      </select>
+                    </div>
+                </div>
+           </div>
+
+           <div class="col-md-6">
+                <div class="form-group">
+                    <label for="date_tech_reel">Date réelle de réception du  dossier technique</label>
+                    <div class="input-group">
+                      <input type="date" id="date_tech_reel" name="date_tech_reel" class="form-control" ngModel>
+                    </div>
+                </div>
+           </div>
+           <!---------------------ligne 2------------------------->
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="service">Service chargé du dossier technique</label>
+                <div class="input-group">
+                  <input type="text" id="service" name="service" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="dossiertech">Fichier</label>
+                <div class="input-group">
+
+                    <input type="file" id="dossiertech" name="dossiertech" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                </div>
+            </div>
+          </div>
+
+        <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+        </form>
+      </div>
+    <div class="modal-footer">
+
+    </div>
+
+  </ng-template>
+   <!--------------------------MODAL NG TEMPLATE dossier technique DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details d'un dossier</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div id="print-me" class="modal-body">
+      <form novalidate>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="planitem_detail">Ligne plan de passation</label>
+                <div class="input-group">
+                  <select id="planitem_detail" name="planitem_detail" class="form-control" ngModel readonly>
+                    <option>Selectionner</option>
+                    <option *ngFor="let planitem of planitems" value={{planitem.id}}>{{planitem.designation}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="date_tech_reel_detail">Date réelle de réception du  dossier technique</label>
+                <div class="input-group">
+                  <input id="date_tech_reel_detail" class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="service_detail">Service chargé du dossier technique</label>
+                <div class="input-group">
+                  <input id="service_detail" class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE dossier technique EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un dossier</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+          <div class="row">
+            <!---------------------ligne 1------------------------->
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="planitem_id">Ligne plan de passation</label>
+                  <div class="input-group">
+                    <select formControlName="planitem_id" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let planitem of planitems" value={{planitem.id}}>{{planitem.designation}}</option>
+                    </select>
+                  </div>
+              </div>
+         </div>
+
+         <div class="col-md-6">
+              <div class="form-group">
+                  <label for="date_tech_reel">Date réelle de réception du  dossier technique</label>
+                  <div class="input-group">
+                    <input formControlName="date_tech_reel" class="form-control">
+                  </div>
+              </div>
+         </div>
+         <!---------------------ligne 2------------------------->
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="service">Service chargé du dossier technique</label>
+              <div class="input-group">
+                <input type="text" formControlName="service" class="form-control"/>
+              </div>
+          </div>
+        </div>
+      <!---------------------------------------------->
+
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE dossier technique DELETE CONFIRM--------------------------------->
+
+  <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Message de confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+      </div>
+    </ng-template>
+
+        <!--*************************************************************-->
+    </div>
+
+<app-footer></app-footer>
+
+

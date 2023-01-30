@@ -29,6 +29,10 @@ class VenteService {
   findVenteID(lot_id,fournisseur_id){
     return venteDAO.findVenteID(lot_id,fournisseur_id);
   }
+
+  countVentes(annee){
+    return venteDAO.countVentes(annee);
+  }
   
 }
 

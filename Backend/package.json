@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
+    "moment": "^2.29.4",
     "multer": "^1.4.4",
     "oracledb": "^5.2.0",
     "seed": "^0.4.4"

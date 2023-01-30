@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Resultat } from '../models/resultat.model';
 import { LoginService } from '../services/login.service';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-resultat',
@@ -26,7 +27,8 @@ export class ResultatComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   title = 'Offre';
   mediaSub: Subscription;
@@ -34,7 +36,13 @@ export class ResultatComponent implements OnInit {
   resultats : any[];
   closeResult : string;
   editForm : FormGroup;
+  brandForm: FormGroup;
   deleteId : number;
+
+  usergroup_id;
+  user_id:number;
+  agent_id:number;
+  agent_name:string;
 
 
 
@@ -76,6 +84,7 @@ export class ResultatComponent implements OnInit {
     this.getOneDossier();
 
     this.getAllFrsDossier();
+    this.findLog();
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
       console.log(res.mqAlias);
@@ -95,8 +104,30 @@ export class ResultatComponent implements OnInit {
 
       } );
 
+      /*---------------*/
+  this.brandForm = this.fb.group({
+    id: [0],
+    user_id: ['', Validators.required],
+    action: ['', Validators.required]
+  });
+
+
 
   }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
+  }
+
 
   selectImage(event) {
     if (event.target.files.length > 0) {
@@ -158,6 +189,8 @@ private getDismissReason(reason: any): string {
 onSubmit(f: NgForm) {
   const url = this.base_url+'/createResultat';
 
+  let num_par_res = f.value['num_par_res'];
+
   f.value['fichierpub'] = this.fileresultat;
   f.value['fichierlitige'] = this.filedecision;
 
@@ -181,6 +214,16 @@ onSubmit(f: NgForm) {
     (err) => console.log(err)
   );
   this.modalService.dismissAll(); //dismiss the modal
+
+   /* -----------------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Enregistrement de la publication de resultat N° '+num_par_res+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 
@@ -210,6 +253,16 @@ onSave() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+  /* -----------------*/
+  this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Modification de la publication de resultat N° '+this.editForm.value.num_par_res+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 openDelete(targetModal, resultat: Resultat) {
@@ -227,6 +280,16 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+  /* -----------------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Suppression de la publication de resultat ID : '+this.deleteId+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 /*----------------------------------*/

@@ -7,6 +7,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Courrier } from '../models/courrier.model';
 import { LoginService } from '../services/login.service';
+import { Dossier } from '../models/dossier.model';
 
 
 @Component({
@@ -29,8 +30,8 @@ export class CourrierComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
-
+  //dossiers : any[];
+  dossiers : Dossier;
   images;
 
   filename: string;

@@ -171,6 +171,8 @@
 </mat-toolbar>
 <!-- Menu Items -->
 <mat-menu #menu="matMenu" fxLayoutAlign="end">
+  <button style="background-color:green;color:whitesmoke" mat-menu-item><mat-icon color="warn">account_circle</mat-icon>{{username}}</button>
+
   <button mat-menu-item><mat-icon color="primary">admin_panel_settings</mat-icon>Changer mon mot de passe</button>
   <button mat-menu-item routerLink="/login"><mat-icon color="primary">https</mat-icon>Se deconnecter</button>
 </mat-menu>

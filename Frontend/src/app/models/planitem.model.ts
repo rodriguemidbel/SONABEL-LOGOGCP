@@ -16,11 +16,10 @@ export class Planitem {
     public composante: string,
     public montant_dispo: number,
     public designation: string,
-    public type_id: number,
-    public type: string,
+    public type: number,
     public mode: string,
     public nbr_lot: number,
-    public agent: string,
+    public agent_id: number,
     public date_tech: string,
     public date_tech_reel: string,
     public date_dgcmef: string,
@@ -39,7 +38,7 @@ export class Planitem {
     public date_butoir: string,
     public date_reel_fin: string,
     public budget_travaux: number,
-    public item_statut: string,
+    public statut: string,
     public observation: string
 
 

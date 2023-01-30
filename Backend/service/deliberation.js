@@ -2,8 +2,10 @@ const deliberationDAO = require('../dao/deliberation');
 
 class deliberationService {
   createDeliberation(DeliberationDto) {
-    const { dossier_id,date_convocation,date_transpv_sign,date_retourpv_sign,date_transpv_dgcmef,pvdeliberation } = DeliberationDto;
-    return deliberationDAO.createDeliberation(dossier_id,date_convocation,date_transpv_sign,date_retourpv_sign,date_transpv_dgcmef,pvdeliberation);
+    const { dossier_id,date_convocation,date_transpv_sign,date_retourpv_sign,date_transpv_dgcmef,
+      pvdeliberation } = DeliberationDto;
+    return deliberationDAO.createDeliberation(dossier_id,date_convocation,date_transpv_sign,date_retourpv_sign,date_transpv_dgcmef,
+      pvdeliberation);
   };
   getAllDeliberation() {
     return deliberationDAO.getAllDeliberation();

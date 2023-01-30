@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class PlanitemComponent implements OnInit {
   localisations: Localisation[];
   closeResult : string;
   editForm : FormGroup;
+  brandForm : FormGroup;
   annee : number;
   deleteId : number;
 
@@ -80,15 +82,23 @@ export class PlanitemComponent implements OnInit {
   alphas :any = [];
 
    /*--------------*/
-   usergroup_id;
+
 
    view:number=0;
    add:number=0;
    edit:number=0;
    remove:number=0;
-    /*------------------------------------------------*/
-    agent_id:number;
+   /*------------------------------------------------*/
+   user_id;
+   username;
+   usergroup_id;
+   agent_id;
+
+   agent_name;
+
     cpt:number=0;
+
+    current_date:string;
 
   constructor(private httpclient : HttpClient,
     private modalService: NgbModal,
@@ -99,6 +109,14 @@ export class PlanitemComponent implements OnInit {
 
     this.base_url = this.loginService.base_url();
     //this.getAllPlanitem();
+    /*-------------------------*/
+      this.user_id = localStorage.getItem('userID');
+      this.username = localStorage.getItem('userName');
+      this.usergroup_id = localStorage.getItem('userGroupID');
+      this.agent_id = localStorage.getItem('agentID');
+    /*--------------------------*/
+      this.agent_name = localStorage.getItem('userName');
+
     this.getAllPlan();
     this.getAllBudget();
     this.getAllMode();
@@ -122,7 +140,6 @@ export class PlanitemComponent implements OnInit {
       centre_cout: [''],
       projet: [''],
       localisation: [''],
-      responsable: [''],
       montant_estime: [''],
       composante: [''],
       montant_dispo: [''],
@@ -130,7 +147,8 @@ export class PlanitemComponent implements OnInit {
       type: [''],
       mode: [''],
       nbr_lot: [''],
-      agent: [''],
+      responsable: [''],
+      agent_id: [''],
       date_tech: [''],
       date_dgcmef: [''],
       date_off: [''],
@@ -144,18 +162,20 @@ export class PlanitemComponent implements OnInit {
       budget_travaux: [''],
       statut: [''],
       observation: ['']
-
-
     } );
 
+    /*---------------*/
+    this.brandForm = this.fb.group({
+      id: [0],
+      user_id: ['', Validators.required],
+      action: ['', Validators.required]
+    });
+    /*---------------*/
+    let y = new Date();
+    this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
   }
 
   findLog(){
-    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
-      response => {
-        //console.log(response);
-        this.usergroup_id = response[0]['usergroup_id'];
-        this.agent_id = response[0]['agent_id'];
         let fonct = 6;
 
         //console.log('usergroup_id : '+this.usergroup_id+' Fonc : '+fonct);
@@ -176,7 +196,8 @@ export class PlanitemComponent implements OnInit {
         }
         /*====================*/
         var ladate = new Date();
-        this.annee= ladate.getFullYear();
+        //this.annee= ladate.getFullYear();
+        this.annee = 2022;
         if(this.usergroup_id == 5)
         {
             if(this.agent_id)
@@ -209,10 +230,6 @@ export class PlanitemComponent implements OnInit {
           );
 
         }
-
-
-      }
-    );
   }
 
   getAllPlanitem(){
@@ -255,13 +272,31 @@ export class PlanitemComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const url = this.base_url+'/createPlanitem';
+     const url = this.base_url+'/createPlanitem';
+     /*--------------------------*/
+     let designation = f.value['designation'];
+     /*--------------------------*/
+
+    console.log('Ligne PPM : '+f.value);
+
     this.httpclient.post(url, f.value)
       .subscribe((result) => {
         this.toastr.success("Enregistrement effectuer avec succés");
         this.ngOnInit(); //reload the table
       });
     this.modalService.dismissAll(); //dismiss the modal
+
+    /* -----------------*/
+     this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Création d\' une ligne de PPM : '+designation+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+     this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+   /* -----------------*/
+
   }
 
   private getDismissReason(reason: any): string {
@@ -277,7 +312,7 @@ export class PlanitemComponent implements OnInit {
   getAllPlan(){
     this.httpclient.get<any>(this.base_url+'/getAllPlan').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.plans = response;
 
       }
@@ -287,7 +322,7 @@ export class PlanitemComponent implements OnInit {
   getAllBudget(){
     this.httpclient.get<any>(this.base_url+'/getAllBudget').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.budgets = response;
 
       }
@@ -297,7 +332,7 @@ export class PlanitemComponent implements OnInit {
   getAllTypcredit(){
     this.httpclient.get<any>(this.base_url+'/getAllTypcredit').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.typcredits = response;
 
       }
@@ -307,7 +342,7 @@ export class PlanitemComponent implements OnInit {
   getAllImmobilisation(){
     this.httpclient.get<any>(this.base_url+'/getAllImmobilisation').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.immobilisations = response;
 
       }
@@ -317,7 +352,7 @@ export class PlanitemComponent implements OnInit {
   getAllCredit(){
     this.httpclient.get<any>(this.base_url+'/getAllCredit').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.credits = response;
 
       }
@@ -327,7 +362,7 @@ export class PlanitemComponent implements OnInit {
   getAllAgent(){
     this.httpclient.get<any>(this.base_url+'/getAllAgent').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.agents = response;
 
       }
@@ -338,7 +373,7 @@ export class PlanitemComponent implements OnInit {
   getAllMode(){
     this.httpclient.get<any>(this.base_url+'/getAllMode').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.modes = response;
 
       }
@@ -348,7 +383,7 @@ export class PlanitemComponent implements OnInit {
   getAllType(){
     this.httpclient.get<any>(this.base_url+'/getAllType').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.types = response;
 
       }
@@ -358,7 +393,7 @@ export class PlanitemComponent implements OnInit {
   getAllLocalisation(){
     this.httpclient.get<any>(this.base_url+'/getAllLocalisation').subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.localisations = response;
 
       }
@@ -386,11 +421,11 @@ export class PlanitemComponent implements OnInit {
 
     document.getElementById('montant_dispo').setAttribute('value', planitem.montant_dispo.toString());
     document.getElementById('designation').setAttribute('value', planitem.designation);
-    document.getElementById('type').setAttribute('value', planitem.type);
+    document.getElementById('type').setAttribute('value', planitem.type.toString());
     document.getElementById('mode').setAttribute('value', planitem.mode);
     document.getElementById('nbr_lot').setAttribute('value', planitem.nbr_lot.toString());
 
-    document.getElementById('agent').setAttribute('value', planitem.agent);
+    document.getElementById('agent').setAttribute('value', planitem.agent_id.toString());
     document.getElementById('date_tech').setAttribute('value', planitem.date_tech);
     document.getElementById('date_dgcmef').setAttribute('value', planitem.date_dgcmef);
     document.getElementById('date_off').setAttribute('value', planitem.date_off);
@@ -404,7 +439,7 @@ export class PlanitemComponent implements OnInit {
 
     document.getElementById('date_butoir').setAttribute('value', planitem.date_butoir);
     document.getElementById('budget_travaux').setAttribute('value', planitem.budget_travaux.toString());
-    document.getElementById('statut').setAttribute('value', planitem.item_statut);
+    document.getElementById('statut').setAttribute('value', planitem.statut);
     document.getElementById('observation').setAttribute('value', planitem.observation);
 
   }
@@ -433,7 +468,7 @@ export class PlanitemComponent implements OnInit {
       type: planitem.type,
       mode: planitem.mode,
       nbr_lot: planitem.nbr_lot,
-      agent: planitem.agent,
+      agent_id: planitem.agent_id,
       date_tech: planitem.date_tech,
       date_dgcmef: planitem.date_dgcmef,
       date_off: planitem.date_off,
@@ -445,7 +480,7 @@ export class PlanitemComponent implements OnInit {
       delai_exe: planitem.delai_exe,
       date_butoir: planitem.date_butoir,
       budget_travaux: planitem.budget_travaux,
-      statut: planitem.item_statut,
+      statut: planitem.statut,
       observation: planitem.observation
 
     });
@@ -460,6 +495,17 @@ export class PlanitemComponent implements OnInit {
         this.modalService.dismissAll();
         this.toastr.warning("Modification effectuer avec succés");
       });
+
+    /* -----------------*/
+     this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification d\' une ligne de PPM : '+this.editForm.value.designation+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+     this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+   /* -----------------*/
   }
 
   openDelete(targetModal, planitem: Planitem) {
@@ -477,6 +523,17 @@ export class PlanitemComponent implements OnInit {
         this.ngOnInit();
         this.modalService.dismissAll();
       });
+
+    /* -----------------*/
+     this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression d\' une ligne de PPM : '+this.deleteId+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+     this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+   /* -----------------*/
   }
 
   /*----******/
@@ -529,14 +586,26 @@ export class PlanitemComponent implements OnInit {
 
     d.value['dossier'] = this.filename;
 
+    let num_doss = d.value['numero_doss'];
+
     this.httpclient.post(url, d.value)
       .subscribe((result) => {
         this.toastr.success("Enregistrement effectuer avec succés");
-        this.ngOnInit(); //reload the table
+       // this.ngOnInit(); //reload the table
+             /* -----------------*/
+             this.brandForm.patchValue({
+              user_id: this.user_id,
+              action: 'Création du dossier N° '+num_doss+' par '+this.agent_name
+            });
+            //console.log(this.brandForm.value);
+            this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+              this.ngOnInit();
+            });
+           /* -----------------*/
       });
     //this.modalService.dismissAll(); //dismiss the modal
     /*-----------------*/
-    console.log("Nom dossier upload : " +this.filename);
+    //console.log("Nom dossier upload : " +this.filename);
     const formData = new FormData();
     formData.append('file', this.images);
     //console.log(formData);

@@ -1,0 +1,187 @@
+<app-headerproc [deviceXs]="deviceXs"></app-headerproc>
+<article [class.content]="!deviceXs" [class.content-mob]="deviceXs" (scroll)="onScroll($event)">
+  <mat-toolbar>
+    <button *ngIf="deviceXs" type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p *ngIf="!deviceXs" >Dossier N° : {{dossiers['numero_doss']}}  | {{dossiers['intitule_doss']}}</p>
+    <p *ngIf="deviceXs" class="font-size">Dossier N° : {{dossiers['numero_doss']}} </p>
+  </mat-toolbar>
+
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer [mode]="deviceXs?'over':'side'" [opened]="deviceXs?false:true" position="start" fxFlex="40"
+      fxLayout="column" fxLayoutAlign="start space-between" [style.marginTop.px]="10" [style.top.px]="sideBarScroll()">
+       <!--Menu Selection-->
+       <app-selec-menu></app-selec-menu>
+       <!------------------>
+    </mat-drawer>
+    <mat-drawer-content>
+
+      <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+        <div class="border">
+          <button (click)="open(content)" class="btn btn-md btn-outline-primary">
+            Ajouter</button>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>DATE</th>
+            <th>RAPPORT</th>
+            <th>Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let scamrapport of scamrapports">
+            <td><span>{{scamrapport.id}}</span></td>
+            <td><span>{{scamrapport.date_cam_rap}}</span></td>
+            <td><span>{{scamrapport.rapport_cam}}</span></td>
+            <td>
+              <button (click)="openDetails(contentDetails, scamrapport)"  class="btn btn-sm btn-info">
+                Details</button>
+              <button (click)="openEdit(contentEdit, scamrapport)" class="btn btn-sm btn-warning">
+                Modifier</button>
+              <button (click)="openDelete(contentDelete, scamrapport)"class="btn btn-sm btn-danger">
+                Supprimer</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!--------------------------MODAL NG TEMPLATE ADD NEW CAMINV------------------------------------>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+              <div class="form-group">
+                <label for="dossier_id">Dossier</label>
+                <div class="input-group">
+                  <input type="text" id="dossier_id" name="dossier_id" class="form-control" ngModel>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="date_scam_rap">Date</label>
+                <div class="input-group">
+                  <input type="date" id="date_scam_rap" name="date_scam_rap" class="form-control" ngModel>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="rapport_scam">Rapport de la sous-commission</label>
+                <div class="input-group">
+                  <input type="text" id="rapport_scam" name="rapport_scam" class="form-control" ngModel>
+                </div>
+              </div>
+              <div class="border text-center">
+                <button data-dismiss="modal" class="btn btn-info">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE caminv DETAILS------------------------------------>
+        <ng-template #contentDetails let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Rapport Sous CAM details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="dossierid_detail">Dossier</label>
+                <div class="input-group">
+                  <input id="dossierid_detail" name="dossier_id" class="form-control" ngModel>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="datcam_detail">Date</label>
+                <div class="input-group">
+                  <input id="datcam_detail" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="rapport_detail">Rapport de la commission</label>
+                <div class="input-group">
+                  <input id="rapport_detail" class="form-control">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+        </ng-template>
+        <!--------------------------MODAL NG TEMPLATE caminv EDIT---------------------------------->
+        <ng-template #contentEdit let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Modifier rapport CAM</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editForm" novalidate>
+              <div class="form-group">
+               <label for="id">Id</label>
+               <div class="input-group">
+                  <input formControlName="id" class="form-control">
+               </div>
+             </div>
+             <div class="form-group">
+              <label for="dossier_id">Dossier</label>
+              <div class="input-group">
+                <input type="text" id="dossier_id" name="dossier_id" class="form-control" ngModel>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="date_scam_rap">Date</label>
+              <div class="input-group">
+                <input type="date" id="date_scam_rap" name="date_scam_rap" class="form-control" ngModel>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rapport_scam">Rapport de la commission</label>
+              <div class="input-group">
+                <input type="text" id="rapport_scam" name="rapport_scam" class="form-control" ngModel>
+              </div>
+            </div>
+              <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button> </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+        </ng-template>
+
+        <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+        <ng-template #contentDelete let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Confirm Delete</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+            <div class="border text-center">
+              <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Oui, Supprimer!</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+          </div>
+        </ng-template>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</article>
+

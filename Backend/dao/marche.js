@@ -108,10 +108,10 @@ class MarcheDAO {
       .where({mar_doss_id})
   };
 
-  async getMarche() {
+  /*async getMarche() {
     return await db('marches')
     .join('lots','lots.id','marches.lot_id')
-    .join('dossiers','dossiers.id', 'marches.dossier_id')
+    .join('dossiers','dossiers.id', 'marches.mar_doss_id')
     .join('planitems', 'planitems.id', 'dossiers.planitem_id')
     .join('plans', 'plans.id', 'planitems.plan_id')
     .select(
@@ -134,7 +134,6 @@ class MarcheDAO {
       'planitems.designation as designation',
       'planitems.mode as mode',
       'planitems.nbr_lot as nbr_lot',
-      'planitems.agent as agent',
       'planitems.date_tech as date_tech',
       'planitems.date_dgcmef as date_dgcmef',
       'planitems.date_dgcmef_reel as date_dgcmef_reel',
@@ -169,6 +168,25 @@ class MarcheDAO {
       'marches.date_notif as date_notif'
       
     )
+  };*/
+
+  async getMarche() {
+    return await db('marches')
+    .join('dossiers','dossiers.id', 'marches.mar_doss_id')
+    .select(
+      'dossiers.numero_doss as numero_doss',
+      'dossiers.intitule_doss as intitule_doss',
+      'dossiers.date_trans_sign as date_trans_sign',
+      'dossiers.date_retour_sign as date_retour_sign',
+      'dossiers.date_trans_dgcmef as date_trans_dgcmef',
+      'dossiers.taux_avencement as taux_avencement',
+      'dossiers.taux_avencement as days',
+      'dossiers.dossier as dossier',
+      'marches.date_notif as date_notif',
+      'marches.num_ref as num_ref',
+      'marches.objet as objet',
+      'marches.montant_total as montant_total'
+    )
   };
 
   async nbrPassMarche(annee) {
@@ -179,6 +197,21 @@ class MarcheDAO {
     .count('marches.id as nbr_marche')
     .whereNotNull('date_appro')
   };
+
+
+  async marcheGroupByDoss() {
+    return await db('marches')
+    .join('dossiers','dossiers.id', 'marches.mar_doss_id')
+    .select(
+      'dossiers.id as dossierID',
+      'dossiers.numero_doss as numero_doss',
+      'marches.num_ref as num_ref',
+      'marches.objet as objet'
+    )
+  };
+
+
+  
 
  
 }

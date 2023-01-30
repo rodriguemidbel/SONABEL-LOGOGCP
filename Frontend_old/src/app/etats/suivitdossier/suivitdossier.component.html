@@ -1,0 +1,235 @@
+<app-header></app-header>
+<!------------------------Title bar------------------------------------------>
+<mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Suivi ligne du plan de passation </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+    <table class="table">
+      <thead>
+      <tr>
+        <th>PPM</th>
+        <th>Immobilisation</th>
+        <th>Crédit</th>
+        <th>Centre de cout</th>
+        <th>Direction</th>
+        <th>Nature des prestations</th>
+        <th>Type marché</th>
+        <th>Mode de passation</th>
+        <th>Service</th>
+        <th>Agent</th>
+        <th>Date prévue dossier technique</th>
+        <th>Date réelle dossier technique</th>
+        <th>Service chargé du dossier technique</th>
+        <th>Intitulé du dossier </th>
+        <th>Réf. du Dossier</th>
+        <th>Date de transmission pour signature</th>
+        <th>Date de retour de signature</th>
+         <th>Date prévue lancement</th>
+         <th>Date réelle lancement</th>
+         <th>Date prévue offre</th>
+         <th>Date réelle offre</th>
+         <th>Délai d'exécution prévu (jours)</th>
+         <th>Délai réel d'exécution (jours) </th>
+         <th>Date butoir </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let planitem of planitems | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{planitem.annee}}</span></td>
+        <td><span>{{planitem.immobilisation}}</span></td>
+        <td><span>{{planitem.credit}}</span></td>
+        <td><span>{{planitem.centre_cout}}</span></td>
+        <td><span>{{planitem.localisation}}</span></td>
+        <td><span>{{planitem.designation}}</span></td>
+        <td><span></span></td>
+        <td><span>{{planitem.mode}}</span></td>
+        <td><span></span></td>
+        <td><span>{{planitem.agent}}</span></td>
+        <td><span>{{planitem.date_tech}}</span></td>
+        <td><span>{{planitem.date_tech}}</span></td>
+        <td><span></span></td>
+        <td><span>{{planitem.intitule_doss}}</span></td>
+        <td><span>{{planitem.numero_doss}}</span></td>
+        <td><span>{{planitem.date_trans_sign}}</span></td>
+        <td><span>{{planitem.date_retour_sign }}</span></td>
+        <td><span>{{planitem.date_dgcmef }}</span></td>
+        <td><span>{{planitem.date_dgcmef_reel }}</span></td>
+        <td><span>{{planitem.date_off }}</span></td>
+        <td><span>{{planitem.date_off_reel}}</span></td>
+        <!--<td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>
+        <td><span></span></td>-->
+        <td><span>{{planitem.delai_exe}}</span></td>
+        <td><span>{{planitem.delai_reel_exe}}</span></td>
+        <td><span>{{planitem.date_butoir}}</span></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="6">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+   <!--------------------------MODAL NG TEMPLATE PLANITEM DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details suivi ligne du plan de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div id="print-me" class="modal-body">
+      <form novalidate>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <!--<button class="btn btn-md btn-outline-primary"
+              printTitle="Ligne plan de passation"
+              printSectionId="print-me"
+              styleSheetFile="assets/pdf.css"
+              ngxPrint>
+              Imprimer</button>-->
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE PLANITEM EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Suivi ligne du plan de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+        <div class="row">
+              <!---------------------ligne 1------------------------->
+            <input type="hidden" formControlName="id" class="form-control">
+            <div class="col-md-3">
+              <div class="form-group">
+                  <label for="plan_id">Plan</label>
+                  <div class="input-group">
+                    <select formControlName="plan_id" class="form-control">
+                      <option>Selectionner</option>
+                      <option *ngFor="let plan of plans" value={{plan.id}}>{{plan.annee}}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                  <label for="designation">Désignation</label>
+                  <div class="input-group">
+                    <input formControlName="designation" class="form-control">
+                  </div>
+              </div>
+            </div>
+            <!-------------------------------------Ligne 2---------------------------------------------------------->
+            <div class="col-md-4">
+              <div class="form-group">
+                  <label for="date_dgcmef_reel">Date réelle de lancement par la DGCMEF</label>
+                  <div class="input-group">
+                    <input type="date" formControlName="date_dgcmef_reel" class="form-control">
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="date_off_reel">Date réelle de remise des offres</label>
+                      <div class="input-group">
+                        <input type="date" formControlName="date_off_reel" class="form-control">
+                      </div>
+                  </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                  <label for="temp_reel">Durée réelle d'évaluation des offres/Propositions (jours)</label>
+                  <div class="input-group">
+                    <input type="date" formControlName="temp_reel" class="form-control">
+                  </div>
+              </div>
+            </div>
+
+            <!--------------------------Ligne3------------------------------------------------------>
+            <div class="col-md-4">
+              <div class="form-group">
+                  <label for="date_reel_demarrage">Date reélle de demarrage des travaux</label>
+                  <div class="input-group">
+                    <input type="date" formControlName="date_reel_demarrage" class="form-control">
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="delai_reel_exe">Délai réel d'exécution (jours)</label>
+                        <div class="input-group">
+                          <input type="number" formControlName="delai_reel_exe" class="form-control">
+                        </div>
+                    </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label for="date_reel_fin">Date réel de fin</label>
+                    <div class="input-group">
+                      <input type="date" formControlName="date_reel_fin" class="form-control">
+                    </div>
+                </div>
+              </div>
+
+            <!---------------------------------------------->
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()">Modifer</button> </div>
+
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+
+</div>
+
+<app-footer></app-footer>
+

@@ -1,0 +1,178 @@
+<app-header></app-header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+
+
+                    <div class="form-group">
+                      <mat-form-field>
+                         <input type="text" matInput [matAutocomplete]="auto"  [formControl]="myControl"/>
+                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                             {{option}}
+                            </mat-option>
+                         </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+
+                  <!------------------------------->
+
+                          <div class="form-group">
+                              <label for="planitem_id">Ligne plan de passation</label>
+                              <div class="input-group">
+                                <select   id="planitem_id" name="planitem_id" class="form-control" ngModel>
+                                  <option>Selectionner</option>
+                                  <option *ngFor="let planitem of planitems" value={{planitem.id}}>{{planitem.num_ordre}} - {{planitem.budget}}- {{planitem.designation}}</option>
+                                </select>
+                              </div>
+                          </div>
+
+
+
+                          <div class="form-group">
+                              <label for="numero_doss">N° dossier</label>
+                              <div class="input-group">
+                                <input type="text" id="numero_doss" name="numero_doss" class="form-control" ngModel>
+                              </div>
+                          </div>
+
+                      <div class="form-group">
+                          <label for="intitule_doss">Intitulé dossier</label>
+                          <div class="input-group">
+
+                            <textarea id="intitule_doss" name="intitule_doss" class="form-control" ngModel></textarea>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="date_trans_sign">Date de transmission pour signature</label>
+                          <div class="input-group">
+                            <input type="date" id="date_trans_sign" name="date_trans_sign" class="form-control" ngModel/>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="date_retour_sign">Date de retour de signature</label>
+                          <div class="input-group">
+                            <input type="date" id="date_retour_sign" name="date_retour_sign" class="form-control" ngModel/>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="date_trans_dgcmef">Date de transmission à la DGCMEF</label>
+                          <div class="input-group">
+                            <input type="date" id="date_trans_dgcmef" name="date_trans_dgcmef" class="form-control" ngModel/>
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="dossier">Fichier</label>
+                          <div class="input-group">
+
+                              <input type="file" id="dossier" name="dossier" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                          </div>
+                      </div>
+                    <!-------  ------------>
+                    <br><br><br>
+
+                        <input type="file" class="file-input"
+                        [accept]="requiredFileType"
+                        (change)="onFileSelected($event)" #fileUpload>
+
+                        <div class="file-upload">
+
+                            {{fileName || "No file uploaded yet."}}
+
+                            <button mat-mini-fab color="primary" class="upload-btn"
+                              (click)="fileUpload.click()">
+                                <mat-icon>attach_file</mat-icon>
+
+                            </button>
+
+                        </div>
+
+                        <div class="progress">
+
+                          <mat-progress-bar class="progress-bar" mode="determinate"
+                                            [value]="uploadProgress" *ngIf="uploadProgress">
+
+                          </mat-progress-bar>
+
+                          <mat-icon class="cancel-upload" (click)="cancelUpload()"
+                                    *ngIf="uploadProgress">delete_forever</mat-icon>
+
+                        </div>
+
+                  <!---------------------------------------------->
+
+
+                      <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+                      <button type="button" class="btn btn-outline-dark" >Annuler</button>
+                    <br><br><br>
+
+                </form>
+            </div>
+        </div>
+      </div>
+        <!----------------------------------------------------->
+      <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Liste des dossiers</div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Numero</th>
+                    <th>Intitulé</th>
+                    <th>Ligne du PPM</th>
+                    <th>Fichier</th>
+                    <th>Action(s)</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <!--<tr *ngFor="let dossier of dossiers | filter:filteredString | slice: lowValue : highValue |
+                  sort:['id','asc']; let i = index">-->
+
+                  <tr *ngFor="let dossier of dossiers | filter:filteredString; let i = index">
+
+                    <td><span>{{dossier.dossierID}}</span></td>
+                    <td><span>{{dossier.numero_doss}}</span></td>
+                    <td><span>{{dossier.intitule_doss}}</span></td>
+                    <td><span>{{dossier.designation}}</span></td>
+                    <td><span>{{dossier.dossier}}</span></td>
+                    <td class="action">
+                      <!--<mat-icon (click)="openDetails(contentDetails, dossier)">done</mat-icon>
+                      <mat-icon color="primary" (click)="openEdit(contentEdit, dossier)">mode_edit</mat-icon>
+                      <mat-icon color="warn" (click)="openDelete(contentDelete, dossier)">delete</mat-icon>
+                      <mat-icon color="primary"  (click)="openLots(contentLot, dossier)">folder_open</mat-icon>-->
+                      <button (click)="delete(dossier.dossierID)" class="btn btn-sm btn-danger">
+                        <span>Supprimer</span>
+                      </button>
+
+                      <!-- <button (click)="openLots(contentLot, dossier)"  class="btn btn-sm btn-success">
+                          Lot</button>-->
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="14">
+                      <mat-paginator colspan="4" [length]="dossiers.length" [pageSize]="pageSize"
+                      (page)="getPaginatorData($event)">
+                      </mat-paginator>
+
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-footer></app-footer>

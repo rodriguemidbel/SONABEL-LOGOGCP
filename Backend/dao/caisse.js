@@ -26,6 +26,7 @@ class CaisseDAO {
     .join('fournisseurs', 'fournisseurs.id', 'ventes.fournisseur_id')
     .select(
       'planitems.mode as mode',
+      'dossiers.numero_doss as numero_doss',
       'lots.id as lotID',
       'lots.num_lot as num_lot',
       'lots.intitule_lot as intitule_lot',
@@ -102,6 +103,17 @@ class CaisseDAO {
         
     )
     .where({vente_id})
+  };
+
+  async countCaisses(annee) {
+    return await db('caisses')
+    .join('ventes', 'ventes.id', 'caisses.vente_id')
+    .join('lots', 'lots.id', 'ventes.lot_id')
+    .join('dossiers', 'dossiers.id', 'lots.dossier_id')
+    .join('planitems', 'planitems.id', 'dossiers.planitem_id')
+    .join('plans', 'plans.id', 'planitems.plan_id')
+    .count('caisses.id as nbr')
+    .where({annee})
   };
 
 

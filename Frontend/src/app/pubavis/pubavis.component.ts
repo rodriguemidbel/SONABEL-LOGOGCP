@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Avis } from '../models/avis.model';
 import { Pubavis } from '../models/pubavis.model';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-pubavis',
@@ -26,7 +27,8 @@ export class PubavisComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
   aviFichier: string;
 
   avis : any[];
@@ -70,7 +72,7 @@ export class PubavisComponent implements OnInit {
   this.getOneDossier();
 
   this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-    console.log(res.mqAlias);
+    //console.log(res.mqAlias);
     this.deviceXs = res.mqAlias === "xs" ? true : false;
   })
 
@@ -118,7 +120,7 @@ export class PubavisComponent implements OnInit {
 getAvis(){
   this.httpclient.get<any>(this.base_url+'/findPubavis/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.avis = response;
 
     }
@@ -142,7 +144,7 @@ imprimerRecu(avi_id){
 getOneAvi(){
   this.httpclient.get<any>(this.base_url+'/getOneAvi/'+this.deleteId).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.avis = response;
 
 
@@ -180,15 +182,15 @@ onSubmit(f: NgForm) {
       this.ngOnInit(); //reload the table
     });
   /*-----------------*/
-   console.log("Nom dossier upload : " +this.filename);
-   const formData = new FormData();
+   //console.log("Nom dossier upload : " +this.filename);
+   /*const formData = new FormData();
    formData.append('file', this.images);
 
    this.httpclient.post<any>(this.base_url+'/file', formData).subscribe(
      (res) => console.log(res),
      (err) => console.log(err)
    );
-  /* -----------------*/
+  -------------*/
   this.modalService.dismissAll(); //dismiss the modal
 }
 
@@ -223,7 +225,7 @@ openEdit(targetModal, pub: Pubavis) {
 
 onSave() {
   const editURL = this.base_url+'/updatePubavis/' + this.editForm.value.id;
-  console.log(this.editForm.value);
+  //console.log(this.editForm.value);
   this.httpclient.patch(editURL, this.editForm.value)
     .subscribe((results) => {
       this.ngOnInit();
@@ -258,7 +260,7 @@ ngOnDestroy() {
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.dossiers = response;
       //$scope.displaydash.dossiers = response.data;
     }

@@ -27,7 +27,7 @@
 
    <!--END FILTER---------------------------------->
 <article>
-  <div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+  <div class="table-responsive" style="max-height:480px !important;overflow-y:scroll !important;" >
       <mat-drawer-container class="example-container">
         <mat-drawer-content>
           <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
@@ -44,7 +44,7 @@
                 <p>Date de demarrage : {{dossier.date_prob_demarrage}} </p>
               </mat-card-content>
               <mat-card-actions>
-                <button *ngIf="add == 1" (click)="gotoExecution(dossier.id)" class="btn btn-sm btn-info" mat-button>Sélection</button>
+                <button *ngIf="add == 1" (click)="gotoSelection(dossier.id)" class="btn btn-sm btn-info" mat-button>Sélection</button>
               </mat-card-actions>
             </mat-card>
           </div>

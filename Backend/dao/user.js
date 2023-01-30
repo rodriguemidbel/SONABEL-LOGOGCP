@@ -47,14 +47,14 @@ class UserDAO {
         'users.name as userName',
         'users.username as login',
         'users.password as password',
-        'users.isconnected as isconnected'
+        'users.agent_id as agent_id'
       )
       .where({usergroup_id})
   };
 
   async login(username,password) {
-    return await db('usergroups')
-      .join('users', 'usergroups.id', 'users.usergroup_id')
+    return await db('users')
+      .join('usergroups', 'usergroups.id', 'users.usergroup_id')
       .select(
         'usergroups.id as groupID',
         'usergroups.name as groupName',
@@ -62,7 +62,7 @@ class UserDAO {
         'users.name as name',
         'users.username as username',
         'users.password as password',
-        'users.isconnected as isconnected'
+        'users.agent_id as agent_id'
       )
       .where({username,password})
   };

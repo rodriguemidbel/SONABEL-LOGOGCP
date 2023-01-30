@@ -70,11 +70,13 @@
           <button mat-menu-item routerLink="/tauxagent">Taux par Agent</button>
           <button mat-menu-item routerLink="/dossierinfructueux">Liste des dossiers</button>
           <button mat-menu-item routerLink="/lotinfructueux">Liste des lots</button>
-          <!--<button mat-menu-item routerLink="/etatvente">Etat des ventes</button>-->
+
           <button style="width: 400px;" mat-menu-item routerLink="/vente-dossier">Etat des ventes des dossiers </button>
           <button mat-menu-item routerLink="/paiement-dossier">Etat des Paiements des dossiers</button>
 
           <button mat-menu-item routerLink="/dossier-agent">Liste des dossiers par agent  </button>
+
+          <button mat-menu-item routerLink="/dossier-mode">Execution du PPM</button>
 
           <button mat-menu-item routerLink="/suivi-facture">Suivi de traitement des factures </button>
           <button mat-menu-item routerLink="/suivi-marche">Tableau de bord des marchés </button>
@@ -170,6 +172,8 @@
 
       <button mat-menu-item routerLink="/dossier-agent">Liste des dossiers par agent  </button>
 
+      <button mat-menu-item routerLink="/dossier-mode">Execution du PPM</button>
+
       <button mat-menu-item routerLink="/suivi-facture">Suivi de traitement des factures </button>
       <button mat-menu-item routerLink="/suivi-marche">Tableau de bord des marchés </button>
       <button mat-menu-item routerLink="/marche-exe">Suivi de l'éxécution des marchés </button>
@@ -179,6 +183,8 @@
 </mat-toolbar>
 <!-- Menu Items -->
 <mat-menu #menu="matMenu" fxLayoutAlign="end">
+  <button style="background-color:green;color:whitesmoke" mat-menu-item><mat-icon color="warn">account_circle</mat-icon>{{username}}</button>
+ 
   <button mat-menu-item><mat-icon color="primary">admin_panel_settings</mat-icon>Changer mon mot de passe</button>
   <button mat-menu-item routerLink="/login"><mat-icon color="primary">https</mat-icon>Se deconnecter</button>
 </mat-menu>

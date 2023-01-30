@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Avis } from '../models/avis.model';
-import { Dossier } from '../models/dossier.model';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-avis',
@@ -27,7 +28,8 @@ export class AvisComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   images;
 
@@ -36,6 +38,8 @@ export class AvisComponent implements OnInit {
   avis : any[];
   closeResult : string;
   editForm : FormGroup;
+  brandForm : FormGroup;
+  planitemForm: FormGroup;
   dossierForm: FormGroup;
   deleteId : number;
 
@@ -52,10 +56,23 @@ export class AvisComponent implements OnInit {
    count: number = 0;
    tableSize: number = 5;
    tableSizes: any = [5,15,25,50,100,150];
-    /*------------------------------------------------*/
+   /*------------------------------------------------*/
+   user_id;
+   username;
+   usergroup_id;
+   agent_id;
+
+   agent_name;
+   /*----------------------*/
+   numero_doss:string;
+   intitule_doss:string;
+   planitem_id;
+
    public filter: any = '';
 
    query: string;
+
+   current_date:string;
 
 
   constructor(public mediaObserver: MediaObserver,
@@ -73,12 +90,19 @@ export class AvisComponent implements OnInit {
   this.dossierid = this.snap.snapshot.params['dossierid'];
   this.getOneDossier();
 
+  /*-------------------------*/
+  this.user_id = localStorage.getItem('userID');
+  this.username = localStorage.getItem('userName');
+  this.usergroup_id = localStorage.getItem('userGroupID');
+  this.agent_id = localStorage.getItem('agentID');
+/*--------------------------*/
+  this.agent_name = localStorage.getItem('userName');
+
+
   this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-    console.log(res.mqAlias);
+    //console.log(res.mqAlias);
     this.deviceXs = res.mqAlias === "xs" ? true : false;
   })
-
-
 
   this.getAvis();
   this.editForm = this.fb.group({
@@ -94,14 +118,28 @@ export class AvisComponent implements OnInit {
     taux_avencement: ['']
   });
 
+  /*---------------*/
+  this.brandForm = this.fb.group({
+    id: [0],
+    user_id: ['', Validators.required],
+    action: ['', Validators.required]
+  });
+   /*---------------*/
+   let y = new Date();
+   this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
+  /*---------------*/
+  this.planitemForm = this.fb.group({
+    id: [0],
+    date_dgcmef_reel: ['', Validators.required]
+  });
+  /*---------------*/
+
  }
 /*---------------------------------*/
 getAvis(){
   this.httpclient.get<any>(this.base_url+'/getAllAvi/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
       this.avis = response;
-
     }
   );
 }
@@ -114,7 +152,6 @@ selectImage(event) {
   }
 }
 
-
 imprimerRecu(avi_id){
   this.deleteId = avi_id;
   this.getOneAvi();
@@ -123,10 +160,7 @@ imprimerRecu(avi_id){
 getOneAvi(){
   this.httpclient.get<any>(this.base_url+'/getOneAvi/'+this.deleteId).subscribe(
     response => {
-      console.log(response);
       this.avis = response;
-
-
     }
   );
 }
@@ -152,19 +186,22 @@ private getDismissReason(reason: any): string {
 onSubmit(f: NgForm) {
   const url =this.base_url+'/createAvi';
 
+  let num_publi = f.value['num_publi'];
+  let date_publi = f.value['date_publi'];
+
   f.value['fichier'] = this.filename;
 
   this.httpclient.post(url, f.value)
     .subscribe((result) => {
       this.ngOnInit(); //reload the table
     });
-  /*-----------------*/
-  const formData = new FormData();
+  /*---------------*/
+  /*const formData = new FormData();
   formData.append('file', this.images);
   this.httpclient.post<any>(this.base_url+'/file', formData).subscribe(
     (res) => console.log(res),
     (err) => console.log(err)
-  );
+  ); --*/
   /*=================*/
   if(f.value['date_publi'].length > 0)
   {
@@ -184,6 +221,24 @@ onSubmit(f: NgForm) {
   }
   /*=================*/
   this.modalService.dismissAll(); //dismiss the modal
+
+  /* -------Mis a jour de la table Historique des actions----------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Enregistrement de la publication d\'avis N° '+num_publi+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+  });
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
+
+  /* --------Mis a jour de la date de lancement réel dans la table planitems---------*/
+   this.planitemForm.patchValue({
+    id: this.dossiers['planitem_id'],
+    date_dgcmef_reel: date_publi
+  });
+  this.httpclient.patch(this.base_url+'/updatePlanitem/'+this.planitemForm.value.id, this.planitemForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 openDetails(targetModal, avi: Avis) {
@@ -196,7 +251,6 @@ openDetails(targetModal, avi: Avis) {
   document.getElementById('datenvois_detail').setAttribute('value', avi.date_envoi);
   document.getElementById('numparut_detail').setAttribute('value', avi.num_publi);
   document.getElementById('dateparut_detail').setAttribute('value', avi.date_publi);
-
 }
 
 openEdit(targetModal, avi: Avis) {
@@ -217,12 +271,22 @@ openEdit(targetModal, avi: Avis) {
 
 onSave() {
   const editURL = this.base_url+'/updateAvi/' + this.editForm.value.id;
-  console.log(this.editForm.value);
+
   this.httpclient.patch(editURL, this.editForm.value)
     .subscribe((results) => {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+  /* -----------------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Modification de la publication d\'avis N° '+this.editForm.value.num_publi+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 openDelete(targetModal, avi: Avis) {
@@ -240,6 +304,16 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+  /* -----------------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Suppression de la publication d\'avis ID : '+this.deleteId+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 
 /*----------------------------------*/
@@ -250,9 +324,7 @@ ngOnDestroy() {
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      //console.log(response);
       this.dossiers = response;
-      //$scope.displaydash.dossiers = response.data;
     }
   );
  }

@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Scaminv } from '../models/scaminv.model';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-scaminv',
@@ -26,7 +28,8 @@ export class ScaminvComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   title = 'Paiement de dossier';
   mediaSub: Subscription;
@@ -47,7 +50,14 @@ export class ScaminvComponent implements OnInit {
 
    query: string;
 
+   usergroup_id;
+   user_id:number;
+   agent_id:number;
+   agent_name:string;
 
+   brandForm: FormGroup;
+
+   current_date:string;
 
   constructor(public mediaObserver: MediaObserver,
     private router: Router,
@@ -65,7 +75,7 @@ export class ScaminvComponent implements OnInit {
     this.getOneDossier();
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-      console.log(res.mqAlias);
+      //console.log(res.mqAlias);
       this.deviceXs = res.mqAlias === "xs" ? true : false;
     })
 
@@ -82,14 +92,38 @@ export class ScaminvComponent implements OnInit {
         ampliation: ['']
       } );
 
+    /*---------------*/
+     this.brandForm = this.fb.group({
+      id: [0],
+      user_id: ['', Validators.required],
+      action: ['', Validators.required]
+    });
+     /*--------------------*/
+     let y = new Date();
+     this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
+
 
   }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
+  }
+
 
    /*---------------------------------*/
    getScaminv(){
     this.httpclient.get<any>(this.base_url+'/getAllScaminv/'+this.dossierid).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.scaminvs = response;
 
       }
@@ -122,6 +156,17 @@ onSubmit(f: NgForm) {
       this.ngOnInit(); //reload the table
     });
   this.modalService.dismissAll(); //dismiss the modal
+
+   /* -----------------*/
+   this.brandForm.patchValue({
+    user_id: this.user_id,
+    action: 'Enregistrement d\' un SCAM pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+  });
+  //console.log(this.brandForm.value);
+  this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+  });
+  /* -----------------*/
 }
 
 
@@ -147,12 +192,22 @@ openEdit(targetModal, scaminv: Scaminv) {
 
 onSave() {
   const editURL = this.base_url+'/updateScaminv/' + this.editForm.value.id;
-  console.log(this.editForm.value);
+  //console.log(this.editForm.value);
   this.httpclient.patch(editURL, this.editForm.value)
     .subscribe((results) => {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification SCAM ID : '+this.editForm.value.id+' pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 openDelete(targetModal, scaminv: Scaminv) {
@@ -170,6 +225,17 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+     /* -----------------*/
+     this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression SCAM ID : '+this.deleteId+' pour le dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 /*----------------------------------*/
@@ -180,7 +246,7 @@ onDelete() {
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.dossiers = response;
       //$scope.displaydash.dossiers = response.data;
     }

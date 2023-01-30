@@ -1,11 +1,13 @@
 const db = require('../db/db');
+var commonUtils = require('../common/common.utils');
 
 class LogDAO {
-  async createLog(user_id,action) {
+  async createLog(user_id,action,created_by) {
     const [id] = await db('logs')
       .insert({
-        user_id,
-        action 
+        user_id : user_id,
+        action : action,
+        created_by: user_id
       })
       .returning('id');
 
@@ -23,7 +25,7 @@ class LogDAO {
     .select(
       'usergroups.id as usergroup_id',
       'usergroups.name as name',
-      'users.name as name',
+      'users.name as user_name',
       'users.agent_id as agent_id',
       'users.username as username',
       'logs.user_id as user_id',

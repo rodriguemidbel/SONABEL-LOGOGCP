@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Dossier } from '../models/dossier.model';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -13,7 +14,8 @@ import { MatTableDataSource } from '@angular/material/table';
 export class HomeComponent implements OnInit {
 
   base_url = 'http://localhost:3000';
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier
   planID : number;
 
   annee : number;
@@ -37,14 +39,18 @@ export class HomeComponent implements OnInit {
  query: string;
 
  /*--------------*/
- usergroup_id;
+
 
  view:number=0;
  add:number=0;
  edit:number=0;
  remove:number=0;
   /*------------------------------------------------*/
-  agent_id:number;
+  user_id;
+  username_id;
+  usergroup_id;
+  agent_id;
+
   cpt:number=0;
 
   constructor(public mediaObserver: MediaObserver, private httpclient : HttpClient, private route : Router) { }
@@ -52,9 +58,20 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-      console.log(res.mqAlias);
+      //console.log(res.mqAlias);
       this.deviceXs = res.mqAlias === "xs" ? true : false;
     });
+
+    this.user_id = localStorage.getItem('userID');
+    this.username_id = localStorage.getItem('userName');
+    this.usergroup_id = localStorage.getItem('userGroupID');
+    this.agent_id = localStorage.getItem('agentID');
+
+     /**************
+     localStorage.removeItem('numero_doss');
+     localStorage.removeItem('intitule_doss');
+     localStorage.removeItem('planitem_id');
+      */
 
     //this.getAllDossier();
     this.findLog();
@@ -62,15 +79,9 @@ export class HomeComponent implements OnInit {
   }
 
   findLog(){
-    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
-      response => {
-        //console.log(response);
-        this.usergroup_id = response[0]['usergroup_id'];
-        this.agent_id = response[0]['agent_id'];
+
         let fonct = 8;
-
         //console.log('usergroup_id : '+this.usergroup_id+' Fonc : '+fonct);
-
         if(this.usergroup_id && fonct)
         {
           this.httpclient.get<any>(this.base_url+'/recherche/'+this.usergroup_id+'/'+fonct).subscribe(
@@ -87,16 +98,19 @@ export class HomeComponent implements OnInit {
         }
         /*================================*/
         var ladate = new Date();
-        this.annee= ladate.getFullYear();
+        //this.annee= ladate.getFullYear();
+        this.annee = 2022;
         if(this.usergroup_id == 5)
         {
             if(this.agent_id)
             {
                 this.httpclient.get<any>(this.base_url+'/findDossierByAgent/'+this.agent_id+'/'+this.annee).subscribe(
                   response => {
-                    //console.log(response);
+
                     this.dossiers = response;
                     this.cpt = response.length;
+
+                     console.log('Dossier Agent :' +this.dossiers);
 
                   }
                 );
@@ -120,8 +134,7 @@ export class HomeComponent implements OnInit {
 
         }
         /*================================*/
-      }
-    );
+
   }
 
   ngOnDestroy() {
@@ -161,7 +174,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  gotoExecution(dossierid){
+  gotoSelection(dossierid){
     this.route.navigate(['/procselection/', + dossierid]);
   }
 

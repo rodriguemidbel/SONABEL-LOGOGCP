@@ -7,6 +7,8 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Avis } from '../models/avis.model';
+import { Dossier } from '../models/dossier.model';
+
 
 @Component({
   selector: 'app-pubresultats',
@@ -26,7 +28,8 @@ export class PubresultatsComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   images;
 

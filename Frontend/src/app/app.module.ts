@@ -117,7 +117,8 @@ import { PrivilegeComponent } from './privilege/privilege.component';
 import { SuiviFactureComponent } from './etats/suivi-facture/suivi-facture.component';
 import { SuiviMarcheComponent } from './etats/suivi-marche/suivi-marche.component';
 import { ExecutionMarcheComponent } from './etats/execution-marche/execution-marche.component';
-import { VenteAddComponent } from './vente-add/vente-add.component'
+import { VenteAddComponent } from './vente-add/vente-add.component';
+import { DossierModeComponent } from './etats/dossier-mode/dossier-mode.component'
 
 
 // the second parameter 'fr' is optional
@@ -206,7 +207,8 @@ registerLocaleData(localeEng, 'eng');
     SuiviFactureComponent,
     SuiviMarcheComponent,
     ExecutionMarcheComponent,
-    VenteAddComponent
+    VenteAddComponent,
+    DossierModeComponent
 
 
 

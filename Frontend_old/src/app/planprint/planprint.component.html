@@ -1,0 +1,89 @@
+<app-header></app-header>
+<!--FILTER---------------------------------->
+<div class="container">
+  <div class="search-div" [class.content]="deviceXs" >
+      <mat-form-field class="search-form-field">
+      <input matInput  [(ngModel)]='filteredString' placeholder="Recherche" autocomplete="off">
+      </mat-form-field>
+      <!--<button mat-raised-button class="btn btn-sm btn-info" type="button" (click)="onIntitulerFilter()">Rechercher</button>
+      <button mat-raised-button  class="btn btn-sm btn-warning" type="button" (click)="onIntitulerClearFilter()">Initialiser</button>
+      --> <button mat-raised-button class="btn btn-sm btn-warn" type="button" color="warn"
+        printTitle="Plan de passation 2022"
+        printSectionId="print-me"
+        styleSheetFile="assets/pdf.css"
+        ngxPrint>
+      Imprimer</button>
+  </div>
+
+  <div id="print-me">
+          <h2>PLAN DE PASSATION 2022</h2>
+    <table  class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>N°</th>
+        <th>Budget</th>
+        <th>Type de crédit</th>
+        <th>Compte d'immob</th>
+        <th>Numéro de crédit</th>
+        <th>Centre de coût</th>
+        <th>Direction / Département </th>
+        <th>Montant de l'inscription budgétaire </th>
+        <th>Disponible </th>
+        <th>Nature des prestations (objet du contrat en perspective)</th>
+        <th>Type de marché</th>
+        <th>Mode de passation</th>
+        <th>Nombre de lots</th>
+        <th>Agent charger du dossier</th>
+        <th>Date prévue de réception du  dossier technique </th>
+        <th>Date prévue de lancement par la DGCMEF</th>
+        <th>Date prévue de remise des offres</th>
+        <th>Temps nécéessaire à l'évaluation des offres/ Propositions (jours)</th>
+        <th>Date de publication des résultats par la DGCMEF</th>
+        <th>Date de visite de site(s)</th>
+        <th>Date probable de demarrage des travaux</th>
+        <th>Délai d'exécution prévu (jours)</th>
+        <th>Date butoir</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <!--<tr *ngFor="let planitem of planitems
+          | filter:filteredString | sort:['planitemID','asc']; let i = index ">-->
+      <tr *ngFor="let planitem of planitems
+          | filter:filteredString let i = index ">
+        <td><span>{{i+1}}</span></td>
+        <td><span>{{planitem.budget}}</span></td>
+        <td><span>{{planitem.typcredit}}</span></td>
+        <td><span>{{planitem.immobilisation}}</span></td>
+        <td><span>{{planitem.credit}}</span></td>
+        <td><span>{{planitem.centre_cout}}</span></td>
+        <td><span>{{planitem.localisation}}</span></td>
+        <td><span>{{planitem.montant_estime}}</span></td>
+        <td><span>{{planitem.montant_dispo}}</span></td>
+        <td><span class="alpha">{{planitem.designation}}</span></td>
+        <td><span>{{planitem.type}}</span></td>
+        <td><span>{{planitem.mode}}</span></td>
+        <td><span>{{planitem.nbr_lot}}</span></td>
+        <td><span>{{planitem.agent}}</span></td>
+        <td><span>{{planitem.date_tech}}</span></td>
+        <td><span>{{planitem.date_dgcmef}}</span></td>
+        <td><span>{{planitem.date_off}}</span></td>
+        <td><span>{{planitem.temp}}</span></td>
+        <td><span>{{planitem.date_resultat}}</span></td>
+        <td><span>{{planitem.date_visite_site}}</span></td>
+        <td><span>{{planitem.date_demarrage}}</span></td>
+        <td><span>{{planitem.delai_exe}}</span></td>
+        <td><span>{{planitem.date_butoir}}</span></td>
+
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <!--------------------------MODAL NG TEMPLATE ADD NEW PLANITEM------------------------------------>
+
+</div>
+
+
+
+<app-footer></app-footer>

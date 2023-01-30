@@ -90,6 +90,24 @@ class CaisseController {
     }
   };
 
+  async countCaisses(req, res) {
+    try {
+      const {annee} = req.params;
+      const item = await caisseService.countCaisses(annee);
+      if(item)
+      {
+        res.status(201).json(item);
+      }
+      else
+      {
+        res.status(404).json({message: 'Data not exists'});
+      }
+      
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   
 }
 

@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Offre } from '../models/offre.model';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-offre',
@@ -27,7 +29,8 @@ export class OffreComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   title = 'Offre';
   mediaSub: Subscription;
@@ -69,7 +72,15 @@ export class OffreComponent implements OnInit {
   /*----------------------*/
   ventefrs : any[];
 
+  usergroup_id;
+  user_id:number;
+  agent_id:number;
+  agent_name:string;
+
   brandForm: FormGroup;
+  planitemForm: FormGroup;
+
+  current_date:string;
   constructor(public mediaObserver: MediaObserver,
     private router: Router,
     private route: ActivatedRoute,
@@ -92,7 +103,7 @@ export class OffreComponent implements OnInit {
 
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-      console.log(res.mqAlias);
+      //console.log(res.mqAlias);
       this.deviceXs = res.mqAlias === "xs" ? true : false;
     })
 
@@ -100,6 +111,7 @@ export class OffreComponent implements OnInit {
 
     this.getOffre();
     this.getLotForDossier();
+    this.findLog();
 
     this.editForm = this.fb.group({
       id: [''],
@@ -122,7 +134,36 @@ export class OffreComponent implements OnInit {
       fichier_caution: ['']
     } );
 
+     /*---------------*/
+     this.brandForm = this.fb.group({
+      id: [0],
+      user_id: ['', Validators.required],
+      action: ['', Validators.required]
+    });
+    /*--------------------*/
+    let y = new Date();
+    this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
+    /*---------------*/
+    this.planitemForm = this.fb.group({
+      id: [0],
+      date_off_reel: ['', Validators.required]
+    });
+    /*---------------*/
 
+
+  }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
   }
 
 
@@ -174,7 +215,7 @@ export class OffreComponent implements OnInit {
    getOffre(){
     this.httpclient.get<any>(this.base_url+'/getAllOffre/'+this.dossierid).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.offres = response;
 
       }
@@ -204,11 +245,34 @@ private getDismissReason(reason: any): string {
 
 onSubmit(f: NgForm) {
   const url = this.base_url+'/createOffre';
+
+
+  let date_depot = f.value['date_depot'];
+
   this.httpclient.post(url, f.value)
     .subscribe((result) => {
       this.ngOnInit(); //reload the table
     });
   this.modalService.dismissAll(); //dismiss the modal
+
+   /* -------Mis a jour de la table Historique des actions----------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Enregistrement d\'un  offre du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
+  /* --------Mis a jour de la date de lancement réel dans la table planitems---------*/
+   this.planitemForm.patchValue({
+    id: this.dossiers['planitem_id'],
+    date_off_reel: date_depot
+  });
+  this.httpclient.patch(this.base_url+'/updatePlanitem/'+this.planitemForm.value.id, this.planitemForm.value).subscribe(() => {
+  });
+  /* -----------------*/
 }
 /*++++++++++++++++++++++++++++++++++++++++++++++++++*/
 openDetails(targetModal, offre: Offre) {
@@ -297,6 +361,17 @@ onSave() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification de l\'offre '+this.editForm.value.id+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+    /* -----------------*/
 }
 
 openDelete(targetModal, offre: Offre) {
@@ -314,6 +389,17 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+     /* -----------------*/
+     this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression de l\'offre '+this.deleteId+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+
+    });
+  /* -----------------*/
 }
 
 /*----------------------------------*/
@@ -324,7 +410,7 @@ onDelete() {
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
+      //console.log(response);
       this.dossiers = response;
       //$scope.displaydash.dossiers = response.data;
     }

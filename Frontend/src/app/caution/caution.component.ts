@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Caution } from '../models/caution.model';
 import { LoginService } from '../services/login.service';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-caution',
@@ -27,14 +28,15 @@ export class CautionComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
-
+  //dossiers : any[];
+  dossiers : Dossier;
   title = 'Caution';
   mediaSub: Subscription;
 
   cautions : any[];
   closeResult : string;
   editForm : FormGroup;
+  brandForm : FormGroup;
   deleteId : number;
 
 
@@ -46,6 +48,11 @@ export class CautionComponent implements OnInit {
   tableSize: number = 5;
   tableSizes: any = [5,15,25,50,100,150];
    /*------------------------------------------------*/
+   usergroup_id;
+   user_id:number;
+   agent_id:number;
+   agent_name:string;
+
   public filter: any = '';
 
   query: string;
@@ -90,6 +97,7 @@ export class CautionComponent implements OnInit {
     this.getOneDossier();
     //this.getAllFrs();
     this.getLotForDossier();
+    this.findLog();
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
       console.log(res.mqAlias);
@@ -108,7 +116,29 @@ export class CautionComponent implements OnInit {
 
       } );
 
+      /*---------------*/
+  this.brandForm = this.fb.group({
+    id: [0],
+    user_id: ['', Validators.required],
+    action: ['', Validators.required]
+  });
+
+
   }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
+  }
+
 
 
   getLotForDossier(){
@@ -256,6 +286,16 @@ onSubmit(f: NgForm) {
     );
     this.modalService.dismissAll(); //dismiss the modal
     this.toastr.success("Enregistrement effectuer avec succés");
+
+     /* -----------------*/
+      this.brandForm.patchValue({
+        user_id: this.user_id,
+        action: 'Enregistrement de la caution de bon execution du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+      });
+      //console.log(this.brandForm.value);
+      this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+      });
+      /* -----------------*/
   }
   else
   {
@@ -298,6 +338,16 @@ onSave() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+     /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification de la caution de bon execution ID '+this.editForm.value.id+'du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+    });
+    /* -----------------*/
 }
 
 openDelete(targetModal, caution: Caution) {
@@ -315,6 +365,16 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+      /* -----------------*/
+      this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression de la caution de bon execution ID '+this.deleteId+'du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+    });
+    /* -----------------*/
 }
 
 /*----------------------------------*/

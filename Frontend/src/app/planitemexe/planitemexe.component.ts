@@ -247,11 +247,11 @@ export class PlanitemexeComponent implements OnInit {
 
     document.getElementById('montant_dispo').setAttribute('value', planitem.montant_dispo.toString());
     document.getElementById('designation').setAttribute('value', planitem.designation);
-    document.getElementById('type').setAttribute('value', planitem.type);
+    document.getElementById('type').setAttribute('value', planitem.type.toString());
     document.getElementById('mode').setAttribute('value', planitem.mode);
     document.getElementById('nbr_lot').setAttribute('value', planitem.nbr_lot.toString());
 
-    document.getElementById('agent').setAttribute('value', planitem.agent);
+    document.getElementById('agent').setAttribute('value', planitem.agent_id.toString());
     document.getElementById('date_tech').setAttribute('value', planitem.date_tech);
     document.getElementById('date_dgcmef').setAttribute('value', planitem.date_dgcmef);
     document.getElementById('date_off').setAttribute('value', planitem.date_off);

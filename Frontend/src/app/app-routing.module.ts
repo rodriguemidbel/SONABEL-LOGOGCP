@@ -17,6 +17,7 @@ import { DossierComponent } from './dossier/dossier.component';
 import { DossierppmComponent } from './dossierppm/dossierppm.component';
 import { DossiertechComponent } from './dossiertech/dossiertech.component';
 import { DossierAgentComponent } from './etats/dossier-agent/dossier-agent.component';
+import { DossierModeComponent } from './etats/dossier-mode/dossier-mode.component';
 import { DossierinfructueuxComponent } from './etats/dossierinfructueux/dossierinfructueux.component';
 import { EtatventeComponent } from './etats/etatvente/etatvente.component';
 import { ExecutionMarcheComponent } from './etats/execution-marche/execution-marche.component';
@@ -159,7 +160,8 @@ const routes: Routes = [
 
   {path: 'suivi-facture', component: SuiviFactureComponent },
   {path: 'suivi-marche', component: SuiviMarcheComponent },
-  {path: 'exe-marche', component: ExecutionMarcheComponent }
+  {path: 'exe-marche', component: ExecutionMarcheComponent },
+  {path: 'dossier-mode', component: DossierModeComponent }
 
 
 ];

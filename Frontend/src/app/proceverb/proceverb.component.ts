@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Ouverture } from '../models/ouverture.model';
 import { Proceverb } from '../models/proceverb.model';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-proceverb',
@@ -27,7 +28,8 @@ export class ProceverbComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
   proceverbs: any[];
 
   title = 'PV d\'ouverture';
@@ -52,6 +54,13 @@ export class ProceverbComponent implements OnInit {
   public filter: any = '';
 
   query: string;
+  /*------------------------------------------------*/
+  user_id;
+  username;
+  usergroup_id;
+  agent_id;
+
+  agent_name;
 
   constructor(public mediaObserver: MediaObserver,
     private router: Router,
@@ -66,9 +75,15 @@ export class ProceverbComponent implements OnInit {
 
     this.dossierid = this.snap.snapshot.params['dossierid'];
     this.getOneDossier();
+    /*-------------------------*/
+      this.user_id = localStorage.getItem('userID');
+      this.username = localStorage.getItem('userName');
+      this.usergroup_id = localStorage.getItem('userGroupID');
+      this.agent_id = localStorage.getItem('agentID');
+    /*--------------------------*/
+      this.agent_name = localStorage.getItem('userName');
 
     this.mediaSub = this.mediaObserver.media$.subscribe((res: MediaChange) => {
-      console.log(res.mqAlias);
       this.deviceXs = res.mqAlias === "xs" ? true : false;
     })
 
@@ -94,11 +109,9 @@ export class ProceverbComponent implements OnInit {
 
   /*---------------------------------*/
   getProceverb(){
-    this.httpclient.get<any>(this.base_url+'/getAllProceverb/'+this.dossierid).subscribe(
+    this.httpclient.get<any>(this.base_url+'/findProceverb/'+this.dossierid).subscribe(
       response => {
-        console.log(response);
         this.proceverbs = response;
-
       }
     );
   }
@@ -132,17 +145,14 @@ onSubmit(f: NgForm) {
       this.ngOnInit(); //reload the table
     });
   this.modalService.dismissAll(); //dismiss the modal
-
    /* -----------------*/
-   console.log("Nom dossier upload : " +this.filename);
-   const formData = new FormData();
+   /*const formData = new FormData();
    formData.append('file', this.images);
 
    this.httpclient.post<any>(this.base_url+'/file', formData).subscribe(
      (res) => console.log(res),
      (err) => console.log(err)
-   );
-
+   );*/
    this.modalService.dismissAll(); //dismiss the modal
    //this.toastr.info("File name : "+ this.filename);
 }
@@ -176,7 +186,6 @@ openEdit(targetModal, proce: Proceverb) {
 
 onSave() {
   const editURL = this.base_url+'/updateProceverb/' + this.editForm.value.id;
-  console.log(this.editForm.value);
   this.httpclient.patch(editURL, this.editForm.value)
     .subscribe((results) => {
       this.ngOnInit();
@@ -209,9 +218,7 @@ onDelete() {
  getOneDossier(){
   this.httpclient.get<any>('http://localhost:3000/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
       this.dossiers = response;
-      //$scope.displaydash.dossiers = response.data;
     }
   );
  }
@@ -244,10 +251,5 @@ onDelete() {
     this.page = 1;
     this.getProceverb();
   }
-
-
-
-
-
 
 }

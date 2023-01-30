@@ -19,7 +19,6 @@ const db = require('../db/db');
                 centre_cout: centre_cout, 
                 projet: projet,
                 localisation: localisation,
-                responsable: responsable,
                 montant_estime: montant_estime,
                 composante: composante,
                 montant_dispo: montant_dispo,
@@ -27,6 +26,7 @@ const db = require('../db/db');
                 type: type,
                 mode: mode,
                 nbr_lot: nbr_lot, 
+                responsable: responsable,
                 agent_id: agent_id,
                 date_tech: date_tech,
                 date_dgcmef: date_dgcmef,
@@ -71,6 +71,7 @@ const db = require('../db/db');
                 'planitems.nbr_lot as nbr_lot',
                 'planitems.agent_id as agent_id',
                 'planitems.date_tech as date_tech',
+                'planitems.date_tech_reel as date_tech_reel',
                 'planitems.date_dgcmef as date_dgcmef',
                 'planitems.date_dgcmef_reel as date_dgcmef_reel',
                 'planitems.date_off as date_off',
@@ -249,6 +250,7 @@ const db = require('../db/db');
                 'planitems.nbr_lot as nbr_lot',
                 'planitems.agent_id as agent_id',
                 'planitems.date_tech as date_tech',
+                'planitems.date_tech_reel as date_tech_reel',
                 'planitems.date_dgcmef as date_dgcmef',
                 'planitems.date_dgcmef_reel as date_dgcmef_reel',
                 'planitems.date_off as date_off',
@@ -289,7 +291,7 @@ const db = require('../db/db');
             .join('plans', 'plans.id', 'planitems.plan_id')
             .select('planitems.budget as budget')
             .count('planitems.id as nbr_recep')
-            .whereNotNull('date_tech')
+            .whereNotNull('date_tech_reel')
             .groupBy('planitems.budget')
           };
 
@@ -319,7 +321,7 @@ const db = require('../db/db');
             .select(
               'planitems.localisation as localisation',
             )
-            .whereNotNull('date_tech')
+            .whereNotNull('date_tech_reel')
             .groupBy('localisation')
           };
 
@@ -369,7 +371,7 @@ const db = require('../db/db');
             .select(
               'agents.nom_prenom as agent',
             )
-            .whereNotNull('date_tech')
+            .whereNotNull('date_tech_reel')
             .groupBy('nom_prenom')
           };
 

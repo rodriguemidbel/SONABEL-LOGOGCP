@@ -48,7 +48,7 @@ class DeliberationDAO {
     });
   };
 
-  async findDeliberations(dossier_id) {
+  async findDeliberation(dossier_id) {
     return await db('deliberations')
     .join('dossiers', 'dossiers.id', 'deliberations.dossier_id')
       .select(

@@ -23,11 +23,7 @@ class PaiementDAO {
   async getAllPaiement() {
     return await db('paiements')
     .join('marches', 'marches.id', 'paiements.marche_id')
-    .join('dossiers', 'dossiers.id', 'marches.mar_doss_id')
-    .join('devises', 'devises.id', 'paiements.devise')
     .select(
-      'dossiers.numero_doss as numero_doss',
-      'dossiers.intitule_doss as intitule_doss',
       'marches.num_ref as num_ref',
       'marches.objet as objet',
       'marches.montant_total as montant_total',
@@ -40,7 +36,6 @@ class PaiementDAO {
         'paiements.taux_exe_phy as taux_exe_phy',
         'paiements.taux_exe_fin as taux_exe_fin',
         'paiements.observation as observation',
-        'devises.symbole as symbole',
       )
   };
 

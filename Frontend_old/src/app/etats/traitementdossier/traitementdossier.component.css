@@ -1,0 +1,131 @@
+.search-div{
+  margin:2% 10%;
+  width: 80%;
+}
+table {
+  width: 100%;
+}
+.content {
+  position: absolute;
+  top: 65px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+
+}
+
+.content-mob {
+  position: absolute;
+  top: 113px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: scroll;
+
+}
+
+.example-card {
+  max-width: 320px;
+  margin: 0px 5px 5px 0px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+mat-drawer {
+
+  position: fixed;
+  background-color: rgb(236, 236, 236);
+}
+
+.example-sidenav-content:first-child {
+  margin: 10px 5px 5px 5px;
+}
+
+.list-width {
+  width: 250px;
+
+}
+
+.list-item:hover {
+  background-color: rgba(83, 83, 83, 0.178);
+  cursor: pointer;
+}
+.list-item:active {
+  background-color:green;
+  color:white;
+  cursor: pointer;
+}
+
+.table{
+  max-width: 100%;
+  width: 100% !important;
+	border-collapse: collapse;
+  margin: 1rem 0rem;
+}
+
+.table td,.table th{
+  padding:5px 5px;
+  border:1px solid #ddd;
+  text-align: left;
+  font-size:14px;
+}
+
+.table th{
+	background-color: #425253;
+	color:#ffffff;
+}
+
+.table tbody tr:nth-child(even){
+	background-color: #f5f5f5;
+}
+
+th{
+  position: sticky;
+  top: 0px;
+}
+
+.table-wrapper{
+  max-width: 300px;
+  overflow-y: scroll;
+}
+
+/*responsive*/
+
+@media(max-width: 500px){
+	.table thead{
+		display: none;
+	}
+
+	.table, .table tbody, .table tr, .table td{
+		display: block;
+		width: 100%;
+	}
+	.table tr{
+		margin-bottom:15px;
+	}
+	.table td{
+		text-align: right;
+		padding-left: 50%;
+		text-align: right;
+		position: relative;
+	}
+	.table td::before{
+		content: attr(data-label);
+		position: absolute;
+		left:0;
+		width: 50%;
+		padding-left:15px;
+		font-size:15px;
+		font-weight: bold;
+		text-align: left;
+	}
+}
+
+
+
+
+

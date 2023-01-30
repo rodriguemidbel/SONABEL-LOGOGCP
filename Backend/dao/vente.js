@@ -51,6 +51,7 @@ class VenteDAO {
         'ventes.grpent as grpent'
         
     )
+    .orderBy('ventes.statut', 'asc')
   };
 
   async getOneVente(id) {
@@ -145,6 +146,16 @@ class VenteDAO {
         'ventes.grpent as grpent'
     )
     .where({lot_id,fournisseur_id})
+  };
+
+  async countVentes(annee) {
+    return await db('ventes')
+    .join('lots', 'lots.id', 'ventes.lot_id')
+    .join('dossiers', 'dossiers.id', 'lots.dossier_id')
+    .join('planitems', 'planitems.id', 'dossiers.planitem_id')
+    .join('plans', 'plans.id', 'planitems.plan_id')
+    .count('ventes.id as nbr')
+    .where({annee})
   };
 
  

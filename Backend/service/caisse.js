@@ -21,6 +21,10 @@ class caisseService {
   findCaisse(vente_id){
       return caisseDAO.findCaisse(vente_id)
   }
+
+  countCaisses(annee){
+    return caisseDAO.countCaisses(annee)
+ }
   
 }
 

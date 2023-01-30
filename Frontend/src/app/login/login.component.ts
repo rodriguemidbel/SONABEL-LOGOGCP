@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthServiceService } from '../auth-service.service';
 import { LoginService } from '../services/login.service';
+import {formatDate} from '@angular/common';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     password: { required: 'Mot de passe requis.'}
   }
 
+  current_date:string;
   /*------------*/
   constructor(private authService: AuthServiceService,
               private router: Router,
@@ -62,6 +64,9 @@ export class LoginComponent implements OnInit {
     });
 
     this.handleValueChanges();
+    /*--------------------*/
+    let y = new Date();
+    this.current_date = formatDate(y,'dd/MMM/yyyy h:mm:ss a', 'eng');
   }
 
   handleValueChanges() {
@@ -77,22 +82,38 @@ export class LoginComponent implements OnInit {
     })
   }*/
   loginProces(){
+      /**************** */
+      localStorage.removeItem('userID');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userGroupID');
+      localStorage.removeItem('agentID');
+      /******************************** */
+
      if(this.fgLogin.valid){
        this.authService.login(this.fgLogin.value).subscribe(result=>{
         this.users = result;
         if(Object.keys(this.users['user']).length > 0){
           /*++++++++++*/
           this.userid = this.users['user'][0]['userID'];
+          let user_name = this.users['user'][0]['name'];
+
+
           //console.log(this.users['user']);
           this.brandForm.patchValue({
             user_id: this.userid,
-            action: 'Connection au système'
+            action: 'Connection au système par '+ user_name+' | '+this.current_date
           });
-          console.log(this.brandForm.value);
+          //console.log(this.brandForm.value);
            /*++++++++++*/
            this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
             this.router.navigate(['home']);
           });
+            /*++++++++++*/
+            localStorage.setItem('userID', this.users['user'][0]['userID'])
+            localStorage.setItem('userName', this.users['user'][0]['name'])
+            localStorage.setItem('userGroupID', this.users['user'][0]['groupID'])
+            localStorage.setItem('agentID', this.users['user'][0]['agent_id'])
+            /*++++++++++*/
           //this.router.navigate(['home']);
         }else{
           this.toastr.error("Nom d'utilisateur ou mot de passe incorrecte");

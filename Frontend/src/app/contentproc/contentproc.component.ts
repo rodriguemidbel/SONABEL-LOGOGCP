@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-contentproc',
@@ -20,7 +21,8 @@ export class ContentprocComponent{
 
 
   dossierid : number;
-  dossiers : any[];
+  dossiers : Dossier;
+ //dossiers : any[];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -34,9 +36,7 @@ export class ContentprocComponent{
  getOneDossier(){
   this.httpclient.get<any>(this.base_url+'/getOneDossier/'+this.dossierid).subscribe(
     response => {
-      console.log(response);
       this.dossiers = response;
-      //$scope.displaydash.dossiers = response.data;
     }
   );
  }

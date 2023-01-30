@@ -1,0 +1,363 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Reception</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>N° marché</th>
+        <th>Type de recption</th>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Fichier</th>
+        <th>Action(s)</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr *ngFor="let reception of receptions | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+        <td><span>{{reception.num_ref}}</span></td>
+        <td><span>{{reception.typreception}}</span></td>
+        <td><span>{{reception.date_recept}}</span></td>
+        <td><span>{{reception.heure_recept}}</span></td>
+        <td><span *ngIf="reception.pv_recept"><a title="Dossier" target="_blank" href="{{url}}{{reception.pv_recept}}"><mat-icon>file_copy</mat-icon></a></span></td>
+
+        <td class="action">
+          <button (click)="openDetails(contentDetails, reception)"  class="btn btn-sm btn-info">
+            Details</button>
+          <button (click)="openEdit(contentEdit, reception)" class="btn btn-sm btn-warning">
+            Modifier</button>
+          <button (click)="openDelete(contentDelete, reception)" class="btn btn-sm btn-danger">
+            Supprimer</button>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <select (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">
+              {{size}}
+            </option>
+          </select>
+          </td>
+          <td colspan="5">
+          <pagination-controls
+          previousLabel = "Précédent"
+          nextLabel = "Suivant"
+          (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  <!--------------------------MODAL NG TEMPLATE Nouveau reception------------------------------------>
+  <ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form   method="post" enctype="multipart/form-data" #f="ngForm"  (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="row">
+            <!---------------------ligne 1------------------------->
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="marche_id">N° marché</label>
+                  <div class="input-group">
+                    <select id="marche_id" name="marche_id" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let marche of alphas" value={{marche.id}}>{{marche.num_ref}}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="typreception_id">Type reception</label>
+                  <div class="input-group">
+                    <select id="typreception_id" name="typreception_id" class="form-control" ngModel placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let typreception of typreceptions" value={{typreception.id}}>{{typreception.libelle}}</option>
+                    </select>
+                  </div>
+              </div>
+             </div>
+
+
+
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="date_recept">Date reception</label>
+                <div class="input-group">
+                  <input type="date" id="date_recept" name="date_recept" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="heure_recept">Heure reception</label>
+                <div class="input-group">
+                  <input type="time" id="heure_recept" name="heure_recept" class="form-control" ngModel/>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="membre">Membre(s)</label>
+                <div class="input-group">
+                  <textarea  id="membre" name="membre" class="form-control" ngModel></textarea>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="autre">Autre(s)</label>
+                <div class="input-group">
+                  <textarea  id="autre" name="autre" class="form-control" ngModel></textarea>
+                </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="pv_recept">Fichier</label>
+                <div class="input-group">
+
+                    <input type="file" id="pv_recept" name="pv_recept" (change)="selectImage($event)" class="form-control" ngModel/>
+
+                </div>
+            </div>
+          </div>
+
+        <!---------------------------------------------->
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Enregistrer</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+        </div>
+
+        </form>
+      </div>
+    <div class="modal-footer">
+
+    </div>
+
+  </ng-template>
+   <!--------------------------MODAL NG TEMPLATE reception DETAILS------------------------------------>
+   <ng-template #contentDetails let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details d'un reception</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form novalidate>
+        <div class="row">
+          <!---------------------ligne 1------------------------->
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="type_detail">Type reception</label>
+                <div class="input-group">
+                  <select id="type_detail" class="form-control" placeholder="Selectionner">
+                    <option>Selectionner</option>
+                    <option *ngFor="let typreception of typreceptions" value={{typreception.id}}>{{typreception.libelle}}</option>
+                  </select>
+                </div>
+            </div>
+           </div>
+
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label for="lot_detail">Lot</label>
+                  <div class="input-group">
+                    <select id="lot_detail" class="form-control"  placeholder="Selectionner">
+                      <option>Selectionner</option>
+                      <option *ngFor="let lot of lots" value={{lot.lotID}}>{{lot.num_lot}} - {{lot.intitule_lot}} : {{lot.montant_lot}}</option>
+                    </select>
+                  </div>
+              </div>
+         </div>
+         <div class="col-md-6">
+          <div class="form-group">
+              <label for="frs_detail">Fournisseur/Prestataire</label>
+              <div class="input-group">
+                <select id="frs_detail" class="form-control" placeholder="Selectionner">
+                  <option>Selectionner</option>
+                  <option *ngFor="let frs of fournisseurs" value={{frs.id}}>{{frs.nom_four}}</option>
+                </select>
+              </div>
+          </div>
+         </div>
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="date_detail">Date reception</label>
+              <div class="input-group">
+                <input type="date" id="date_detail" class="form-control"/>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="heure_detail">Heure reception</label>
+              <div class="input-group">
+                <input type="time" id="heure_detail" class="form-control"/>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="membre_detail">Membre(s)</label>
+              <div class="input-group">
+                <textarea  id="membre_detail"  class="form-control"></textarea>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="autre_detail">Autre(s)</label>
+              <div class="input-group">
+                <textarea  id="autre_detail" class="form-control"></textarea>
+              </div>
+          </div>
+        </div>
+
+
+
+      <!---------------------------------------------->
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE reception EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un reception</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form  [formGroup]="editForm" novalidate>
+        <div class="row">
+          <input type="hidden" formControlName="id" class="form-control">
+          <input type="hidden" formControlName="marche_id" class="form-control">
+          <input type="hidden" formControlName="typreception_id" class="form-control">
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="date_recept">Date reception</label>
+              <div class="input-group">
+                <input type="date" formControlName="date_recept" class="form-control"/>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="heure_recept">Heure reception</label>
+              <div class="input-group">
+                <input type="time" formControlName="heure_recept" class="form-control"/>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="membre">Membre(s)</label>
+              <div class="input-group">
+                <textarea  formControlName="membre" class="form-control"></textarea>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="autre">Autre(s)</label>
+              <div class="input-group">
+                <textarea  formControlName="autre" class="form-control" ></textarea>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="pv_recept">Fichier</label>
+              <div class="input-group">
+
+                  <input type="file" formControlName="pv_recept" (change)="selectImage($event)" class="form-control" ngModel/>
+
+              </div>
+          </div>
+        </div>
+
+      <!---------------------------------------------->
+      </div>
+      <!---------------------------------------------->
+      <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button>
+      </div>
+    </form>
+    </div>
+    <div class="modal-footer">
+      </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+
+    <ng-template #contentDelete let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Suppression reception</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+      </div>
+      <div class="modal-footer">
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+        </div>
+        </div>
+    </ng-template>
+
+</div>
+
+<app-footer></app-footer>
+
+

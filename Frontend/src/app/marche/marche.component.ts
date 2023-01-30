@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Marche } from '../models/marche.model';
 import { LoginService } from '../services/login.service';
+
+import {formatDate} from '@angular/common';
+import { Dossier } from '../models/dossier.model';
 
 @Component({
   selector: 'app-marche',
@@ -27,7 +30,8 @@ export class MarcheComponent implements OnInit {
 
 
   dossierid : number;
-  dossiers : any[];
+  //dossiers : any[];
+  dossiers : Dossier;
 
   devises : any[];
 
@@ -38,6 +42,7 @@ export class MarcheComponent implements OnInit {
   closeResult : string;
   editForm : FormGroup;
   dossierForm: FormGroup;
+  brandForm: FormGroup;
   deleteId : number;
 
   soumissionaires: any[];
@@ -68,6 +73,13 @@ export class MarcheComponent implements OnInit {
   lots : any[];
   lot_id:number;
 
+  usergroup_id;
+  user_id:number;
+  agent_id:number;
+  agent_name:string;
+
+  current_date:string;
+
   constructor(public mediaObserver: MediaObserver,
     private router: Router,
     private route: ActivatedRoute,
@@ -93,6 +105,7 @@ export class MarcheComponent implements OnInit {
     this.getAllMarche();
     this.getAllDevise();
     this.getLotForDossier();
+    this.findLog();
 
       this.editForm = this.fb.group({
         id: [''],
@@ -140,7 +153,28 @@ export class MarcheComponent implements OnInit {
 
       this.date_vente = jour + '/' + mois + '/' + yyyy;
       /*-------------------*/
+      this.brandForm = this.fb.group({
+        id: [0],
+        user_id: ['', Validators.required],
+        action: ['', Validators.required]
+      });
+      /*---------------*/
+      let y = new Date();
+      this.current_date = formatDate(y,'dd/MMM/yyyy  h:mm:ss a', 'eng');
 
+  }
+
+  findLog(){
+    this.httpclient.get<any>(this.base_url+'/findLog').subscribe(
+      response => {
+        //console.log(response);
+        this.usergroup_id = response[0]['usergroup_id'];
+        this.agent_id = response[0]['agent_id'];
+        this.agent_name = response[0]['user_name'];
+        this.user_id = response[0]['user_id'];
+        //let fonct = 7;
+      }
+    )
   }
 
 
@@ -246,6 +280,8 @@ private getDismissReason(reason: any): string {
 onSubmit(f: NgForm) {
   const url = this.base_url+'/createMarche';
 
+  let num_ref = f.value['num_ref']+'/2022/DMP';
+
   f.value['marche'] = this.filename;
 
   f.value['num_ref'] = f.value['num_ref']+'/2022/DMP';
@@ -277,7 +313,15 @@ onSubmit(f: NgForm) {
        });
        /*----------*/
    }
-   /*=================*/
+   /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Enregistrement du marché N° '+num_ref+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+    });
+    /* -----------------*/
 
   this.modalService.dismissAll(); //dismiss the modal
 }
@@ -325,6 +369,16 @@ onSave() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Modification du marché N° '+this.editForm.value.num_ref+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+    });
+    /* -----------------*/
 }
 
 openDelete(targetModal, marche: Marche) {
@@ -342,6 +396,16 @@ onDelete() {
       this.ngOnInit();
       this.modalService.dismissAll();
     });
+
+    /* -----------------*/
+    this.brandForm.patchValue({
+      user_id: this.user_id,
+      action: 'Suppression du marché N° '+this.editForm.value.num_ref+' du dossier N° '+this.dossiers['numero_doss']+' par '+this.agent_name+' | '+this.current_date
+    });
+    //console.log(this.brandForm.value);
+    this.httpclient.post(this.base_url+'/createLog', this.brandForm.value).subscribe(() => {
+    });
+    /* -----------------*/
 }
 
 /*----------------------------------*/

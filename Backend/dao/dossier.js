@@ -273,6 +273,19 @@ class DossierDAO {
     )
   };
 
+  
+  async dossierByMode(annee) {
+    return await db('dossiers')
+    .join('planitems', 'planitems.id', 'dossiers.planitem_id')
+    .join('plans', 'plans.id', 'planitems.plan_id')
+    .join('agents', 'agents.id', 'planitems.agent_id')
+    .select('planitems.mode as mode')
+    .count('planitems.id as nbr')
+    .where({annee})
+    .groupBy('planitems.mode')
+    .orderBy('planitems.mode', 'asc')
+  };
+
 
  
 }

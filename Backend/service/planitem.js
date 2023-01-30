@@ -5,11 +5,11 @@ class planitemService {
   
   createPlanitem(PlanitemDto) {
     const { num_ordre,plan_id,budget,typcredit,immobilisation,credit,centre_cout,projet,localisation,
-      responsable,montant_estime,composante,montant_dispo,designation,type,mode,nbr_lot,agent,date_tech,
+      responsable,montant_estime,composante,montant_dispo,designation,type,mode,nbr_lot,agent_id,date_tech,
       date_dgcmef,date_off,temp,date_resultat,resultat,date_visite_site,date_demarrage,delai_exe,date_butoir,
       budget_travaux,observation,statut } = PlanitemDto;
     return planitemDAO.createPlanitem(num_ordre,plan_id,budget,typcredit,immobilisation,credit,centre_cout,projet,localisation,
-      responsable,montant_estime,composante,montant_dispo,designation,type,mode,nbr_lot,agent,date_tech,
+      responsable,montant_estime,composante,montant_dispo,designation,type,mode,nbr_lot,agent_id,date_tech,
       date_dgcmef,date_off,temp,date_resultat,resultat,date_visite_site,date_demarrage,delai_exe,date_butoir,
       budget_travaux,observation,statut);
   };

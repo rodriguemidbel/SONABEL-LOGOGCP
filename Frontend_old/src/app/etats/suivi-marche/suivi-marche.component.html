@@ -1,0 +1,88 @@
+<app-header></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Tableau de bord des marché </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+    <!--------------------------------Search--------------------------------->
+    <mat-toolbar>
+      <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+      <!--<button class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>-->
+      <div class="form-group search-div">
+        <div class="row">
+        <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+        <mat-icon matSuffix>search</mat-icon>
+      </div>
+      </div>
+    </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="table-responsive" style="max-height:485px !important;overflow-y:scroll !important;" >
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>N°/RéF </th>
+          <th>Objet</th>
+          <th>Date de signature du contrat</th>
+          <th>Date de notification du projet de contrat</th>
+          <th>Montant</th>
+          <th>Delai</th>
+          <th>Attributaire</th>
+          <th>Date remise pour signature</th>
+          <th>Date retour de signature</th>
+          <th>Date de transmission du contrat pour enregistrement</th>
+          <th>Date de retour d'enregistrement du contrat</th>
+          <th>Fichier</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let marche of marches  | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+          <td><span>{{marche.num_ref}}</span></td>
+          <td><span>{{marche.objet}}</span></td>
+          <td><span>{{marche.date_appro | date:'dd/MM/y' }}</span></td>
+          <td><span>{{marche.date_notif | date:'dd/MM/y' }}</span></td>
+          <td><span>{{marche.montant | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</span></td>
+          <td><span>{{marche.delai}}</span></td>
+          <td><span>{{marche.nom_four}}</span></td>
+          <td><span>{{marche.date_rem_sign | date:'dd/MM/y'}}</span></td>
+          <td><span>{{marche.date_retour_sign | date:'dd/MM/y'}}</span></td>
+          <td><span>{{marche.date_rem_enr | date:'dd/MM/y'}}</span></td>
+          <td><span>{{marche.date_retour_enr | date:'dd/MM/y'}}</span></td>
+          <td><span *ngIf="marche.marche"><a title="Marché" target="_blank" href="{{url}}{{marche.marche}}"><mat-icon>file_copy</mat-icon></a></span></td>
+
+
+        </tr>
+        <tr>
+          <td colspan="3">
+            <select (change)="onTableSizeChange($event)">
+              <option *ngFor="let size of tableSizes">
+                {{size}}
+              </option>
+            </select>
+            </td>
+            <td colspan="10">
+            <pagination-controls
+            previousLabel = "Précédent"
+            nextLabel = "Suivant"
+            (pageChange)="onTableDataChange($event)"></pagination-controls>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+<app-footer></app-footer>
+
+
+
+
+
+

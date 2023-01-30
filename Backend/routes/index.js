@@ -199,7 +199,8 @@ router.delete('/removeDossier/:id', dossierController.removeDossier);
 router.patch('/updateDossier/:id', dossierController.updateDossier);
 router.get('/findDossier/:annee', dossierController.findDossier);
 router.get('/findDossierByAgent/:agent_id/:annee', dossierController.findDossierByAgent);
-
+// dossierByMode
+router.get('/dossierByMode/:annee', dossierController.dossierByMode);
 
 router.get('/getDossier', dossierController.getDossier);
 
@@ -222,6 +223,8 @@ router.get('/findVente/:dossier_id', venteController.findVente);
 router.get('/findFrsVente/:lot_id', venteController.findFrsVente);
 
 router.get('/findVenteID/:lot_id/:fournisseur_id', venteController.findVenteID);
+
+router.get('/countVentes/:annee', venteController.countVentes);
 /*-------------------------CAISSE---------------------------------*/
 router.post('/createCaisse', caisseController.createCaisse);
 router.get('/getAllCaisse', caisseController.getAllCaisse);
@@ -229,6 +232,8 @@ router.get('/getOneCaisse/:id', caisseController.getOneCaisse);
 router.delete('/removeCaisse/:id', caisseController.removeCaisse);
 router.patch('/updateCaisse/:id', caisseController.updateCaisse);
 router.get('/findCaisse/:vente_id', caisseController.findCaisse);
+
+router.get('/countCaisses/:annee', caisseController.countCaisses);
 
 /*-------------------------PAIEMENT---------------------------------*/
 router.post('/createPaiement', paiementController.createPaiement);
@@ -313,6 +318,8 @@ router.patch('/updateMarche/:id', marcheController.updateMarche);
 router.get('/findMarche/:mar_doss_id', marcheController.findMarche);
 
 router.get('/getMarche', marcheController.getMarche);
+//marcheGroupByDoss
+router.get('/marcheGroupByDoss', marcheController.marcheGroupByDoss);
 
 router.get('/nbrPassMarche/:annee', marcheController.nbrPassMarche);
 /*-------------------------CAUTIONS---------------------------------*/

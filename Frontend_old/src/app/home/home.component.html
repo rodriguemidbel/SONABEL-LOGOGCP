@@ -1,0 +1,106 @@
+<app-header [deviceXs]="deviceXs"></app-header>
+ <!------------------------Title bar------------------------------------------>
+ <mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Liste des dossier </span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+   <!--END FILTER---------------------------------->
+<article>
+  <div class="table-responsive" style="max-height:470px !important;overflow-y:scroll !important;" >
+      <mat-drawer-container class="example-container">
+        <mat-drawer-content>
+          <div class="example-sidenav-content" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+            <mat-card class="example-card font-size"  *ngFor="let dossier of dossiers | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}; let i = index">
+              <mat-card-header>
+                <mat-card-title class="font-size">{{dossier.intitule_doss}}</mat-card-title>
+                <mat-card-subtitle>{{dossier.numero_doss}}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image src="/assets/images/dossier_sonabel.jpg"
+                alt="dossier">
+              <mat-card-content>
+                <p>Montant : {{dossier.montant_estime | currency :'XOF' : 'symbol' : '1.0' : 'fr'}}</p>
+                <p>Delai d'éxécution : {{dossier.delai_exe}} Jours</p>
+                <p>Date de demarrage : {{dossier.date_prob_demarrage}} </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <!-- proc-selection [routerLink]="['/selection/'+dossier.id]" (click)="gotoExecution(dossier.id)" -->
+                <button *ngIf="add == 1" [routerLink]="['/procselection/'+dossier.id]" class="btn btn-sm btn-info" mat-button>Sélection</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-drawer-content>
+      </mat-drawer-container>
+</div>
+  <table>
+    <tr> <td>Nombre de ligne : {{cpt}}</td></tr>
+    <tr>
+
+      <td>
+        <select (change)="onTableSizeChange($event)">
+          <option *ngFor="let size of tableSizes">
+            {{size}}
+          </option>
+        </select>
+        </td>
+        <td>
+        <pagination-controls
+        previousLabel = "Précédent"
+        nextLabel = "Suivant"
+        (pageChange)="onTableDataChange($event)"></pagination-controls>
+      </td>
+    </tr>
+  </table>
+</article>
+
+  <!--<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Numero</th>
+      <th>Intitulé</th>
+      <th>Montant</th>
+      <th>Delai</th>
+      <th>Date demarrage</th>
+      <th>Action(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dossier of dossiers">
+      <td><span>{{dossier.numero}}</span></td>
+      <td><span>{{dossier.intitule}}</span></td>
+      <td><span>{{dossier.montant}}</span></td>
+      <td><span>{{dossier.delai}}</span></td>
+      <td><span>{{dossier.demarrageProb}}</span></td>
+      <td>
+        <button (click)="gotoExecution(dossier.dossierID)" class="btn btn-sm btn-info">
+          <i class="fa fa-search" ></i>Execution</button>
+
+
+
+      </td>
+    </tr>
+    </tbody>
+  </table>-->
+
+<!--</div>-->
+<app-footer></app-footer>

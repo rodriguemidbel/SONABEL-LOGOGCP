@@ -1,0 +1,255 @@
+<app-header></app-header>
+<!------------------------Title bar------------------------------------------>
+<mat-toolbar>
+  <mat-toolbar-row style="position:fixed;top:8%;background-color:#9f9f9f;color:#fff">
+    <span>Plan de passation</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <!--------------------------------Search--------------------------------->
+  <mat-toolbar>
+    <mat-toolbar-row style="position:fixed;top:17%;background-color:#fff;">
+    <button  *ngIf="add == 1" class="btn btn-sm btn-info" (click)="open(content)">Ajouter</button>
+    <div class="form-group search-div">
+      <div class="row">
+      <input type="text" class="form-control col-md-6" placeholder="recherche" [(ngModel)]="query" id="listSearch">
+      <mat-icon matSuffix>search</mat-icon>
+    </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>ANNEE</th>
+      <th>DATE CREATION</th>
+      <th>STATUT</th>
+      <th>Action(s)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let plan of plans | filter: query | paginate :{itemsPerPage : tableSize,currentPage: page,totalItems : count}">
+      <td><span>{{plan.id}}</span></td>
+      <td><span>{{plan.annee}}</span></td>
+      <td><span>{{plan.date_plan | date:'dd/MM/y' }}</span></td>
+      <td><span>{{plan.statut}}</span></td>
+      <td>
+        <button *ngIf="view == 1" (click)="openDetails(contentDetails, plan)"  class="btn btn-sm btn-info">
+          Details</button>
+        <button *ngIf="edit == 1"  (click)="openEdit(contentEdit, plan)" class="btn btn-sm btn-warning">
+          Modifier</button>
+        <button *ngIf="remove == 1" (click)="openDelete(contentDelete, plan)"class="btn btn-sm btn-danger">
+          Supprimer</button>
+        <button *ngIf="view == 1" routerLink="/planprint/{{plan.annee}}" class="btn btn-sm btn-info">
+            Ligne plan de passation</button>
+      </td>
+    </tr>
+    <tr>
+    <td colspan="2">
+      <select (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">
+          {{size}}
+        </option>
+      </select>
+      </td>
+      <td colspan="6">
+      <pagination-controls
+      previousLabel = "Précédent"
+      nextLabel = "Suivant"
+      (pageChange)="onTableDataChange($event)"></pagination-controls>
+    </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!--------------------------MODAL NG TEMPLATE ADD NEW PLAN------------------------------------>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="annee">Année</label>
+                <div class="input-group">
+                  <input id="annee" name="annee" class="form-control" ngModel>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="date_plan">Date creation</label>
+                <div class="input-group">
+                  <input type="date" id="date_plan" name="date_plan" class="form-control" ngModel>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="statut">Statut</label>
+                <div class="input-group">
+                  <select id="statut" name="statut"  class="form-control" ngModel>
+                    <option>Selectionner</option>
+                    <option  value="Projet">Projet</option>
+                    <option  value="Révision">Révision</option>
+                    <option  value="Valider">Valider</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="border text-center">
+            <button data-dismiss="modal" class="btn btn-info">Submit</button>
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+
+         </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE PLAN DETAILS------------------------------------>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Plan de passation details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+            <label for="id">Id</label>
+            <div class="input-group">
+                <input id="id_detail" class="form-control" readonly>
+            </div>
+          </div>
+          </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="annee_detail">Année</label>
+                <div class="input-group">
+                  <input id="annee_detail" class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="date_detail">Date création</label>
+                <div class="input-group">
+                  <input type="date" id="date_detail" class="form-control" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="statut_detail">Statut</label>
+                <div class="input-group">
+                  <input id="statut_detail" class="form-control" readonly>
+                </div>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+  <!--------------------------MODAL NG TEMPLATE PLAN EDIT---------------------------------->
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier un plan de passation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editForm" novalidate>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+            <label for="id">Id</label>
+            <div class="input-group">
+                <input formControlName="id" class="form-control" readonly>
+            </div>
+          </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="annee">Année</label>
+              <div class="input-group">
+                <input formControlName="annee" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="date_plan">Date création</label>
+              <div class="input-group">
+                <input type="date" formControlName="date_plan" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="statut">Statut</label>
+                <div class="input-group">
+                  <select formControlName="statut"  class="form-control">
+                    <option>Selectionner</option>
+                    <option  value="Projet">Projet</option>
+                    <option  value="Révision">Révision</option>
+                    <option  value="Valider">Valider</option>
+                  </select>
+                </div>
+            </div>
+         </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()" >Modifer</button> </div>
+
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel click')">Annuler</button>
+    </div>
+  </ng-template>
+
+  <!--------------------------MODAL NG TEMPLATE DELETE CONFIRM--------------------------------->
+  <ng-template #contentDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Message de confirmation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>Etes vous sur de vouloir supprimmer cette donnée de la base ?</h3>
+
+    </div>
+    <div class="modal-footer">
+      <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Valider</button>
+      </div>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Annuler</button>
+    </div>
+  </ng-template>
+
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,305 @@
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+
+   <div style="margin-left:25%;"class="col-md-6">
+
+      <h2>Importation d'un PPM</h2>
+
+      <form id="file-upload-form" class="uploader">
+        <input id="file-upload" type="file" (change)="onFileChange($event)" multiple="false" name="fileUpload" accept=".csv,.xlsx,.xls" />
+        <label for="file-upload">
+            <img id="file-image" src="/assets/images/logoImport.jpg" >
+            <div>Selectionner un fichier</div>
+            <span id="file-upload-btn" mat-raised-button class="btn-sm btn-primary">Fichier</span>&nbsp;
+
+            <button mat-raised-button class="btn-sm btn-warn" color="warn" (click)="onSave(data)" ngModel>Enregistrer</button>
+
+        </label>
+      </form>
+    </div>
+    <!--<div>
+        <pre>{{convertedJSON}}</pre>
+    </div>-->
+    <!--================================-->
+    <form novalidate>
+    <table class="table table-trapped">
+      <thead>
+        <tr>
+          <th>num_ordre</th>
+          <th>plan_id</th>
+          <th>budget</th>
+          <th>typcredit</th>
+          <th>immobilisation</th>
+          <th>credit</th>
+          <th>centre_cout</th>
+          <th>projet</th>
+          <th>localisation</th>
+          <th>responsable</th>
+          <th>montant_estime</th>
+          <th>composante</th>
+          <th>montant_dispo</th>
+          <th>designation</th>
+          <th>type</th>
+          <th>mode</th>
+          <th>nbr_lot</th>
+          <th>agent</th>
+          <th>date_tech</th>
+          <th>date_dgcmef</th>
+          <th>date_off</th>
+          <th>temp</th>
+          <th>date_resultat</th>
+          <th>resultat</th>
+          <th>date_visite_site</th>
+          <th>date_demarrage</th>
+          <th>delai_exe</th>
+          <th>date_butoir</th>
+          <th>budget_travaux</th>
+          <th>observation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let csvData of data;let i = index;">
+          <td>
+            <span name="num_ordre" class="form-control" ngModel>{{csvData.num_ordre}}</span>
+          </td>
+          <td>
+            <span name="plan_id" class="form-control" ngModel>{{csvData.plan_id}}</span>
+          </td>
+          <td>
+            <span style="width:250px !important;height: 125px !important;" name="budget" class="form-control">{{csvData.budget}}</span>
+          </td>
+          <td>
+            <span name="typcredit" class="form-control">{{csvData.typcredit}}</span>
+          </td>
+          <td>
+            <span name="immobilisation" class="form-control">{{csvData.immobilisation}}</span>
+          </td>
+          <td>
+            <span name="credit" class="form-control">{{csvData.credit}}</span>
+          </td>
+          <td>
+            <span name="centre_cout" class="form-control">{{csvData.centre_cout}}</span>
+          </td>
+          <td>
+            <span name="projet" class="form-control" ngModel>{{csvData.projet}}</span>
+          </td>
+          <td>
+            <span name="localisation" class="form-control">{{csvData.localisation}}</span>
+          </td>
+          <td>
+            <span name="responsable" class="form-control">{{csvData.responsable}}</span>
+          </td>
+          <td>
+            <span name="montant_estime" class="form-control">{{csvData.montant_estime}}</span>
+          </td>
+          <td>
+            <span name="composante" class="form-control" ngModel>{{csvData.composante}}</span>
+          </td>
+          <td>
+            <span name="montant_dispo" class="form-control">{{csvData.montant_dispo}}</span>
+          </td>
+          <td >
+            <span style="width:450px !important;height: 125px !important;" name="designation" class="form-control">{{csvData.designation}}</span>
+          </td>
+          <td>
+            <span name="type" class="form-control">{{csvData.type}}</span>
+          </td>
+          <td>
+            <span name="mode" class="form-control">{{csvData.mode}}</span>
+          </td>
+          <td>
+            <span name="nbr_lot" class="form-control">{{csvData.nbr_lot}}</span>
+          </td>
+          <td>
+            <span name="agent" class="form-control">{{csvData.agent}}</span>
+          </td>
+          <td>
+            <span name="date_tech" class="form-control">{{csvData.date_tech}}</span>
+          </td>
+          <td>
+            <span name="date_dgcmef" class="form-control">{{csvData.date_dgcmef}}</span>
+          </td>
+          <td>
+            <span name="date_off" class="form-control">{{csvData.date_off}}</span>
+          </td>
+          <td>
+            <span name="temp" class="form-control">{{csvData.temp}}</span>
+          </td>
+          <td>
+            <span name="date_resultat" class="form-control">{{csvData.date_resultat}}</span>
+          </td>
+          <td>
+            <span name="resultat" class="form-control">{{csvData.resultat}}</span>
+          </td>
+          <td>
+            <span name="date_visite_site" class="form-control">{{csvData.date_visite_site}}</span>
+          </td>
+          <td>
+            <span name="date_demarrage" class="form-control">{{csvData.date_demarrage}}</span>
+          </td>
+          <td>
+            <span name="delai_exe" class="form-control">{{csvData.delai_exe}}</span>
+          </td>
+          <td>
+            <span name="date_butoir" class="form-control">{{csvData.date_butoir}}</span>
+          </td>
+          <td>
+            <span name="budget_travaux" class="form-control">{{csvData.budget_travaux}}</span>
+          </td>
+          <td>
+            <span name="observation" class="form-control">{{csvData.observation}}</span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </form>
+   <!-- <table class="table table-trapped">
+      <thead>
+        <tr>
+          <th>plan_id</th>
+          <th>budget_id</th>
+          <th>imputation</th>
+          <th>montant_estime</th>
+          <th>montant_depense</th>
+          <th>credit</th>
+          <th>designation</th>
+          <th>nbr_lot</th>
+          <th>mode_id</th>
+          <th>periode_lanc</th>
+          <th>periode_remise</th>
+          <th>temp</th>
+          <th>date_prob_demarrage</th>
+          <th>delai_exe</th>
+          <th>date_prob_fin</th>
+          <th>gestionnaire</th>
+          <th>type_id</th>
+          <th>localisation_id</th>
+          <th>ppm</th>
+          <th>statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let csvData of data;let i = index;">
+          <td>
+            <span>{{csvData.plan_id}}</span>
+          </td>
+          <td>
+            <span>{{csvData.budget_id}}</span>
+          </td>
+          <td>
+            <span>{{csvData.imputation}}</span>
+          </td>
+          <td>
+            <span>{{csvData.montant_estime}}</span>
+          </td>
+          <td>
+            <span>{{csvData.montant_depense}}</span>
+          </td>
+          <td>
+            <span>{{csvData.credit}}</span>
+          </td>
+          <td>
+            <span>{{csvData.designation}}</span>
+          </td>
+          <td>
+            <span>{{csvData.nbr_lot}}</span>
+          </td>
+          <td>
+            <span>{{csvData.mode_id}}</span>
+          </td>
+          <td>
+            <span>{{csvData.periode_lanc}}</span>
+          </td>
+          <td>
+            <span>{{csvData.periode_remise}}</span>
+          </td>
+          <td>
+            <span>{{csvData.temp}}</span>
+          </td>
+          <td>
+            <span>{{csvData.date_prob_demarrage}}</span>
+          </td>
+          <td>
+            <span>{{csvData.delai_exe}}</span>
+          </td>
+          <td>
+            <span>{{csvData.date_prob_fin}}</span>
+          </td>
+          <td>
+            <span>{{csvData.gestionnaire}}</span>
+          </td>
+          <td>
+            <span>{{csvData.type_id}}</span>
+          </td>
+          <td>
+            <span>{{csvData.localisation_id}}</span>
+          </td>
+          <td>
+            <span>{{csvData.ppm}}</span>
+          </td>
+          <td>
+            <span>{{csvData.statut}}</span>
+          </td>
+
+        </tr>
+      </tbody>-->
+      <!--<thead>
+        <tr>
+          <th>plan_id</th>
+          <th>budget_id</th>
+          <th>imputation</th>
+          <th>montant_estime</th>
+          <th>montant_depense</th>
+          <th>credit</th>
+          <th>designation</th>
+          <th>nbr_lot</th>
+          <th>mode_id</th>
+          <th>periode_lanc</th>
+          <th>periode_remise</th>
+          <th>temp</th>
+          <th>date_prob_demarrage</th>
+          <th>delai_exe</th>
+          <th>date_prob_fin</th>
+          <th>gestionnaire</th>
+          <th>type_id</th>
+          <th>localisation_id</th>
+          <th>ppm</th>
+          <th>statut</th>
+        </tr>
+      </thead>-->
+      <!--<tbody>
+          <tr *ngFor="let row of data">
+            <td *ngFor="let cell of row">
+                    {{cell}}
+            </td>
+
+          </tr>
+      </tbody>
+    </table>-->
+
+        <!--<table class="table table-bordered table-striped">
+          <tbody>
+              <tr *ngFor="let row of data">
+                      <td *ngFor="let cell of row">
+                              {{cell}}
+                      </td>
+              </tr>
+          </tbody>
+      </table>-->
+
+    </div>
+  <!----------------------------------------
+    <div class="container">
+      <div class="row">
+          <p>excelsheet works!</p>
+          <input type="file" (change)="onFileChange($event)" multiple="false" />
+      </div>
+
+    </div>-->
+
+</div>
+<app-footer></app-footer>
+
+

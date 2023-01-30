@@ -30,8 +30,12 @@ class dossierService {
 
   
 
-  getDossier(){
+getDossier(){
     return dossierDAO.getDossier()
+}
+
+dossierByMode(annee){
+  return dossierDAO.dossierByMode(annee)
 }
   
 }

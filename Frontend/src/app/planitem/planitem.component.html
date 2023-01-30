@@ -40,7 +40,7 @@
         <th>Mode de passation</th>
         <th>Délai prévisionnel d'éxécution <br> (jour)</th>
         <th>Localisation</th>
-
+        <th>Statut</th>
         <th>Action(s)</th>
       </tr>
       </thead>
@@ -54,7 +54,7 @@
         <td><span>{{planitem.mode}}</span></td>
         <td><span>{{planitem.delai_exe}}</span></td>
         <td><span>{{planitem.localisation}}</span></td>
-
+        <td><span>{{planitem.item_statut}}</span></td>
         <td class="action">
           <button *ngIf="view == 1" (click)="openDetails(contentDetails, planitem)"  class="btn btn-sm btn-info">
             Details</button>
@@ -66,7 +66,7 @@
               Dossier</button>
         </td>
       </tr>
-      <tr><td colspan="9">Nombre de ligne : {{cpt}}</td></tr>
+      <tr><td colspan="10">Nombre de ligne : {{cpt}}</td></tr>
       <tr>
 
         <td colspan="2">
@@ -76,7 +76,7 @@
             </option>
           </select>
           </td>
-          <td colspan="7">
+          <td colspan="8">
           <pagination-controls
           previousLabel = "Précédent"
           nextLabel = "Suivant"
@@ -235,11 +235,11 @@
           </div>
           <div class="col-md-3">
             <div class="form-group">
-                <label for="type_id">Type de marché</label>
+                <label for="type">Type de marché</label>
                 <div class="input-group">
-                  <select id="type_id" name="type_id" class="form-control" ngModel placeholder="Selectionner">
+                  <select id="type" name="type" class="form-control" ngModel placeholder="Selectionner">
                     <option>Selectionner</option>
-                    <option *ngFor="let type of types" value={{type.libelle}}>{{type.libelle}}</option>
+                    <option *ngFor="let type of types" value={{type.id}}>{{type.libelle}}</option>
                   </select>
                 </div>
             </div>
@@ -277,9 +277,9 @@
             <div class="form-group">
                 <label for="agent">Agent chargé du dossier</label>
                 <div class="input-group">
-                  <select id="agent" name="agent" class="form-control" ngModel placeholder="Selectionner">
+                  <select id="agent_id" name="agent_id" class="form-control" ngModel placeholder="Selectionner">
                     <option>Selectionner</option>
-                    <option *ngFor="let agent of agents" value={{agent.nom_prenom}}>{{agent.nom_prenom}}</option>
+                    <option *ngFor="let agent of agents" value={{agent.id}}>{{agent.nom_prenom}}</option>
                   </select>
                 </div>
             </div>
@@ -767,9 +767,9 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                    <label for="type_id">Type de marché</label>
+                    <label for="type">Type de marché</label>
                     <div class="input-group">
-                      <select formControlName="type_id" class="form-control">
+                      <select formControlName="type" class="form-control">
                         <option>Selectionner</option>
                         <option *ngFor="let type of types" value={{type.id}}>{{type.libelle}}</option>
                       </select>
@@ -803,17 +803,17 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text">$</div>
                       </div>
-                      <input type="number" formControlName="responsable" class="form-control">
+                      <input type="text" formControlName="responsable" class="form-control">
                     </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                    <label for="agent">Agent chargé du dossier</label>
+                    <label for="agent_id">Agent chargé du dossier</label>
                     <div class="input-group">
-                      <select formControlName="agent" class="form-control">
+                      <select formControlName="agent_id" class="form-control">
                         <option>Selectionner</option>
-                        <option *ngFor="let agent of agents" value={{agent.nom_prenom}}>{{agent.nom_prenom}}</option>
+                        <option *ngFor="let agent of agents" value={{agent.id}}>{{agent.nom_prenom}}</option>
                       </select>
                     </div>
                 </div>
